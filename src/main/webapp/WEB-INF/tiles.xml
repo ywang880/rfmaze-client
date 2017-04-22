@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="adminBaseLayout" template="/BaseLayout.jsp">
+		<put-attribute name="title" value=""/>
+		<put-attribute name="header" value="/Header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/Footer.jsp" />
+	</definition>
+	
+    <definition name="userBaseLayout" template="/BaseLayout.jsp">
+		<put-attribute name="title" value=""/>
+		<put-attribute name="header" value="/UserHeader.jsp" />
+		<put-attribute name="body" value=""/>
+		<put-attribute name="footer" value="/Footer.jsp" />
+	</definition>
+    
+    <definition name="BaseLayout_no_menu" template="/BaseLayout_no_menu.jsp">
+		<put-attribute name="title" value=""/>
+		<put-attribute name="header" value="/NoMenuHeader.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/Footer.jsp" />
+	</definition>
+    
+	<definition name="/welcome.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Welcome" />
+		<put-attribute name="body" value="/Welcome.jsp" />
+	</definition>
+
+	<definition name="/users.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Users Form" />
+		<put-attribute name="body" value="/Users.jsp" />
+	</definition>
+
+	<definition name="/cells.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Cells Form" />
+		<put-attribute name="body" value="/Cells.jsp" />
+	</definition>
+
+	<definition name="/inputs.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Inputs Form" />
+		<put-attribute name="body" value="/AssignInputs.jsp" />
+	</definition>
+	
+	<definition name="/outputs.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Outputs Form" />
+		<put-attribute name="body" value="/AssignOutputs.jsp" />
+	</definition>
+
+    <definition name="/assignmatrix.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Matrix Assignment Form" />
+		<put-attribute name="body" value="/AssignMatrix.jsp" />
+	</definition>
+    
+	<definition name="/labels.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Labels Form" />
+		<put-attribute name="body" value="/AssignLabels.jsp" />
+	</definition>
+				 
+	<definition name="/server.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Server Information" />
+		<put-attribute name="body" value="/ServerInfo.jsp" />
+	</definition>
+
+	<definition name="/monitor.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="monitor status" />
+		<put-attribute name="body" value="/MatrixMonitor.jsp" />
+	</definition>
+
+	<definition name="/process_status.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Process status" />
+		<put-attribute name="body" value="/ProcessStatus.jsp" />
+	</definition>
+	
+	<definition name="/monitor.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Monitor" />
+		<put-attribute name="body" value="/MatrixMonitor.jsp" />
+	</definition>	
+
+	<definition name="/preview.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Preview" />
+		<put-attribute name="body" value="/AssignmentView.jsp" />
+	</definition>
+	
+	<definition name="/download.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="download" />
+		<put-attribute name="body" value="/FileDownloads.jsp" />
+	</definition>
+	
+	<!--  RFMaze layout -->
+	<definition name="/mazewelcome.tiles" extends="BaseLayout_no_menu">
+		<put-attribute name="title" value="RFmaze Welcome" />
+		<put-attribute name="body" value="/RFmazeWelcome.jsp" />
+	</definition>	
+	
+	<definition name="/rfmaze.tiles" extends="userBaseLayout">
+		<put-attribute name="title" value="RFmaze View" />
+		<put-attribute name="body" value="/matrix.jsp" />
+	</definition>	
+
+	<definition name="/rfmazeb.tiles" extends="BaseLayout_no_menu">
+		<put-attribute name="title" value="Rfmaze View" />
+		<put-attribute name="body" value="/bmatrix.jsp" />
+	</definition>	
+
+	<definition name="/rfmazeb_no_atten.tiles" extends="BaseLayout_no_menu">
+		<put-attribute name="title" value="Rfmaze View" />
+		<put-attribute name="body" value="/bmatrix_no_attenuataion.jsp" />
+	</definition>	
+	
+	<definition name="/matrix_overview_select.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="RFmaze Overiew" />
+		<put-attribute name="body" value="/RFmazeOverview.jsp" />
+	</definition>	
+	<definition name="/matrix_overview1.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="RFmaze Overiew" />
+		<put-attribute name="body" value="/matrix_overview.jsp" />
+	</definition>
+	<definition name="/matrix_overview2.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Switch RFmaze Overiew" />
+		<put-attribute name="body" value="/bmatrix_overview.jsp" />
+	</definition>
+	<definition name="/matrix_overview3.tiles" extends="adminBaseLayout">
+		<put-attribute name="title" value="Switch RFmaze Overiew" />
+		<put-attribute name="body" value="/bmatrix_overview_no_atten.jsp" />
+	</definition>
+	<definition name="/colorscheme.tiles" extends="userBaseLayout">
+		<put-attribute name="title" value="Color Scheme Picker" />
+		<put-attribute name="body" value="/ColorPicker.jsp" />
+	</definition>
+		
+</tiles-definitions>

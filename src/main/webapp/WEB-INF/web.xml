@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app  xmlns="http://java.sun.com/xml/ns/j2ee"
+	      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	                         http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+    
+	<resource-ref>
+        	<description>RFMaze Database</description>
+        	<res-ref-name>jdbc/rfmaze</res-ref-name>
+        	<res-type>javax.sql.DataSource</res-type>
+        	<res-auth>Container</res-auth>
+	</resource-ref>
+
+	<display-name>Struts2 Application</display-name>
+	<listener>
+		<listener-class>
+			org.apache.struts2.tiles.StrutsTilesListener
+		</listener-class>
+	</listener>
+	<context-param>
+		<param-name>tilesDefinitions</param-name>
+		<param-value>/WEB-INF/tiles.xml</param-value>
+	</context-param>
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>
+			com.rfview.web.filters.RFMazeWebFilter
+		</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<welcome-file-list>
+		<welcome-file>Login.jsp</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
+		<display-name>RFMazeServlet</display-name>
+		<servlet-name>RFMazeServlet</servlet-name>
+		<servlet-class>com.rfview.servlets.RFMazeServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<display-name>RFMazeMonitorServlet</display-name>
+		<servlet-name>RFMazeMonitorServlet</servlet-name>
+		<servlet-class>com.rfview.servlets.RFMazeMonitorServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<display-name>RFMazeAdminServlet</display-name>
+		<servlet-name>RFMazeAdminServlet</servlet-name>
+		<servlet-class>com.rfview.servlets.RFMazeAdminServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>RFMazeServlet</servlet-name>
+		<url-pattern>/mazeServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>RFMazeMonitorServlet</servlet-name>
+		<url-pattern>/mazeMonServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>RFMazeAdminServlet</servlet-name>
+		<url-pattern>/mazeAdminServlet</url-pattern>
+	</servlet-mapping>
+ 	<!-- How long the sessions will stick around for -->
+	<session-config>
+		<session-timeout>1800</session-timeout> <!-- 1800seconds = 30 mins -->
+	</session-config>
+</web-app>

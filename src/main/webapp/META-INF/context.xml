@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context unloadDelay="20000"> 
+  <Resource name="jdbc/rfmaze" 
+            auth="Container" 
+            type="javax.sql.DataSource" 
+            driverClassName="org.sqlite.JDBC"
+            url="jdbc:sqlite:/var/lib/dbs/rfmaze.db">
+  </Resource>
+</Context>

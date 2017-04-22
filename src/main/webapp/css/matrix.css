@@ -1,0 +1,98 @@
+.assign_matrix_th {
+     color: #D0D0D0; 
+     font-weight:bold; 
+     width: 0.5em; 
+     height: 0.5em; 
+     padding: 0.5em;
+  }
+  
+.blockbkg {
+    background-color: #808080;
+    opacity: 80%;
+    filter:alpha(opacity=90);
+    background-color: rgba(50,50,50,0.60);
+    width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    float: absolute;
+    top: 0;
+    left: 0;
+    color: #D0D0D0;
+}
+
+.cont {
+    background-color: #D0D0D0;
+    color: black;
+    font-size: 12px;
+    border: 1px solid gray;
+    padding: 5px;
+    display:block;
+    position: absolute;
+    top: 35%;
+    left: 35%;
+    width: 320px;
+    height: 220px;
+}
+
+.closebtn {
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    margin: 0px;
+    float: right;
+    top: 0;
+    background-image: url(../images/close_1.png);
+    background-repeat: no-repeat;
+    background-position:center;
+    background-color: lightgray;
+    display: block;
+     
+}
+
+.closebtn:hover {
+    cursor: pointer;
+    background-image: url(../images/close_2.png);
+}
+
+.normal {
+    background-color: lightblue;
+    width: 900px;
+    min-height: 200px;
+    padding: 20px;
+}
+
+.button {
+   border-top: 1px solid #D0D0D0;
+   background: #D0D0D0;
+   background: -webkit-gradient(linear, left top, left bottom, from(#A0A0A0), to(#D0D0D0));
+   background: -webkit-linear-gradient(top, #A0A0A0, #D0D0D0);
+   background: -moz-linear-gradient(top, #A0A0A0, #D0D0D0);
+   background: -ms-linear-gradient(top, #A0A0A0, #D0D0D0);
+   background: -o-linear-gradient(top, #A0A0A0, #D0D0D0);
+   padding: 2px 0px;
+   -webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   border-radius: 5px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: black;
+   font-size: 12px;
+   font-family: Helvetica, Sans-Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   height: 20px; 
+   width: 50px
+}
+   
+.button:hover {
+   border-top-color: #808080;
+   background: #506080;
+   color: #FFFFFF;
+}
+   
+.button:active {
+   border-top-color: #808080;
+   background: #808080;
+}    

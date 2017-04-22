@@ -1,0 +1,451 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<LINK REL="SHORTCUT ICON" HREF="images/favicon.png">	
+<title>RFMAZE User Guide</title>
+<style>
+body {
+   font-family: Verdana;
+   font-size: 12px;
+   background: #D8D8D8;
+   margin-right: 20px;
+   margin-left: 20px;
+}
+
+table {
+   font-family: Verdana;
+   font-size: 12px;
+   text-align: center;
+   width: 100%;
+}
+.ListParagraph {
+  font-size:14.0pt;
+  font-weight: bold;
+}
+
+#header {
+    height: 60px;
+    background: -webkit-linear-gradient(#A0A0A0, #D0D0D0); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#A0A0A0, #D0D0D0); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#A0A0A0, #D0D0D0); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#A0A0A0, #D0D0D0); /* Standard syntax (must be last) */
+}
+
+</style>
+</head>
+
+<body>
+<a name="_Content_">
+<table>
+ <tr><td align="center"><p><span lang=EN-US style='font-size:20.0pt;'>Acentury Inc</span></p></td></tr>
+ <tr style='height:72.0pt'>
+  <td><p><span lang=EN-US style='font-size:30.0pt; font-weight: bold'>RFMaze Admin User Guide</span></p></td>
+ </tr>
+ <tr>
+  <td><p><span lang=EN-US style='font-size:18.0pt; font-weight: bold'>Unified Controller for RF Attenuation Matrices</span></p></td>
+ </tr>
+ 
+ <tr>
+  <td><p><span lang=EN-US>Version 1.4</span></p></td>
+ </tr>
+
+ <tr style='height:18.0pt'>
+  <td><p><b><span lang=EN-US>October 19, 2014</span></b></p></td>
+ </tr>
+</table>
+</div>
+
+<hr style="width:100%;height: 12px; border:0;box-shadow:inset 0 10px 10px -10px rgba(0,0,0,0.5);"/>
+<p align=center style='text-align:center'><span lang=EN-US><img width=586 height=243 src="RFMAZE_Admin_User_Guidev1.4_files/image001.jpg"></span></p>
+
+<div class=Section2>
+
+<p><span class=MsoHyperlink><span lang=EN-US style='mso-no-proof:yes'><a href="#_Toc396660121">1. INTRODUCTION</a></p>
+<p><span class=MsoHyperlink><span lang=EN-US style='mso-no-proof:yes'><a href="#_Toc396660122">2. INSTALLATION</a></p>
+<p><span class=MsoHyperlink><span lang=EN-US style='mso-no-proof:yes'><a href="#_Toc396660123">3. CREATING OR MODIFYING AN RF MATRIX HARDWARE CONFIGURATION</a></p>
+<p><span class=MsoHyperlink><span lang=EN-US style='mso-no-proof:yes'><a href="#_Toc396660124">4. ADD AND MODIFY USER INFORMATION</a></p>
+<p><span class=MsoHyperlink><span lang=EN-US style='mso-no-proof:yes'><a href="#_Toc396660125">5. LABEL RF MATRIX INPUTS AND OUTPUTS</a></p>
+<p><span class=MsoHyperlink><span lang=EN-US style='mso-no-proof:yes'><a href="#_Toc396660126">6. ASSIGN OUTPUTS TO USERS</a></p>
+<p><span class=MsoHyperlink><span lang=EN-US style='mso-no-proof:yes'><a href="#_Toc396660127">7. ASSIGN INPUTS TO USERS OR DELETE INPUTS FROM USERS</a></p>
+<p><span class=MsoHyperlink><span lang=EN-US style='mso-no-proof:yes'><a href="#_Toc396660128">8. START/STOP MATRIX CONTROL PROCESS</a></p>
+<p><span class=MsoHyperlink><span lang=EN-US style='mso-no-proof:yes'><a href="#_Toc396660129">9. MONITOR MATRIX</a></p>
+<p><span class=MsoHyperlink><span lang=EN-US style='mso-no-proof:yes'><a href="#_Toc396660130">10. SHOW AND DOWNLOAD LOG</a></p>
+<p><span class=MsoHyperlink><span lang=EN-US style='mso-no-proof:yes'><a href="#_Toc396660131">11. RESTART SERVER</a></p>
+<p><span class=MsoHyperlink><span lang=EN-US style='mso-no-proof:yes'><a href="#_Toc396660132">12. TROUBLESHOOTING TIPS</a></p>
+
+<div class=Section4>
+
+<h2><a name="_Toc396660121"></a><a name="_Toc367620732"><span lang=EN-US>1. INTRODUCTION</span></a></h2>
+
+<p  style='margin-right:11.65pt;line-height:150%'><span
+lang=EN-US style='color:#020101'>The RFMaze is a unified controller for any RF
+switch, RF attenuator and Optical switch matrices. It provides a single
+graphical user interface to control all vendors’ hardware. It also provides a
+single command line interface for automation.</span></p>
+
+
+<p  style='margin-right:11.65pt;line-height:150%'><span
+lang=EN-US style='color:#020101'>This tool allows multiple users accessing the
+same matrix without conflict. The flexible and powerful handover control
+features make this tool superior to others, particularly in terms of MIMO. </span></p>
+
+<p  style='margin-right:11.65pt;line-height:150%'><span
+lang=EN-US style='color:#020101'>This user guide is for the Admin portion of
+the tool. It uses Quintech QRB3000 hardware as an example for illustration. </span></p>
+<div width="100%" align="right"> <a href="#_Content_"><img src="images/arrow_up.png"></a></div>
+
+<div class=Section5>
+
+<h2><a name="_Toc396660122"><span lang=EN-US>2. </span></a><span lang=EN-US>INSTALLATION</span><span
+lang=EN-US>  </span></h2>
+
+<p  style='margin-right:12.75pt;line-height:150%'><span
+lang=EN-US style='color:#020101'>The RFMaze software package is installed in a
+Linux PC. If the server software package is not already installed, follow the
+steps below for installation. </span></p>
+
+<p  style='margin-right:12.75pt;line-height:150%'><b><span
+lang=EN-US style='font-size:16.0pt;line-height:150%;color:#020101'>New
+Installation</span></b></p>
+
+<ul>
+<li>Download the tar ball package, typically named rfmaze_web_server.tar, from Acentury and put it under / directory.</li>
+<li>From an xterm on the Linux PC, run the follow commands</li>
+<li>cd /</li>
+<li>tar –xvf  rfmaze_web_server.tar </li>
+<li>/opt/tomcat/bin/install_rfmaze_web_server.sh</li>
+</ul>
+
+<p style='margin-right:12.75pt;line-height:150%'><b><span
+lang=EN-US style='font-size:16.0pt;line-height:150%;color:#020101'>Upgrade
+Installation</span></b></p>
+
+<ul>
+<li>Download the upgrade package, typically named rfmaze.war and put it in your windows PC.</li>
+<li>Browse </span><span lang=EN-US><a href="http://%5brfmaze_web_server_host_or_ip%5d/manager/">http://[rfmaze_web_server_host_or_ip]/manager/</a>
+and <span style='color:#020101'>scroll down to the row of “/rfmaze”, click
+“undeploy” to undeploy the existing version. </li>
+
+<li>From “WAR file to deploy pane, choose the
+rfmaze.war file from your PC, then select “deploy”.</li>
+
+<li><strong>IMPORTANT:</strong> select “RESTART SERVER” from the RFMaze web interface.
+<p></p>
+<p style='margin-top:0cm;margin-right:12.75pt;margin-bottom: 0cm;margin-left:43.0pt;margin-bottom:.0001pt;line-height:150%;text-align:center'>
+<span lang=EN-US><img border=0 width=587 height=347 src="RFMAZE_Admin_User_Guidev1.4_files/image004.jpg"></span></p>
+<p></p>
+The server’s tomcat process will start automatically after installation and upon each reboot. The rest of steps are
+done from any web browser on any computer in the network.
+</li>
+</ul>
+<div width="100%" align="right"> <a href="#_Content_"><img src="images/arrow_up.png"></a></div>
+<p></p>
+<h2><a name="_Toc396660123"><span lang=EN-US>3. CREATING OR MODIFYING AN RF MATRIX HARDWARE CONFIGURATION</span></a></h2>
+
+<p class=ListParagraphCxSpFirst style='margin-bottom:10.0pt;line-height:115%'><span
+lang=EN-US>From a web browser, enter <a
+href="http://%5brfmaze_web_server_host_or_ip">http://[rfmaze_web_server_host_or_ip</a>]/rfmaze/.
+In our example below, the server IP is 192.168.0.19. </span></p>
+
+<ul>
+<li>Login as admin, default password is admin123. The admin can change the default password later.</li>
+
+<p class=ListParagraph style="text-align:center"><span lang=EN-US><img border=0 width=615 height=196
+src="RFMAZE_Admin_User_Guidev1.4_files/image005.jpg"></span></p>
+</li>
+
+<li>Select “RF MATRIX CONFIGURATION”, the default
+configuration for a Quintech QRB3000 will display as below:
+
+<p class=ListParagraph style="text-align:center"><span lang=EN-US><img border=0 width=615 height=283
+src="RFMAZE_Admin_User_Guidev1.4_files/image006.jpg"></span></p>
+</li>
+</ul>
+
+<p class=ListParagraph>Create ANew Matrix</p>
+
+<ul>
+<li>To add a new RF Matrix hardware to be controled
+by the RFMaze tool, enter the “Matrix Name” and “Matrix Hardware IP Address”.
+For QRB3000, leave the rest as the default values. The “Matrix Hardware
+Address” is the IP address configured in the matrix hardware. </li>
+
+<li>Click “Add”, the “created successfully” message will be display.</li>
+<li>Enter a new “Matrix Name” to create the configuration for another hardware.</li>
+</ul>
+
+<p class=ListParagraph>Modify or Delete An Exsiting Matrix</p>
+
+<ul>
+<li>NOTE: First, go to “START/STOP MATRIX CONTOL” menu, to stop the control process.</li>
+<li>To modify or delete an existing hardware configuration, select an existing matrix from the list in “RF Matrix List”. </li>
+<li>Change the field to be modified, typically, IP address or socket port.</li>
+<li>Click “Modify” to save the change.</li>
+<li>To delete an existing configuration, simply select it from “RF Matrix List”, then click “Delete”</li>
+</ul>
+<div width="100%" align="right"> <a href="#_Content_"><img src="images/arrow_up.png"></a></div>
+
+<h2><a name="_Toc396660124"><span lang=EN-US>4. ADD AND MODIFY USER INFORMATION</span></a></h2>
+
+<p class=ListParagraphCxSpFirst style='margin-bottom:10.0pt;line-height:115%'><span
+lang=EN-US>Users need to be added to the system before they have access to the
+matrix. In many companies, users are typically associated with RF chamber
+rooms. Therefore, we suggest using chamber room numbers as userid. </span></p>
+
+<ul>
+<li>Select “User Management” menu</li>
+<li>Click “Add New” to add a new userid and password</li>
+<li>Click “Edit” to change the information for an existing user</li>
+<li>Click “Delete” to delete an existing user
+
+<p class=ListParagraph style="text-align:xcenter"><span lang=EN-US><img border=0 width=623 height=308
+src="RFMAZE_Admin_User_Guidev1.4_files/image007.jpg"></span></p>
+</li>
+</ul>
+<div width="100%" align="right"> <a href="#_Content_"><img src="images/arrow_up.png"></a></div>
+
+<h2><a name="_Toc396660125"><span lang=EN-US>5. LABEL RF MATRIX INPUTS AND OUTPUTS</span></a></h2>
+
+<p class=ListParagraphCxSpFirst style='margin-bottom:10.0pt;line-height:115%'><span
+lang=EN-US>Labeling each input and output with some meaningful information is
+very helpful for users. Admin can change this information any time and users
+will be able to see it the next time they use the RFMaze. </span></p>
+
+<ul>
+<li>Select “ASSIGN MATRIX PORT LABELS” menu and “Select
+hardware” for your specific matrix.</li>
+
+<li>The default “Label” text will be visible on the
+input and output. This label is visible to each user. Click on the highlighted
+text and make your change. <b>NOTE: Max 12 characters for “Label”</b></li>
+
+<li>The default “Description” text is also show
+below. This text can be very long and will be displayed only when the user
+moves the mouse over. Change the text on the highlighted area. Provide
+meaningful information to the users.</li>
+
+<li>The admin can “Export” the labels and then
+“Download” to windows. The downloaded file can be edited with Excel and then
+“Import” back.
+
+<p class=MsoNormal style="text-align:center"><span lang=EN-US><img border=0 width=587 height=265
+src="RFMAZE_Admin_User_Guidev1.4_files/image008.gif"></span></p>
+</li>
+</ul>
+<div width="100%" align="right"> <a href="#_Content_"><img src="images/arrow_up.png"></a></div>
+
+<h2><a name="_Toc396660126"><span lang=EN-US>6. ASSIGN OUTPUTS TO USERS</span></a></h2>
+
+<p class=ListParagraphCxSpFirst style='margin-bottom:10.0pt;line-height:100%'><b><span
+lang=EN-US style='font-size:12.0pt;line-height:100%'><font color="orange">NEW:</font> for an active user,
+if the input and output assignment is changed, the user will receive a notice
+right away and he will acknowledge to refresh the change.</span></b></p>
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%'><span
+lang=EN-US>For a 32x32 matrix, it is usually too big to be used by one user or
+one RF chamber or RF cage. The best way to use it is to assign a few inputs and
+outputs to each user or each RF chamber/cage. When a user accesses it, only the
+inputs and outputs assigned will show up. </span></p>
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%'>The easiest way to assign these resources is to assign the outputs
+to each RF chamber/cage first. Output/Chamber assignment is usually static.
+Input/BTS assignment is more dynamic.</p>
+
+<ul>
+<li>From the left side menu, select “ASSIGN MATRIX OUTPUTS”</li>
+<li>Now, select the userid/chamber from “Assign to User”</li>
+<li>Pick the RF Matrix from the list in “Select Hardware”</li>
+<li>Click on each Output (Label area) intended for the selected user. Double click to de-select.</li>
+<li>Click “Commit” to save the selection</li>
+<li>Repeat the above for another userid
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%;text-align:center'><span
+lang=EN-US><img border=0 width=616 height=238
+src="RFMAZE_Admin_User_Guidev1.4_files/image009.jpg"></span></p>
+</li>
+</ul>
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%'><b><span
+lang=EN-US>To delete the saved assignment or re-assign to a different user:</span></b></p>
+
+<ul>
+<li>Select the userid/chamber from “Assign to User”</li>
+<li>Pick the RF Matrix from the list in “Select Hardware”</li>
+<li>Click on an ASSIGNED Output (Label area)</span></b><span
+lang=EN-US>, one at a time, to “Reassign” to another user or “Free” the
+assignment. The example below shows output 10 is to be reassigned from chamber2
+to chamber3<br>
+</span>
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%;text-align:center'><span
+lang=EN-US><img border=0 width=625 height=236 src="RFMAZE_Admin_User_Guidev1.4_files/image010.jpg"></span></p>
+</li>
+</ul>
+<div width="100%" align="right"> <a href="#_Content_"><img src="images/arrow_up.png"></a></div>
+
+<h2><a name="_Toc396660127"><span lang=EN-US>7. ASSIGN INPUTS TO USERS OR DELETE INPUTS FROM USERS</span></a></h2>
+
+<p class=ListParagraphCxSpFirst style='margin-bottom:10.0pt;line-height:100%'><b><span
+lang=EN-US style='font-size:10.0pt;line-height:100%'><font color="orange">IMPORTANT:</font> For a specific
+user, always assign output first!</span></b></p>
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:100%'><b><span
+lang=EN-US style='font-size:10.0pt;line-height:100%'><font color="orange">NEW:</font> for an active user,
+if the input and output assignment is changed, the user will receive a notice
+right away and he will acknowledge to refresh the change.</span></b></p>
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%'>There is a few ways to assign an input to one or more users: assign
+a new input to one or more users at the same time; reassign an input from an
+existing user to another user; allow a user to share an input with one or more
+existing users.</p>
+
+<ul>
+<li>From the left side menu, select the “ASSIGN MATRIX INPUTS”</li>
+<li>Pick the RF Matrix from the list in “Select Hardware”</li>
+<li>Click on any one Input If the input is never assigned to any user, the “Assign To” dialogue box will appear as show below. Use shift or control key to select one or multiple users</li>
+<li>Click “Assign To” to commit the change</li>
+<li>Each display page shows 8 inputs at one time. Use the [prev] or [Next] button to go to different inputs/pages.
+<p class=MsoNormal style="text-align:center"><img border=0 width=587 height=318
+src="RFMAZE_Admin_User_Guidev1.4_files/image011.gif"></p>
+</li>
+<li>If the input is already assigned to one or more
+    user, the following dialogue box appears to allow “Reassign” from existing user
+    to another user, “Share With” with another user, or “Free From” the existing user</li>
+<li>To delete or free an assignment, select the “Free From” action</li>
+<li>Repeat the above for another userid</span></p>
+
+<p class=MsoNormal style="text-align:center"><span lang=EN-US><img border=0 width=587 height=318 src="RFMAZE_Admin_User_Guidev1.4_files/image012.gif"></span></p>
+</li>
+</ul>
+<div width="100%" align="right"> <a href="#_Content_"><img src="images/arrow_up.png"></a></div>
+
+<h2><a name="_Toc396660128"><span lang=EN-US>8. START/STOP MATRIX CONTROL PROCESS</span></a></h2>
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%'><span
+lang=EN-US>Now all hardware configurations and user information are ready, it
+is time to start the control of the RF matrix so that users can use and share
+without conflict:</span></p>
+
+<ul>
+<li>From the left side menu, select “START/STOP
+    MATRIX CONTROL”. All the RF Matrices will be displayed. “Status” shows whether
+    the control process is running or stopped.</li>
+
+<li>Click under “Action” to start or stop the control. </li>
+<li>The only other two occasions that the process
+    should be stopped and then re-started is: shutting down for matrix maintenance
+    or matrix hardware configuration changed.
+</li>
+</ul>
+<div width="100%" align="right"> <a href="#_Content_"><img src="images/arrow_up.png"></a></div>
+
+<h2><a name="_Toc396660129"><span lang=EN-US>9. MONITOR MATRIX</span></a></h2>
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%'><span
+lang=EN-US>The Admin can use the monitor feature to view the overall user
+output assignment, input and output label/description, attenuation and input
+power value. The admin can also change the attenuation from a certain input to
+output. </span></p>
+
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%'><b><span
+lang=EN-US>LIMITATION AND WORKAROUND: currently, the input users cannot be
+displayed in the “Matrix Monitor” window. This is because there may have
+multiple users for one input. To view the users on each input, please use the
+“ASSGIN MATRIX INPUTS” menu. Also, the labels move with the whole matrix view
+when scrolling. This will be enhanced in the next release</span></b><span
+lang=EN-US>.</span></p>
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%'><span
+lang=EN-US>Select “Monitor Matrix” from the left menu. The full view of the
+full matrix will be display as shown below:</span></p>
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;text-align:center;line-height:115%'><span
+lang=EN-US><img border=0 width=587 height=281
+src="RFMAZE_Admin_User_Guidev1.4_files/image014.jpg"></span></p>
+<div width="100%" align="right"> <a href="#_Content_"><img src="images/arrow_up.png"></a></div>
+
+<h2><a name="_Toc396660130"><span lang=EN-US>10. SHOW AND DOWNLOAD LOG</span></a></h2>
+
+<p class=ListParagraphCxSpFirst style='margin-bottom:10.0pt;line-height:115%'>
+<span lang=EN-US>Should there be any issue with the matrix control. Download and
+check the content of the log file. The log files are name in the form of [matrix_name].cfg.log[n],
+where n=the current date. Therefore, the logs are overwritten once every month
+and there is no need for admin to clean the log storage.</span></p>
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%'>
+<span lang=EN-US>The log content is readable and errors are easy to spot. For example
+“Connection Error”, “Response Failed”, etc.</span></p>
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%'>
+<span lang=EN-US>Select “SHOW LOGS” from the left menu, the log files will be
+displayed as below.  Click on the “Download” arrow to download the files for
+the specific dates. When requesting support, always inspect the log files and
+follow the “TROUBLESHOOTING TIPS” first. </span></p>
+
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;text-align:center;line-height:115%'>
+<span lang=EN-US><img border=0 width=626 height=241
+src="RFMAZE_Admin_User_Guidev1.4_files/image015.jpg"></span></p>
+<div width="100%" align="right"> <a href="#_Content_"><img src="images/arrow_up.png"></a></div>
+
+<h2><a name="_Toc396660131"><span lang=EN-US>11. RESTART SERVER</span></a></h2>
+
+<p class=ListParagraphCxSpFirst style='margin-bottom:10.0pt;line-height:115%'>
+<span lang=EN-US><br>
+Should it be necessary for the admin to restart the web interface, click the
+newly added menu “RESTART SERVER”, as shown below:</span></p>
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;text-align:center;line-height:115%'>
+<span lang=EN-US><img border=0 width=587 height=272
+src="RFMAZE_Admin_User_Guidev1.4_files/image016.jpg"></span></p>
+<div width="100%" align="right"> <a href="#_Content_"><img src="images/arrow_up.png"></a></div>
+
+
+<h2><a name="_Toc396660132"><span lang=EN-US>12. TROUBLESHOOTING TIPS</span></a></h2>
+
+<p class=ListParagraphCxSpFirst style='margin-bottom:10.0pt;line-height:115%'><b><span
+lang=EN-US>Web connection issue</span></b></p>
+
+<ul>
+<li>Should there be any difficulty connection to the web interface, follow the steps below to debug</li>
+<li>Make sure the lab network is up and running</li>
+<li>Make sure the web server Linux PC is pingable</li>
+<li>Make sure the tomcat web server process is
+    running, by issue the linux command “ps –ef|grep java |grep rfmaze”. If the
+    process is not running, run “/opt/tomcat/bin/startsh.sh”. Otherwise, reboot the server</li>
+</ul>
+
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%'><b>
+<span lang=EN-US>User cannot change attenuation</span></b></p>
+
+<ul>
+<li>select menu “START/STOP MATRIX CONTROL”, make sure matrix control process are running
+<li>Connect as a regular user, say, chamber1, and make sure the connection icon at top right corner is green, not orange, as
+shown in the red circle in the chart below
+
+<p class=ListParagraphCxSpMiddle style='margin-top:0cm;margin-right:0cm;
+margin-bottom:10.0pt;text-align:center;margin-left:36.0pt;line-height:115%'><span lang=EN-US>
+<img border=0 width=526 height=272 src="RFMAZE_Admin_User_Guidev1.4_files/image017.jpg"></span></p>
+</li>
+<li>Again reboot the server or restart tomcat
+process may rectify the issue</li>
+</ul>
+
+
+
+<p class=ListParagraphCxSpMiddle style='margin-bottom:10.0pt;line-height:115%'><b><span
+lang=EN-US>User Can Seem To Change Attenuation but no Effect on the RF </span></b></p>
+
+<ul>
+<li>Make sure the log file response message to the matrix hardware has no failure</li>
+<li>Make sure the matrix hardware is pingable</li>
+<li>The Quintech QRB3000 hardware may need reboot
+    from time to time. Before reboot, make sure stop the control process from menu
+    “START/STOP MATRIX CONTROL”. After reboot, make sure restart the control process again</li>
+</ul>
+
+<div width="100%" align="right"> <a href="#_Content_">To Top <img src="images/arrow_up.png"></a></div>
+</body>
+</html>

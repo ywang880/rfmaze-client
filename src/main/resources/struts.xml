@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
+	<constant name="struts.action.excludePattern" value="/maze[a-zA-Z]*Servlet"/>
+	
+	<package name="default" extends="struts-default" namespace="/">
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+
+        <interceptors>
+       	  <interceptor class="com.rfview.interceptor.LoginInterceptor" name="loginInterceptor"></interceptor>
+          <interceptor-stack name="appDefault">
+            <interceptor-ref name="timer" />
+            <interceptor-ref name="logger" />
+            <interceptor-ref name="defaultStack" />
+            <interceptor-ref name="loginInterceptor" />
+          </interceptor-stack>
+         </interceptors>         
+ 
+         <default-interceptor-ref name="appDefault" /> 
+
+		<action name="databaseview" class="com.rfview.utils.db.DatabaseViewAction" method="query">
+			<result name="success">/DatabaseViewer.jsp</result>
+		</action>
+		        
+		<action name="login" class="com.rfview.LoginAction" method="authenticate">
+			<result name="success" type="tiles">/welcome.tiles</result>
+			<result name="rfmaze" type="tiles">/mazewelcome.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+
+		<action name="switch_config" class="com.rfview.SwitchMatrixAction">
+			<result name="success" type="tiles">/mazewelcome.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+		
+		<action name="logout" class="com.rfview.LogoutAction">
+  		    <result name="success">Logout.jsp</result>
+		</action>
+
+		<action name="server" class="com.rfview.ServerInfoAction">
+			<result name="success" type="tiles">/server.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>	
+
+		<action name="users" class="com.rfview.UsersAction" method="queryUserFromDB">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+					
+		<action name="cells" class="com.rfview.CellAssignmentAction">
+			<result name="success" type="tiles">/cells.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+
+		<action name="inputs" class="com.rfview.AssignInputsAction">
+			<result name="success" type="tiles">/inputs.tiles</result>
+			<result name="commit_success" type="tiles">/cells.tiles</result>	
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+		
+		<action name="outputs" class="com.rfview.AssignOutputsAction">
+			<result name="success" type="tiles">/outputs.tiles</result>
+			<result name="commit_success" type="tiles">/inputs.tiles</result>			
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+
+        <action name="assignall" class="com.rfview.AssignMatrixAction">
+			<result name="success" type="tiles">/assignmatrix.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+        
+		<action name="labels" class="com.rfview.AssignLabelAction">
+			<result name="success" type="tiles">/labels.tiles</result>
+			<result name="download" type="stream">
+              <param name="contentType">application/octet-stream</param>
+              <param name="inputName">fileInputStream</param>
+              <param name="contentDisposition">attachment;filename=%{filename}</param>
+              <param name="bufferSize">4096</param>
+            </result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+				
+		<action name="process-status" class="com.rfview.ProcessStatusAction">
+			<result name="success" type="tiles">/process_status.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+		
+		<action name="monitor" class="com.rfview.MatrixMonitorAction">
+			<result name="success" type="tiles">/monitor.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+		
+		<action name="preview" class="com.rfview.AssignmentViewAction">
+			<result name="success" type="tiles">/preview.tiles</result>
+		</action>
+
+		<action name="download" class="com.rfview.FileDownloadAction">
+			<result name="success" type="tiles">/download.tiles</result>
+		</action>
+
+        <action name="filedownload" method="download" class="com.rfview.FileDownloadsAction">
+            <result name="success" type="tiles">/download.tiles</result>
+            <result name="download" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">fileInputStream</param>
+                <param name="contentDisposition">attachment;filename=%{filename}</param>
+                <param name="bufferSize">4096</param>
+            </result>
+            <result name="error" type="redirectAction">erroraction</result>
+        </action>
+
+		<!--  RF maze definitions -->
+		<action name="rfmaze" class="com.rfview.MatrixViewAction">
+			<result name="success1" type="tiles">/rfmaze.tiles</result>
+			<result name="success2" type="tiles">/rfmazeb.tiles</result>
+			<result name="success3" type="tiles">/rfmazeb_no_atten.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+	
+		<action name="matrix_overview" class="com.rfview.MatrixOverviewAction">
+			<result name="success1" type="tiles">/matrix_overview1.tiles</result>
+			<result name="success2" type="tiles">/matrix_overview2.tiles</result>
+			<result name="success3" type="tiles">/matrix_overview3.tiles</result>
+			<result name="select_hardware" type="tiles">/matrix_overview_select.tiles</result>			
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+
+		<action name="colorscheme" class="com.rfview.ColorSchemeAction">
+			<result name="success" type="tiles">/colorscheme.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+	</package>
+</struts>
