@@ -3,7 +3,7 @@
 
 <link rel="stylesheet" href="css/jquery_style.css">
 <link rel="stylesheet" href="css/jquery-ui.css">
-<link rel="stylesheet" href="css/matrix.css">
+<link rel="stylesheet" href="css/matrix.css?version=1.0.0">
 
 <style>
 #block_container {

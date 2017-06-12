@@ -5,7 +5,33 @@
 <link rel="stylesheet" href="css/jquery-ui.css">
 
 <script>
-(function($){$(document).ready(function(){$("#show_version").click(function(){$("#version_dialog").dialog();});$("#id_rfmaze_action").click(function(){window.location.href='rfmaze.action';});$("#nav").hover(function(){$("#menu_img").attr("src","images/arrow_e.png")});$("#nav").mouseleave(function(){$("#menu_img").attr("src","images/arrow_s.png")});});})(jQuery);function restartServer(){if (confirm("Restart application server will cause lost connection temporarily. Do you want to proceed anyway?")){var xmlhttp;if(window.XMLHttpRequest){xmlhttp=new XMLHttpRequest();}else{xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");}xmlhttp.open("POST","/rfmaze/mazeServlet?command=restart");xmlhttp.send();}}
+(function($) {
+        $(document).ready(function() {
+            $("#show_version").click(function() {
+                $("#version_dialog").dialog();
+            });
+            $("#id_rfmaze_action").click(function() {
+                window.location.href = 'rfmaze.action';
+            });
+            $("#nav").hover(function() {
+                $("#menu_img").attr("src", "images/arrow_e.png")
+            });
+            $("#nav").mouseleave(function() {
+                $("#menu_img").attr("src", "images/arrow_s.png")
+            });
+            $("#setallmax").click(function() {               
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.open("POST", "/rfmaze/mazeServlet?command=setallmax");
+                xmlhttp.send();
+            });
+        });
+    }
+)(jQuery);
 </script>
 
 <style>#nav{width:120px;font-family:"Helvetica Neue",Helvetica,Arial,Sans-Serif;font-size:12px;color:#203080;line-height:15px;text-align:left}#nav ul{margin:0;padding:0}#nav li{list-style:none}ul.top-level li{border:none}#nav ul.sub-level{border:1px solid #e0e0e0}#nav a{color:#203080;cursor:pointer;display:block;height:25px;line-height:25px;text-indent:10px;text-decoration:none;width:100%}#nav div{color:#203080;cursor:pointer;display:block;height:25px;line-height:25px;text-indent:10px;width:100%}#nav a:hover{text-decoration:underline}#nav li:hover{background:#85A7BF;position:relative}ul.sub-level{display:none;z-index:1}li:hover .sub-level{background:#85A7BF;border:#fff solid;border-width:1px;display:block;position:absolute;left:30px;top:20px}ul.sub-level li{font-weight:700;color:#203080;float:left;background:#cedeee;border-width:1px;border:1px solid #e0e0e0;border-bottom:2px solid #a0a0a0;width:200px;z-index:1}#nav .sub-level{background:#FFF}</style>
@@ -30,6 +56,7 @@
                                 <li><a id="menu_user_action" href="#">User Actions <img id="menu_img" src="images/arrow_s.png"></a>
                                     <ul class="sub-level">
                                         <li><div id="setattenuation" href="server.action">Set Attenuation</div></li>
+                                        <li><div id="setallmax">Set All to Max</div></li>
                                         <li><div id="handoff" href="users.action">Handover</div></li>
                                         <li><div id="tierroam" href="labels.action">Tier Roam</div></li>
                                         <li><div id="customer_color_picker" href="outputs.action">Color Scheme</div></li>

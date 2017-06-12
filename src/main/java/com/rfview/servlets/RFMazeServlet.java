@@ -123,6 +123,8 @@ public class RFMazeServlet extends HttpServlet {
                 out.println("Unsupported Command!");
             } else if ("restart".equals(command)) {
                 execute("restart.sh");
+            } else if ("setallmax".equals(command)) {
+            	sendCommand("set 1 1 allmax");
             } else {
                 doGet(request, response);
             }
