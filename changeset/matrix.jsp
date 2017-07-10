@@ -340,28 +340,17 @@ $(document).ready(function() {
         $("#dlg1").hide("500", "swing", function() {
             $("#bkg1").fadeOut("300");
         });
-    }), $("#setattenuation").click(function() {        
-        if (!isSetAttenuationActive) {
-            isSetAttenuationActive = true;
-            manual_input = !0, "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "", 
-            $("#bkg").hide()), "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "", 
-            $("#dlg").hide()), $("#bkg").fadeIn(300, "linear", function() {
-                $("#dlg").show(500, "swing"); $("#dlg").draggable();
-            }), document.getElementById("inputs_label").innerHTML = "Inputs", document.getElementById("outputs_label").innerHTML = "Outputs", 
-            document.getElementById("id_inputs").value = "", document.getElementById("id_outputs").value = "", 
-            document.getElementById("id_inputs").disabled = !1, document.getElementById("id_outputs").disabled = !1, 
-            document.getElementById("mimo").disabled = !1;
-        } else {
-            isSetAttenuationActive = false;
-            manual_input = !0, "hidden" == document.getElementById("bkg1").style.visibility && (document.getElementById("bkg1").style.visibility = "", 
-            $("#bkg1").hide()), "hidden" == document.getElementById("dlg1").style.visibility && (document.getElementById("dlg1").style.visibility = "", 
-            $("#dlg1").hide()), $("#bkg1").fadeIn(300, "linear", function() {
-                $("#dlg1").show(500, "swing"); $("#dlg1").draggable();
-            }), document.getElementById("inputs_label1").innerHTML = "Inputs", document.getElementById("outputs_label1").innerHTML = "Outputs", 
-            document.getElementById("id_inputs1").value = "", document.getElementById("id_outputs1").value = "", 
-            document.getElementById("id_inputs1").disabled = !1, document.getElementById("id_outputs1").disabled = !1, 
-            document.getElementById("mimo1").disabled = !1;
-        }
+    }), $("#setattenuation").click(function() {
+        
+        manual_input = !0, "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "", 
+        $("#bkg").hide()), "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "", 
+        $("#dlg").hide()), $("#bkg").fadeIn(300, "linear", function() {
+            $("#dlg").show(500, "swing");
+        }), document.getElementById("inputs_label").innerHTML = "Inputs", document.getElementById("outputs_label").innerHTML = "Outputs", 
+        document.getElementById("id_inputs").value = "", document.getElementById("id_outputs").value = "", 
+        document.getElementById("id_inputs").disabled = !1, document.getElementById("id_outputs").disabled = !1, 
+        document.getElementById("mimo").disabled = !1;
+        
     }), $("#dlg").draggable(), $("#closebtn2").click(function() {
         $("#dlg2").hide("500", "swing", function() {
             $("#bkg2").fadeOut("300");
@@ -678,10 +667,38 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
             <td colspan="3">
                 <table width="100%">
                     <thead><tr><th>Output</th><th>Inputs</th></tr><thead>
-                   <tr><td align="center"><input type="text" size="12" id="handoff_out1" value=""></td><td align="center"><input type="text" size="12" id="handoff_in1"  value=""></td></tr>
-                    <tr id="id_row_2" style="display: none;"><td align="center"><input type="text" size="12" id="handoff_out2" value=""></td><td align="center"><input type="text" size="12" id="handoff_in2" value=""></td></tr>
-                    <tr id="id_row_3" style="display: none;"><td align="center"><input type="text" size="12" id="handoff_out3" value=""></td><td align="center"><input type="text" size="12" id="handoff_in3" value=""></td></tr>
-                    <tr id="id_row_4" style="display: none;"><td align="center"><input type="text" size="12" id="handoff_out4" value=""></td><td align="center"><input type="text" size="12" id="handoff_in4" value=""></td></tr>
+                    <tr>
+                       <td align="center">
+                         <s:select id="handoff_out1" name="handoffOut1" value="defaultValue" multiple="true" list="listHandoffOut1" listKey="key" listValue="value"/>
+                       </td>
+                       <td align="center">
+                         <s:select id="handoff_in1" name="handoffIn1" value="defaultValue" multiple="true" list="listHandoffIn1" listKey="key" listValue="value"/>
+                       </td>
+                    </tr>
+                    <tr id="id_row_2" style="display: none;">
+                       <td align="center">
+                         <s:select id="handoff_out2" name="handoffOut2" value="defaultValue" multiple="true" list="listHandoffOut2" listKey="key" listValue="value"/>
+                       </td>
+                       <td align="center">
+                         <s:select id="handoff_in2" name="handoffIn2" value="defaultValue" multiple="true" list="listHandoffIn2" listKey="key" listValue="value"/>
+                       </td>
+                    </tr>
+                    <tr id="id_row_3" style="display: none;">
+                       <td align="center">
+                         <s:select id="handoff_out3" name="handoffOut3" value="defaultValue" multiple="true" list="listHandoffOut3" listKey="key" listValue="value"/>
+                       </td>
+                       <td align="center">
+                         <s:select id="handoff_in3" name="handoffIn3" value="defaultValue" multiple="true" list="listHandoffIn3" listKey="key" listValue="value"/>
+                       </td>
+                    </tr>
+                    <tr id="id_row_4" style="display: none;">
+                       <td align="center">
+                         <s:select id="handoff_out4" name="handoffOut4" value="defaultValue" multiple="true" list="listHandoffOut4" listKey="key" listValue="value"/>
+                       </td>
+                       <td align="center">
+                         <s:select id="handoff_in4" name="handoffIn4" value="defaultValue" multiple="true" list="listHandoffIn4" listKey="key" listValue="value"/>
+                       </td>
+                    </tr>
                 </table>
             </td>
         </tr>

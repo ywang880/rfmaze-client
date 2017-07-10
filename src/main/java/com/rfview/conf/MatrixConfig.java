@@ -26,10 +26,13 @@ public class MatrixConfig {
     private String matrixType;
     private int serverSocketPort;
     private int matrixInputs;
-    private int matrixOutputs;
+	private int matrixOutputs;
     private String matrixIp;
+    private String matrixIp2;
     private String serverIp;
     private int hwPort;
+    private int hwPort2;
+    private String quintechType;
     private int matrixSocketPort;
     private int matrixControlPort;
     private int maxAttn;
@@ -164,6 +167,30 @@ public class MatrixConfig {
         this.serverIp = serverIp;
     }
 
+    public String getMatrixIp2() {
+		return matrixIp2;
+	}
+
+	public void setMatrixIp2(String matrixIp2) {
+		this.matrixIp2 = matrixIp2;
+	}
+
+	public int getHwPort2() {
+		return hwPort2;
+	}
+
+	public void setHwPort2(int hwPort2) {
+		this.hwPort2 = hwPort2;
+	}
+
+	public String getQuintechType() {
+		return quintechType;
+	}
+
+	public void setQuintechType(String quintechType) {
+		this.quintechType = quintechType;
+	}
+	
     public Server getServerInfo(String hardware) throws InvalidConfigurationException {
         try {
             final Properties props = loadConfigureFile(hardware);
@@ -197,18 +224,35 @@ public class MatrixConfig {
         sb.append("MATRIX_NAME").append("=").append(matrixName).append(NEW_LINE);
         sb.append("matrix_type").append("=").append(getMatrixType()).append(NEW_LINE);
         sb.append("server_socket_port").append("=").append(matrixControlPort).append(NEW_LINE);
-        sb.append("matrix_inputs").append("=").append(matrixInputs).append(NEW_LINE);
+        
+        if ( isTurnTable() ) {
+        	sb.append("matrix_inputs").append("=").append(1).append(NEW_LINE);
+        } else {
+        	sb.append("matrix_inputs").append("=").append(matrixInputs).append(NEW_LINE);
+        }
+        
         sb.append("matrix_outputs").append("=").append(matrixOutputs).append(NEW_LINE);
         sb.append("server_ip").append("=").append(getServerIp()).append(NEW_LINE);
         sb.append("matrix_ip").append("=").append(matrixIp).append(NEW_LINE);
         sb.append("matrix_socket_port").append("=").append(getHwPort()).append(NEW_LINE);
-        sb.append("max_attn").append("=").append(maxAttn).append(NEW_LINE);
-        sb.append("min_attn").append("=").append(minAttn).append(NEW_LINE);
-        sb.append("step_db").append("=").append(stepDb).append(NEW_LINE);
-        sb.append("invert_input_output").append("=").append(invertInputOutput? "yes":"no").append(NEW_LINE);
-        sb.append("debug").append("=").append("yes").append(NEW_LINE);
-        sb.append("debug2").append("=").append("yes").append(NEW_LINE);
+      
+        if ( isTurnTable() ) {
+        	sb.append("max_angle").append("=").append(maxAttn).append(NEW_LINE);
+        } else {
+        	sb.append("max_attn").append("=").append(maxAttn).append(NEW_LINE);
+        	sb.append("min_attn").append("=").append(minAttn).append(NEW_LINE);
+        	sb.append("step_db").append("=").append(stepDb).append(NEW_LINE);
+    
+        	sb.append("invert_input_output").append("=").append(invertInputOutput? "yes":"no").append(NEW_LINE);
+        	sb.append("debug").append("=").append("yes").append(NEW_LINE);
+        	sb.append("debug2").append("=").append("yes").append(NEW_LINE);
+        }
         
+        if ( "K".equals(getMatrixType()) && "C".equals(getQuintechType()) ) {
+	        sb.append("matrix_ip2").append("=").append(getMatrixIp2()).append(NEW_LINE);
+	        sb.append("matrix_socket_port2").append("=").append(getHwPort2()).append(NEW_LINE);
+	        sb.append("quintech_type").append("=").append(getQuintechType()).append(NEW_LINE);
+        }
         sb.append("EOF = Mandatory").append(NEW_LINE);
         
         PrintWriter writer;
@@ -243,5 +287,9 @@ public class MatrixConfig {
             }          
         }
         return type;
-    }    
+    }
+    
+    private boolean isTurnTable() {
+    	return "T".equals(matrixType);
+    }
 }

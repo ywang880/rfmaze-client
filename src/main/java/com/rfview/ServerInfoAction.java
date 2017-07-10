@@ -1,5 +1,4 @@
 package com.rfview;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,6 +22,7 @@ public class ServerInfoAction extends BaseActionSupport {
     private static final long serialVersionUID = -6798445163576134855L;
     private final List<String> configFiles = new ArrayList<String>();
     private static Map<String,String> listType;
+    private static Map<String,String> listQuintechType;
     private List<ServerInfo> serverInfo;
     private List<String> mazeServers;
     private String mazeServer;
@@ -32,9 +32,11 @@ public class ServerInfoAction extends BaseActionSupport {
     private String matrixName;
     private String currentMatrixName;
     private String hwIp;
+    private String hwIp2;
     private int numberOfInputs = 32;
     private int numberOfOutputs = 32;
     private int hwPort = 9100;
+    private int hwPort2 = 9100;
     private int maxAttn = 63;
     private int minAttn;
     private int stepAttn = 1;
@@ -42,16 +44,34 @@ public class ServerInfoAction extends BaseActionSupport {
     private String selectedRows;
     private String selectCols;
     private StringBuilder buffer;
-    
-    private String actionCmd = "";
+    private String quintechType;
+	private String defaultQuintechType = "X";
 
+	private String actionCmd = "";
+
+	public String getpMatrixName() {
+		return pMatrixName;
+	}
+
+	private String pMatrixName = "Matrix Name: ";
+		
     private final static BroadcastConf bServer = BroadcastConf.getInstance();
     static {
         listType = new HashMap<String, String>();
         listType.put("L", "Quintech LTE3000");
         listType.put("K", "Quintech QRB3000");
-        listType.put("R", "Quintech RBM3000");        
+        listType.put("R", "Quintech RBM3000");
+        listType.put("T", "TurnTable");
+        listType.put("Y", "TopYoung");
     }
+
+    static {
+    	listQuintechType = new HashMap<String, String>();
+        listQuintechType.put("X", "Default");
+        listQuintechType.put("N", "NEXUS");
+        listQuintechType.put("C", " NEXUS Combined");
+    }
+    
     public String execute() {
 
         if (sessionMap != null) {
@@ -67,12 +87,12 @@ public class ServerInfoAction extends BaseActionSupport {
             actionCmd = tokens[0];
         }
         setMenu("server_info");
-        
+
         // process browser action
         if (actionCmd.equals("create_server")) {
             int thePort = getMatrixControlPort();
             buildRegularMazeServerInfo(true, thePort);
-            String message = bServer.assignMazeServer(getMatrixName(), getLocalhost(), thePort);          
+            String message = bServer.assignMazeServer(getMatrixName(), getLocalhost(), thePort);
             if (message != null) {
                 setSuccessMessage(message);
             }
@@ -82,7 +102,7 @@ public class ServerInfoAction extends BaseActionSupport {
             if (mgmt.isProcessStarted(oldName)) {
                 setWarningMessage("Can not modify matrix name as it is in use.");
             } else if ((newName!=null) && (oldName!=null) && (!newName.trim().equals(oldName.trim()))) {
-                               
+
                 //delete old server
                 logger.warn(oldName + " is removed");
                 try {
@@ -90,7 +110,7 @@ public class ServerInfoAction extends BaseActionSupport {
                 } catch (SQLException e) {
                     logger.error(e);
                 }
-                
+
                 String message = bServer.removeAssignedMazeServer(oldName);
                 if (message != null) {
                     setSuccessMessage(message);
@@ -99,11 +119,11 @@ public class ServerInfoAction extends BaseActionSupport {
                 f.delete();
                 logger.warn("Configuration file " + f.getName() + " is deleted");
                 dbAccess.reclaimPort(oldName);
-                
+
                 // create new server
                 int thePort = getMatrixControlPort();
                 buildRegularMazeServerInfo(true, thePort);
-                message = bServer.assignMazeServer(newName, getLocalhost(), thePort);          
+                message = bServer.assignMazeServer(newName, getLocalhost(), thePort);
                 if (message != null) {
                     setSuccessMessage(message);
                 }
@@ -114,7 +134,7 @@ public class ServerInfoAction extends BaseActionSupport {
                 } catch (InvalidConfigurationException e) {
                     logger.error(e);
                 }
-                                
+
                 dbAccess.updateLabels(getMatrixName(), getNumberOfInputs(), getNumberOfOutputs());
             }
         } else if (actionCmd.equals("delete_server")) {
@@ -154,8 +174,7 @@ public class ServerInfoAction extends BaseActionSupport {
         } else if (action != null && action.startsWith("browse")) {
             BufferedReader br;
             try {
-                br = new BufferedReader(new FileReader(mgmt.getConfigureDir() + File.separator
-                        + getMazeServer() + ".cfg"));
+                br = new BufferedReader(new FileReader(mgmt.getConfigureDir() + File.separator + getMazeServer() + ".cfg"));
                 buffer = new StringBuilder();
                 String line = br.readLine();
                 while (line != null) {
@@ -175,24 +194,32 @@ public class ServerInfoAction extends BaseActionSupport {
                     if (token1.equalsIgnoreCase("MATRIX_NAME")) {
                         setMatrixName(token2);
                         setCurrentMatrixName(token2);
-                    } else if (line.startsWith("matrix_socket_port")) {
+                    } else if (token1.equalsIgnoreCase("matrix_socket_port")) {
                         setHwPort(Integer.parseInt(token2));
-                    } else if (line.startsWith("matrix_inputs")) {
+                    } else if (token1.equalsIgnoreCase("matrix_inputs")) {
                         setNumberOfInputs(Integer.parseInt(token2));
-                    } else if (line.startsWith("matrix_outputs")) {
+                    } else if (token1.equalsIgnoreCase("matrix_outputs")) {
                         setNumberOfOutputs(Integer.parseInt(token2));
-                    } else if (line.startsWith("matrix_ip")) {
+                    } else if (token1.equalsIgnoreCase("matrix_ip")) {
                         setHwIp(token2);
-                    } else if (line.startsWith("max_attn")) {
+                    } else if (token1.equalsIgnoreCase("max_attn")) {
                         setMaxAttn(Integer.parseInt(token2));
-                    } else if (line.startsWith("min_attn")) {
+                    } else if (token1.equalsIgnoreCase("min_attn")) {
                         setMinAttn(Integer.parseInt(token2));
-                    } else if (line.startsWith("step_db")) {
+                    } else if (token1.equalsIgnoreCase("step_db")) {
                         setStepAttn((int)Float.parseFloat(token2));
-                    } else if (line.startsWith("invert_input_output")) {
+                    } else if (token1.equalsIgnoreCase("invert_input_output")) {
                         setInvertInputOutput(token2.equalsIgnoreCase("yes"));
                     } else if (token1.equalsIgnoreCase("matrix_type")) {
                         defaultType = token2;
+                        setMatrixType(token2);
+                    } else if (token1.equalsIgnoreCase("matrix_ip2")) {
+                    	setHwIp2(token2);
+                    } else if (token1.equalsIgnoreCase("matrix_socket_port2")) {
+                    	setHwPort2(Integer.parseInt(token2));
+                    } else if (token1.equalsIgnoreCase("quintech_type")) {
+                    	setQuintechType(token2);
+                    	setDefaultQuintechType(token2);
                     }
                     line = br.readLine();
                 }
@@ -200,6 +227,10 @@ public class ServerInfoAction extends BaseActionSupport {
                 logger.warn(e);
             } catch (IOException e) {
                 logger.warn(e);
+            }
+            
+            if ( "T".equals(getQuintechType()) ) {
+            	pMatrixName = "Hardware Name: ";
             }
         }
 
@@ -252,6 +283,10 @@ public class ServerInfoAction extends BaseActionSupport {
         return listType;
     }
 
+    public Map<String,String> getListQuintechType() {
+        return listQuintechType;
+    }
+
     public List<ServerInfo> getServerInfo() {
         return serverInfo;
     }
@@ -275,7 +310,7 @@ public class ServerInfoAction extends BaseActionSupport {
     public void setCurrentMatrixName(String currentMatrixName) {
         this.currentMatrixName = currentMatrixName;
     }
-    
+
     public String getMatrixType() {
         return matrixType;
     }
@@ -291,7 +326,7 @@ public class ServerInfoAction extends BaseActionSupport {
     public void setDefaultType(String defaultType) {
         this.defaultType = defaultType;
     }
-    
+
     public String getHwIp() {
         return hwIp;
     }
@@ -372,6 +407,39 @@ public class ServerInfoAction extends BaseActionSupport {
         bServer.setBsPort(bsPort);
     }
 
+    public String getHwIp2() {
+		return hwIp2;
+	}
+
+	public void setHwIp2(String hwIp2) {
+		this.hwIp2 = hwIp2;
+	}
+
+	public int getHwPort2() {
+		return hwPort2;
+	}
+
+	public void setHwPort2(int hwPort2) {
+		this.hwPort2 = hwPort2;
+	}
+
+	public String getQuintechType() {
+		return quintechType;
+	}
+
+	public void setQuintechType(String quintechType) {
+		this.quintechType = quintechType;
+	}
+
+    public String getDefaultQuintechType() {
+    	logger.info(">>>>> " + getDefaultQuintechType());
+		return defaultQuintechType;
+	}
+
+	public void setDefaultQuintechType(String defaultQuintechType) {
+		this.defaultQuintechType = defaultQuintechType;
+	}
+
     public int getBsPort() {
         return bServer.getBsPort();
     }
@@ -394,9 +462,16 @@ public class ServerInfoAction extends BaseActionSupport {
 
     public String getConfigureFile() {
         return (buffer==null)? "" : buffer.toString();
-        
+    }
+
+    public boolean isQRB3000() {
+    	return "K".equals(getMatrixType()) && "C".equals(getQuintechType());
     }
     
+    public boolean isQRB3000C() {
+    	return "K".equals(getMatrixType()) && "C".equals(getQuintechType());
+    }
+
     private void buildRegularMazeServerInfo(boolean create_new, int thePort) {
 
         MatrixConfig mConf = MatrixConfig.getInstance();
@@ -438,16 +513,32 @@ public class ServerInfoAction extends BaseActionSupport {
         mConf.setStepDb(getStepAttn());
         mConf.setInvertInputOutput(isInvertInputOutput());
 
+        // only save quintech type a for QRB mode
+        if ( isQRB3000() ) {
+        	mConf.setQuintechType(quintechType);
+        }
+        
+        // only save address and port 2 for QRB combined mode
+        if ( isQRB3000C() ) {
+        	mConf.setHwPort2(getHwPort2());
+        	mConf.setMatrixIp2(getHwIp2());
+        }
         mConf.generate();
         if (create_new) {
             dbAccess.insertDefaultLabels(getMatrixName(), getNumberOfInputs(), getNumberOfOutputs());
         }
-        
+
         logger.info("update database add port " + matrixControlPort);
         if (create_new) {
             dbAccess.updatePort(matrixControlPort, getMatrixName());
         }
+        
+         
+        setDefaultType(getMatrixType());
+        setMatrixType(getMatrixType());
+        defaultQuintechType = getQuintechType();
         setSuccessMessage("Matrix configuration file modified successfully!");
+        logger.info(" set default type = " + getDefaultType());
     }
 
     private void buildBroadcastServerInfo() {
@@ -462,7 +553,7 @@ public class ServerInfoAction extends BaseActionSupport {
             return "127.0.0.1";
         }
     }
-    
+
     private int nextMatrixControlPort() {
         return dbAccess.getNextAvailablePort();
     }
