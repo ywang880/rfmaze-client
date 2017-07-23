@@ -306,4 +306,3 @@ $(document).ready(function() {
 
 <s:hidden name="action" value=""/>
 </s:form>
-			

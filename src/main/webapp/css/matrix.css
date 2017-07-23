@@ -90,6 +90,7 @@
    border-top-color: #808080;
    background: #506080;
    color: #FFFFFF;
+   cursor: pointer;
 }
    
 .button:active {

@@ -18,15 +18,23 @@ import com.rfview.comm.RFmazeInfo;
 import com.rfview.comm.RfMazeServerConnectionInfo;
 import com.rfview.conf.Assignment;
 import com.rfview.conf.BroadcastConf;
+import com.rfview.conf.MatrixConfig;
+import com.rfview.exceptions.InvalidConfigurationException;
 import com.rfview.maze.Datagrid;
 import com.rfview.maze.Entry;
 import com.rfview.utils.ColorMapping;
 import com.rfview.utils.CompositeKey;
 import com.rfview.utils.Constants;
 
-public class MatrixViewAction extends BaseActionSupport {
+public class TopyoungViewAction extends BaseActionSupport {
 
     private static final long serialVersionUID = -6798445163576134855L;
+
+    private static final long FIVE_SECONDS = 5000L;
+    private static final String SUCCESS1 = SUCCESS + "1";
+    private static final String SUCCESS2 = SUCCESS + "2";
+    private static final String SUCCESS3 = SUCCESS + "3";
+    private static final String SUCCESS4 = SUCCESS + "4";
 
     private Cell[][] matrix;
     private List<THeader> tableHeader;
@@ -48,48 +56,12 @@ public class MatrixViewAction extends BaseActionSupport {
     private String color1 = "008800";
     private String color2 = "EE9933";
     private String color3 = "DD0000";
-    private int maxAtten = 120;
 
-	private List<String> outputAttenuation;
+    private List<String> outputAttenuation;
     private final List<String> hardwares = new ArrayList<String>();
     private final RfMazeServerConnectionInfo serverConntionInfo = RfMazeServerConnectionInfo.getInstance();
-    private final Logger logger = Logger.getLogger(MatrixViewAction.class.getName());
+    private final Logger logger = Logger.getLogger(TopyoungViewAction.class.getName());
 
-	private boolean powerOn = false;
-    private int rpm;
-    
-    public boolean isPoweron() {
-		return powerOn;
-	}
-
-    public boolean isPowerOff() {
-    	return !powerOn;
-    }
-    
-	public void setPoweron(boolean powerOn) {
-		this.powerOn = powerOn;
-	}
-
-	public List<Integer> getRmpList() {
-		return Arrays.asList(new Integer[] {0,1,2,3,4,5,6,7,8,9,10,11,12,13});
-	}
-
-	public int getRpm() {
-		return rpm;
-	}
-
-	public void setRpm(int rpm) {
-		this.rpm = rpm;
-	}
-	
-    public int getMaxAtten() {
-		return maxAtten;
-	}
-
-	public void setMaxAtten(int maxAtten) {
-		this.maxAtten = maxAtten;
-	}
-	
     public List<MatrixLabel> getInputLabels() {
 		return inputLabels;
 	}
@@ -264,7 +236,7 @@ public class MatrixViewAction extends BaseActionSupport {
         return showDialog;
     }
 
-    public MatrixViewAction() {
+    public TopyoungViewAction() {
     	for ( int i = 0; i < 10; i++ ) {
     		listHandoffOut1.put(i, i);
     		listHandoffIn1.put(i, i);
@@ -420,7 +392,7 @@ public class MatrixViewAction extends BaseActionSupport {
         }
 
         try {
-        	Assignment userAssignment = dbAccess.getAssignment(username);
+            Assignment userAssignment = dbAccess.getAssignment(username);
             List<String> hwAssigned = userAssignment.getHardwares();
             List<String> availableServers = BroadcastConf.getInstance().getNonSwitchHardwareList();
             List<ProcessInfo> pinfo = mgmt.getProcesses();
@@ -436,7 +408,7 @@ public class MatrixViewAction extends BaseActionSupport {
         }
 
         if (hardwares.isEmpty()) {
-            setWarningMessage(CONST_START_SERVER);
+            setWarningMessage("There are apparently no running rfmaze processes. Please start process first!");
         }
 
         if (hardware == null || hardware.isEmpty()) {
@@ -445,24 +417,16 @@ public class MatrixViewAction extends BaseActionSupport {
         }
 
         String returnCode;
-        Assignment assignedInfo = null;
-		try {
-			assignedInfo = dbAccess.getAssignment(getHardware(), username);
-		} catch (SQLException e2) {
-
-		}
-        if ( isLTE( hardware )) {
+        if ( isLTE()) {
             returnCode = SUCCESS2;
-        } else if ( isRBM( hardware )) {
+        } else if ( isRBM()) {
             returnCode = SUCCESS3;
-        } else if ( isTurnTable( hardware ) ) {
-        	returnCode = SUCCESS4;        	
-        } else if ( isQRBTopYoung( hardware, assignedInfo ) ) {
-        	returnCode = SUCCESS5;
+        } else if ( isTurnTable() ) {
+        	return SUCCESS4;
         } else { 	
             returnCode = SUCCESS1;
         }
-        logger.info("server type = " + getMetrixType( hardware )+ ", return code " + returnCode);
+        logger.info("server type = " + getMetrixType()+ ", return code " + returnCode);
 
         if (username.equals("admin")) {
             setErrorMessage("invalid user name. please login as non-admin user!");
@@ -475,7 +439,7 @@ public class MatrixViewAction extends BaseActionSupport {
         if ("color_scheme".equals(action)) {
             updateColorScheme();
         }
-    	
+
         String args[] = new String[2];
         if (!hasCachedData(hardware)) {
             logger.info("no cached data, fetch the data from maze server");
@@ -485,7 +449,8 @@ public class MatrixViewAction extends BaseActionSupport {
 
                 Timer timer = Datagrid.getTimer(hardware);
                 sessionMap.put("heartbeat_timer", timer);
-                HeartBeatTask heartbeatTask = new HeartBeatTask(hardware, theServer.getIp(), theServer.getPort());
+                HeartBeatTask heartbeatTask = new HeartBeatTask(hardware, theServer.getIp(),
+                        theServer.getPort());
                 timer.scheduleAtFixedRate(heartbeatTask, FIVE_SECONDS, FIVE_SECONDS);
                 sessionMap.put(Constants.KEY_SERVER, theServer.getIp());
                 sessionMap.put(Constants.KEY_PORT, theServer.getPort());
@@ -570,7 +535,7 @@ public class MatrixViewAction extends BaseActionSupport {
 
         mgmt.setReload(username, false);
         tableHeader = new ArrayList<THeader>();
-        if (!isRBM( hardware )) {
+        if (!isRBM()) {
             tableHeader.add(new THeader(null, "Power", "Power"));
         }
         boolean useDefault = false;
@@ -602,19 +567,50 @@ public class MatrixViewAction extends BaseActionSupport {
 
         outputAttenuation = new ArrayList<String>();
         String[] atten = cache.getAttenuation(hardware);
-        if ( atten != null ) {
+        if (atten!=null) {
             for (int i = 0; i < numCols; i++) {
-            	
-                if ( i < atten.length ) {
-                	outputAttenuation.add(atten[i]);
-                } else {
-                	outputAttenuation.add("N/A");
-                }
+                outputAttenuation.add(atten[i]);
             }
         } else {
             logger.warn("no outout attenuation data" );
         }        
         return returnCode;
+    }
+
+    private String getMetrixType() {
+        try {
+            return MatrixConfig.getInstance().getServerInfo(hardware).getType();
+        } catch (InvalidConfigurationException e) {
+            logger.error(e);
+        }
+        return "";
+    }
+
+    private boolean isLTE() {
+        try {
+            return MatrixConfig.getInstance().getServerInfo(hardware).isLTE();
+        } catch (InvalidConfigurationException e) {
+            logger.error(e);
+        }
+        return false;
+    }
+
+    private boolean isRBM() {
+        try {
+            return MatrixConfig.getInstance().getServerInfo(hardware).isRBM();
+        } catch (InvalidConfigurationException e) {
+            logger.error(e);
+        }
+        return false;
+    }
+
+    private boolean isTurnTable() {
+        try {
+            return MatrixConfig.getInstance().getServerInfo(hardware).isTurnTable();
+        } catch (InvalidConfigurationException e) {
+            logger.error(e);
+        }
+        return false;
     }
     
     private boolean validateAssignment(String data) {
@@ -641,7 +637,7 @@ public class MatrixViewAction extends BaseActionSupport {
         Entry[] offset_data = cache.getOffsetData(getHardware());
         boolean validOffset = isValid(offset_data, assignedRows.length);
         for (int i = 0; i < assignedRows.length; i++) {
-            Cell c = (validOffset && offset_data[i] != null)? new Cell(offset_data[i].getValue() + "dBm") : new Cell("0dBm");
+            Cell c = (validOffset) ? new Cell(offset_data[i].getValue() + "dBm") : new Cell("0dBm");
             int rIndex = assignedRows[i];
             c.setLabel("[" + (i + 1) + "] " + inputLabels.get(rIndex - 1).getLabel());
             c.setDescription(inputLabels.get(rIndex - 1).getDescription());
@@ -687,7 +683,7 @@ public class MatrixViewAction extends BaseActionSupport {
         return ((matrix_data != null) && (offset_data != null));
     }
 
-    public boolean isRunning(List<ProcessInfo> pinfo, String pname) {    	
+    public boolean isRunning(List<ProcessInfo> pinfo, String pname) {
         for (ProcessInfo info : pinfo) {
             if (info.getConfigFile().endsWith(pname) && info.getStatus().contains("running")) {
                 return true;
@@ -700,3 +696,5 @@ public class MatrixViewAction extends BaseActionSupport {
         return offset_data != null && offset_data.length == size;
     }
 }
+
+

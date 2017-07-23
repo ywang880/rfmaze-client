@@ -1,10 +1,12 @@
 package com.rfview.servlets;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.lang.management.ManagementFactory;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -51,6 +53,7 @@ public class RFMazeServlet extends HttpServlet {
     private final StringBuffer serverResponse = new StringBuffer();
     private String uuid = "";
     private Map<MappingCompositeKey, AssignMapper> mapper = new ConcurrentHashMap<MappingCompositeKey, AssignMapper>();
+	private Properties turntableCommandMapper = new Properties();
 
     private MazeserverManagement mgmtBean = MazeserverManagement.getInstance();
 
@@ -58,6 +61,13 @@ public class RFMazeServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         uuid = UUID.randomUUID().toString();
+
+        try {
+        	InputStream is = this.getClass().getClassLoader().getResourceAsStream("turntable.properties");
+			turntableCommandMapper.load(is);
+		} catch (IOException e) {
+			debugLogger.error("Failed to load turntable command mapping file");
+		}
         debugLogger.info("RFMazeServlet initialization, uuid=" + uuid);
     }
 
@@ -119,12 +129,16 @@ public class RFMazeServlet extends HttpServlet {
             }
 
             String command = request.getParameter("command");
+            String param = request.getParameter("param");
             if ((command == null) || command.isEmpty()) {
                 out.println("Unsupported Command!");
             } else if ("restart".equals(command)) {
                 execute("restart.sh");
             } else if ("setallmax".equals(command)) {
             	sendCommand("set 1 1 allmax");
+            }  else if (command.startsWith("turntable")) {
+            	sendTurntableCommand(command, param);
+            	out.println("OK");
             } else {
                 doGet(request, response);
             }
@@ -548,8 +562,28 @@ public class RFMazeServlet extends HttpServlet {
 		return command.toString();
 	}
 
+	private String sendTurntableCommand(String command, String param) {
+		  String[] tokens = command.split("\\.");
+		  String type = tokens[1];
+		  String commands;
+		  if ( type.equals("angle") || type.equals("rpm") ) {
+			  commands = turntableCommandMapper.getProperty(type).replaceAll("PARAM", param);
+		  } else {
+			  commands = turntableCommandMapper.getProperty(type);
+		  }
+		  String[] commandTokens = commands.split(",");
+		  StringBuilder builder = new StringBuilder();
+		  for (int i = 0; i < commandTokens.length; i++) {
+			  sendCommand(commandTokens[i]);
+			  if ( i < commandTokens.length-1) {
+				  builder.append(commandTokens[i]).append("\n");
+			  }
+		  }
+		  return builder.toString();
+	}
+
     private void sendCommand(String command) {
-        debugLogger.info("RFMazeServlet::sendCommand() The command = [" + command + "]");
+        debugLogger.info("sendCommand() The command = [" + command + "]");
         String[] cmdOut = new String[1];
         try {
             ObjectName mBeanName = new ObjectName(Constants.OBJECTMAME_PREFIX + hardware + Constants.OBJECTNAME_SUFFIX);

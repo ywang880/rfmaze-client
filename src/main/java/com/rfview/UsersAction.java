@@ -2,6 +2,7 @@ package com.rfview;
 
 import java.lang.management.ManagementFactory;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.management.InstanceNotFoundException;
@@ -13,6 +14,8 @@ import javax.management.ReflectionException;
 
 import com.rfview.comm.ProcessInfo;
 import com.rfview.conf.Assignment;
+import com.rfview.conf.BroadcastConf;
+import com.rfview.conf.MatrixConfig;
 import com.rfview.maze.User;
 import com.rfview.utils.CommandBuilder;
 import com.rfview.utils.Constants;
@@ -26,7 +29,11 @@ public class UsersAction extends BaseActionSupport {
     private List<User> users = null;
     private User user = null;
     private String username;
-        
+
+    private List<String> assignedHardwares;
+    
+    private BroadcastConf bConf = BroadcastConf.getInstance();
+    
     public String getUsername() {
         return username;
     }
@@ -47,6 +54,28 @@ public class UsersAction extends BaseActionSupport {
 
     public void setAction(String action) {
         this.action = action;
+    }
+    
+    public List<String> getAssignedHardwares() {
+
+    	if ( assignedHardwares == null ) {
+    		assignedHardwares = new ArrayList<>();
+    	}
+        try {
+            Assignment userAssignment = dbAccess.getAssignment(username);
+            assignedHardwares = userAssignment.getHardwares();
+        } catch (SQLException e2) {
+            logger.warn(e2.getMessage());
+        }
+		return assignedHardwares;
+	}
+
+	public void setAssignedHardwares(List<String> assignedHardwares) {
+		this.assignedHardwares = assignedHardwares;
+	}
+	
+    public List<String> getHardwarelist() {
+    	return bConf.getHardwareList();
     }
     
     public String queryUserFromDB() {

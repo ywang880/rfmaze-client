@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.rfview.comm.ProcessInfo;
 import com.rfview.conf.Assignment;
 import com.rfview.conf.BroadcastConf;
@@ -69,6 +71,7 @@ public class LoginAction extends BaseActionSupport {
             Assignment assignment = dbAccess.getAssignment(userName);
             List<String> hwAssigned = assignment.getHardwares();
             List<String> availableServers = BroadcastConf.getInstance().getNonSwitchHardwareList();
+            logger.info("availableServers=" + StringUtils.join(availableServers, ", "));
             List<ProcessInfo> pinfo = mgmt.getProcesses();
             for (String ss : availableServers) {
                 for (String sss : hwAssigned) {

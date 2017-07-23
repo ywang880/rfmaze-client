@@ -59,6 +59,14 @@ public class Server {
         return type != null && type.matches("(?i)\\s*R\\s*");
     }
 
+    public boolean isTurnTable() {
+        return type != null && type.matches("(?i)\\s*T\\s*");
+    }
+
+    public boolean isTopYoung() {
+        return type != null && type.matches("(?i)\\s*Y\\s*");
+    }
+    
     public boolean isSwitchingType() {
         return isLTE() || isRBM();
     }

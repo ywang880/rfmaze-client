@@ -8,7 +8,7 @@
 	<constant name="struts.devMode" value="true" />
 	<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
 	<constant name="struts.action.excludePattern" value="/maze[a-zA-Z]*Servlet"/>
-	
+
 	<package name="default" extends="struts-default" namespace="/">
 		<result-types>
 			<result-type name="tiles"
@@ -23,14 +23,14 @@
             <interceptor-ref name="defaultStack" />
             <interceptor-ref name="loginInterceptor" />
           </interceptor-stack>
-         </interceptors>         
- 
-         <default-interceptor-ref name="appDefault" /> 
+         </interceptors>
+
+         <default-interceptor-ref name="appDefault" />
 
 		<action name="databaseview" class="com.rfview.utils.db.DatabaseViewAction" method="query">
 			<result name="success">/DatabaseViewer.jsp</result>
 		</action>
-		        
+
 		<action name="login" class="com.rfview.LoginAction" method="authenticate">
 			<result name="success" type="tiles">/welcome.tiles</result>
 			<result name="rfmaze" type="tiles">/mazewelcome.tiles</result>
@@ -43,7 +43,15 @@
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>
 		</action>
-		
+
+        <action name="hw_select" class="com.rfview.SelectHardwareAction">
+			<result name="rfmaze" type="tiles">/rfmaze.tiles</result>
+            <result name="turntable" type="tiles">/turntable.tiles</result>
+            <result name="topyound" type="tiles">/tyview.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+
 		<action name="logout" class="com.rfview.LogoutAction">
   		    <result name="success">Logout.jsp</result>
 		</action>
@@ -52,14 +60,14 @@
 			<result name="success" type="tiles">/server.tiles</result>
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>
-		</action>	
+		</action>
 
 		<action name="users" class="com.rfview.UsersAction" method="queryUserFromDB">
 			<result name="success" type="tiles">/users.tiles</result>
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>
 		</action>
-					
+
 		<action name="cells" class="com.rfview.CellAssignmentAction">
 			<result name="success" type="tiles">/cells.tiles</result>
 			<result name="login">Login.jsp</result>
@@ -68,14 +76,14 @@
 
 		<action name="inputs" class="com.rfview.AssignInputsAction">
 			<result name="success" type="tiles">/inputs.tiles</result>
-			<result name="commit_success" type="tiles">/cells.tiles</result>	
+			<result name="commit_success" type="tiles">/cells.tiles</result>
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>
 		</action>
-		
+
 		<action name="outputs" class="com.rfview.AssignOutputsAction">
 			<result name="success" type="tiles">/outputs.tiles</result>
-			<result name="commit_success" type="tiles">/inputs.tiles</result>			
+			<result name="commit_success" type="tiles">/inputs.tiles</result>
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>
 		</action>
@@ -85,7 +93,7 @@
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>
 		</action>
-        
+
 		<action name="labels" class="com.rfview.AssignLabelAction">
 			<result name="success" type="tiles">/labels.tiles</result>
 			<result name="download" type="stream">
@@ -97,19 +105,19 @@
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>
 		</action>
-				
+
 		<action name="process-status" class="com.rfview.ProcessStatusAction">
 			<result name="success" type="tiles">/process_status.tiles</result>
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>
 		</action>
-		
+
 		<action name="monitor" class="com.rfview.MatrixMonitorAction">
 			<result name="success" type="tiles">/monitor.tiles</result>
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>
 		</action>
-		
+
 		<action name="preview" class="com.rfview.AssignmentViewAction">
 			<result name="success" type="tiles">/preview.tiles</result>
 		</action>
@@ -134,15 +142,31 @@
 			<result name="success1" type="tiles">/rfmaze.tiles</result>
 			<result name="success2" type="tiles">/rfmazeb.tiles</result>
 			<result name="success3" type="tiles">/rfmazeb_no_atten.tiles</result>
+			<result name="success4" type="tiles">/turntable.tiles</result>
+            <result name="success5" type="tiles">/tyview.tiles</result>
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>
 		</action>
-	
+
+    	<!--  RF maze definitions -->
+		<action name="tyview" class="com.rfview.TopyoungViewAction">
+			<result name="success" type="tiles">/tyview.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+
+    	<!--  RF maze definitions -->
+		<action name="turntable" class="com.rfview.TurnTableViewAction">
+			<result name="success" type="tiles">/turntable.tiles</result>
+			<result name="login">Login.jsp</result>
+			<result name="error">Login.jsp</result>
+		</action>
+
 		<action name="matrix_overview" class="com.rfview.MatrixOverviewAction">
 			<result name="success1" type="tiles">/matrix_overview1.tiles</result>
 			<result name="success2" type="tiles">/matrix_overview2.tiles</result>
 			<result name="success3" type="tiles">/matrix_overview3.tiles</result>
-			<result name="select_hardware" type="tiles">/matrix_overview_select.tiles</result>			
+			<result name="select_hardware" type="tiles">/matrix_overview_select.tiles</result>
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>
 		</action>

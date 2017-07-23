@@ -432,7 +432,6 @@ public class ServerInfoAction extends BaseActionSupport {
 	}
 
     public String getDefaultQuintechType() {
-    	logger.info(">>>>> " + getDefaultQuintechType());
 		return defaultQuintechType;
 	}
 

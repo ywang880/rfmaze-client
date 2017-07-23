@@ -75,5 +75,4 @@ public class SwitchMatrixAction extends BaseActionSupport {
     public List<String> getHardwares() {
         return hardwares;
     }
-
 }

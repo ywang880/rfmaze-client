@@ -283,7 +283,8 @@ div.general_warn {
    background: #005566;
 }
 
-.ConfigDataTable td {
+.ConfigDataTable td:hover  {
+    background-color: #EEEEEE;
 }
 
 .theader {	

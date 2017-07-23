@@ -280,7 +280,7 @@ public class BroadcastConf {
         MatrixConfig mc = MatrixConfig.getInstance();
         for (String s : all) {
             try {
-                if (!mc.getServerInfo(s).isQRB()) {
+                if (!mc.getServerInfo(s).isQRB() && !mc.getServerInfo(s).isTopYoung() && !mc.getServerInfo(s).isTurnTable()) {
                     continue;
                 }
             } catch (InvalidConfigurationException e) {}

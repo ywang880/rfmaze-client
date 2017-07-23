@@ -8,7 +8,7 @@
 
 <LINK REL="SHORTCUT ICON" HREF="images/favicon.png">
 <link rel="stylesheet" type="text/css" href="css/stdtheme.css"/>
-<link rel="stylesheet" href="css/style.css?version=1.0.0.0" type="text/css" media="screen, projection"/>
+<link rel="stylesheet" href="css/style.css?version=1.0.0.1" type="text/css" media="screen, projection"/>
 <link rel="stylesheet" href="css/menu.css" type="text/css"/>
     <!--[if lte IE 7]>
         <link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" />

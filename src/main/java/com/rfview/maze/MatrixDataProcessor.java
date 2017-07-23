@@ -38,6 +38,7 @@ public class MatrixDataProcessor extends Thread {
     @Override
     public void run() {
         Util.sleep(3000L);
+        logger.info("MatrixDataProcessor start data processor for" +  hardware);
         while (!stopProcessing.get() && !Thread.currentThread().isInterrupted()) {
             try {
                 RfmazeDataItem data = dataQueue.take();
@@ -61,7 +62,13 @@ public class MatrixDataProcessor extends Thread {
     	logger.info("update hardware (" + hardware + ") matrix " + data);
     	if (data.isOffset()) {
     		Entry[] items = cache.getOffset(hardware);
-    		float fValue = Float.parseFloat(data.getValue());
+    		float fValue = 0.0f;
+    		try {
+    			fValue = Float.parseFloat(data.getValue());
+    		} catch (Exception e) {
+    			logger.error("invalid number " + data.getValue());
+    			return;
+    		}
     		int index = Integer.parseInt(data.getRow()) - 1;
     		if (items == null) {
     			logger.error("process() no cached offset data: hardware[" + hardware + "], incoming data[" + data + "]");

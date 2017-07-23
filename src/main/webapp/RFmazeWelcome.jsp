@@ -24,7 +24,7 @@ function viewmatrix() {
         </thead>
            <tbody>
             <tr><td align="center"><img src="images/spacer.gif" width="1" height="10"/></td></tr>
-            <tr><td align="center"><s:select onchange="viewmatrix();" label="Matrix Hardware" headerKey="-1" headerValue="-- select hardware --" list="hardwares" name="hardware"/></td></tr>
+            <tr><td align="center"><s:select onchange="viewmatrix();" label="Hardware" headerKey="-1" headerValue="-- select hardware --" list="hardwares" name="hardware"/></td></tr>
             <tr><td align="center"><img src="images/spacer.gif" width="1" height="5"/></td></tr>
             <tr><td align="center"><img src="images/spacer.gif" width="1" height="10"/></td></tr>
         </tbody>

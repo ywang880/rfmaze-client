@@ -25,7 +25,7 @@ import com.rfview.utils.Util;
 public class RFMazeData implements RFMazeDataMBean, MBeanRegistration, EventListener, Serializable {
 
     private static final long serialVersionUID = -2173204238498046913L;
-    private static final String MATRIX_DATA_PATTERN = "StT[0-9]{1,2}\\s*+[0-9]{1,2}.*EnD|set\\s+[0-9]{1,2}\\s+[0-9]{1,2}\\s+[0-9]{1,2}\\s+OK";
+    private static final String MATRIX_DATA_PATTERN = "StT[0-9]{1,2}\\s*+[0-9]{1,2}.*EnD|set\\s+[0-9]{1,2}\\s+[0-9]{1,2}\\s+[0-9]{1,3}\\s+OK";
     private static final String SWITCH_DATA_PATTERN = "\\s*set\\s+[0-9]{1,2}\\s+[0-9]{1,2}\\s+(ON|OFF)\\s+OK\\s*";
     
     private volatile String data;
@@ -87,7 +87,7 @@ public class RFMazeData implements RFMazeDataMBean, MBeanRegistration, EventList
     	}
     	
     	StringBuilder builder = new StringBuilder();
-    	builder.append("execute() write to session  host = ");
+    	builder.append("execute() write to session host = ");
     	builder.append(client.getHost());
     	builder.append(" : " );
     	builder.append(client.getPort());
@@ -213,7 +213,7 @@ public class RFMazeData implements RFMazeDataMBean, MBeanRegistration, EventList
 	                return;
 	            }
 	            data = new RfmazeDataItem(tokens[1], "0", subtokens[1], true);
-	        } else if (tmpString.matches("set\\s+[0-9]{1,2}\\s+[0-9]{1,2}\\s+[0-9]{1,2}\\s+OK")) {
+	        } else if (tmpString.matches("set\\s+[0-9]{1,2}\\s+[0-9]{1,2}\\s+[0-9]{1,3}\\s+OK")) {
 	            String[] tokens = tmpString.split("\\s+");
 	            if (tokens.length < 5) {
 	                return;
