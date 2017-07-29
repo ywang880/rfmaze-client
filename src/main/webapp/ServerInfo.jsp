@@ -196,8 +196,12 @@ $(document).ready(function() {
         };
         if (mtype == "Y") {
             $("#server_maxAttn").val("120");
-            $("#mhp").val("3000");            
+            $("#mhp").val("3000");
+            $("#server_numberOfInputs").val("1");
+            $("#server_numberOfOutputs").val("8");
         } else {
+            $("#server_numberOfInputs").val("32");
+            $("#server_numberOfOutputs").val("32");
             $("#server_maxAttn").val("63");
             $("#mhp").val("9100");  
         };

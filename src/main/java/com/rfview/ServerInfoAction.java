@@ -499,7 +499,11 @@ public class ServerInfoAction extends BaseActionSupport {
         logger.info(sb.toString());
 
         mConf.setMatrixName(getMatrixName());
-        mConf.setMatrixType(getMatrixType());
+        if ( "Y".equals(getMatrixType()) ) {
+        	mConf.setMatrixType("K");
+        } else {
+        	mConf.setMatrixType(getMatrixType());
+        }
         mConf.setMatrixControlPort(matrixControlPort);
         mConf.setMatrixIp(getHwIp());
         mConf.setServerIp(getLocalhost());

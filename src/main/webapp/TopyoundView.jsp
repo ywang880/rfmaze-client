@@ -527,12 +527,12 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
 
        <table>
             <thead>
-            <tr><th><div id="inputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>Attenuation(db)</th><th nowrap>MIMO</th></tr>
+            <tr><th><div id="outputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th><div id="inputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>Attenuation(db)</th><th nowrap>&nbsp;</th></tr>
             </thead>
             <tr>
                 <td align="center"><s:textfield id="id_inputs" name="input" size="6"></s:textfield></td>
                 <td align="center"><s:textfield id="attenuation" name="value" size="6"></s:textfield></td>
-                <td align="center"><input type="checkbox" id="mimo"></td>
+                <td align="center">&nbsp;</td>
             </tr>
             <tr>
                 <td colspan="4" align="center">
@@ -583,12 +583,12 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
         </table>
         <table>
             <thead>
-            <tr><th><div id="outputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th><div id="inputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>Attenuation(db)</th><th nowrap>MIMO</th></tr>
+            <tr><th><div id="outputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th><div id="inputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>Attenuation(db)</th><th nowrap>&nbsp;</th></tr>
             </thead>
             <tr>
                 <td align="center"><s:textfield id="id_inputs1" name="input" size="6"></s:textfield></td>
                 <td align="center"><s:textfield id="attenuation1" name="value" size="6" ></s:textfield></td>
-                <td align="center"><input type="checkbox" id="mimo1"></td>
+                <td align="center">&nbsp;</td>
             </tr>
             <tr>
                 <td colspan="4" align="center">
@@ -626,146 +626,6 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
     </div>
     </div>
 
-    <div class="blockbkg" id="bkg2" style="visibility: hidden;">
-    <div class="cont" id="dlg2" style="visibility: hidden;">
-    <table>
-        <tr>
-              <td align="left">MIMO:
-                <select id="mimo_sele" onchange="mimo_selected(this);">
-                    <option>NO</option>
-                    <option>2X2</option>
-                    <option>4X4</option>
-                </select>
-            </td>
-            <td align="left"><strong>HandOver</strong></td>
-            <td align="right"><div class="closebtn" title="Close" id="closebtn2"></div></td></tr>
-        <tr>
-            <td colspan="3">
-                <table width="100%">
-                    <thead><tr><th>Output</th><th>Inputs</th></tr><thead>
-                   <tr><td align="center"><input type="text" size="12" id="handoff_out1" value=""></td><td align="center"><input type="text" size="12" id="handoff_in1"  value=""></td></tr>
-                    <tr id="id_row_2" style="display: none;"><td align="center"><input type="text" size="12" id="handoff_out2" value=""></td><td align="center"><input type="text" size="12" id="handoff_in2" value=""></td></tr>
-                    <tr id="id_row_3" style="display: none;"><td align="center"><input type="text" size="12" id="handoff_out3" value=""></td><td align="center"><input type="text" size="12" id="handoff_in3" value=""></td></tr>
-                    <tr id="id_row_4" style="display: none;"><td align="center"><input type="text" size="12" id="handoff_out4" value=""></td><td align="center"><input type="text" size="12" id="handoff_in4" value=""></td></tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <table>
-                    <tr>
-                        <td align="right" nowrap>Step (dB)</td>
-                        <td align="left"><input type="text" id="handoff_step" value="" size="6"></td>
-                        <td align="right" nowrap>Start ATTN (dB)</td>
-                        <td align="left"><input type="text" id="handoff_start" value="" size="6"></td>
-                    </tr>
-                     <tr>
-                        <td align="right" nowrap>Speed (sec.)</td>
-                        <td align="left"><input type="text" id="handoff_speed" value="" size="6"></td>
-                        <td align="right" nowrap>End ATTN (dB)</td>
-                        <td align="left"><input type="text" id="handoff_target" value="" size="6"></td>
-                    </tr>
-                    <tr>
-                        <td align="right">Min/Max Pause(Sec.)</td>
-                        <td align="left" valign="top"><input type="text" id="mm_pause" value="0" size="6"></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr><td colspan="3"><img src="images/spacer.gif" width="1" height="10"></td></tr>
-        <tr>
-            <td align="center" colspan="3">
-               <input type="button" value="Start" onClick="hand_off_start('handoff_start');"><img src="images/spacer.gif" width="5" height="1">
-               <img src="images/spacer.gif" width="5" height="1"><input type="button" value="Stop" onClick="hand_off_stop('handoff_stop');">
-            </td>
-        </tr>
-    </table>
-    </div>
-    </div>
-
-    <div class="block_tr_bkg" id="tr_bkg" style="visibility: hidden;">
-    <div class="cont" id="tr_dlg" style="visibility: hidden;">
-    <table>
-        <tr>
-            <td><img src="images/spacer.gif" width="1" height="1"></td>
-            <td align="center"><strong>Tier Roam</strong></td>
-            <td align="right"><div class="closebtn" title="Close" id="tier_roam_closebtn"></div></td></tr>
-        <tr>
-            <td colspan="3">
-                <table width="100%">
-                    <thead><tr><th>Output</th><th>Input</th></tr><thead>
-                    <tr>
-                       <td align="center"><input type="text" size="12" id="tierroam_out" value=""></td>
-                       <td align="center"><input type="text" size="12" id="tierroam_in"  value=""></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <table>
-                    <tr>
-                        <td align="right" nowrap>Step (dB)</td>
-                        <td align="left"><input type="text" id="tierroam_step" value="" size="6"></td>
-                        <td align="right" nowrap>Start ATTN (dB)</td>
-                        <td align="left"><input type="text" id="tierroam_start" value="" size="6"></td>
-                    </tr>
-                     <tr>
-                        <td align="right" nowrap>Speed (sec.)</td>
-                        <td align="left"><input type="text" id="tierroam_speed" value="" size="6"></td>
-                        <td align="right" nowrap>End ATTN (dB)</td>
-                        <td align="left"><input type="text" id="tierroam_end" value="" size="6"></td>
-                    </tr>
-                    <tr>
-                        <td align="right" colspan="2" nowrap>Min/Max Pause(Sec.)</td>
-                        <td align="left" colspan="2" valign="top"><input type="text" id="tierroam_mm_pause" value="0" size="6"></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr><td colspan="3"><img src="images/spacer.gif" width="1" height="10"></td></tr>
-        <tr>
-            <td align="center" colspan="3">
-               <input type="button" value="Start" onClick="start_tier_roam();">
-               <img src="images/spacer.gif" width="10" height="1">
-               <input type="button" value="Stop" onClick="stop_tier_roam();">
-            </td>
-        </tr>
-    </table>
-    </div>
-    </div>
-
-    <div class="blockbkg" id="bkg_cp" style="visibility: hidden;">
-    <div class="cont" id="dlg_cp" style="visibility: hidden;">
-        <table>
-            <tr><td colspan="2">&nbsp;</td></tr>
-            <tr>
-                <td align="right" colspan="3"><strong>Color Scheme</strong></td>
-                <td align="right"><div class="closebtn" title="Close" id="closebtn_cp"></div></td>
-            </tr>
-            <tr>
-                <td align="right">Range1:</td>
-                <td align="left"><s:textfield theme="simple" name="range1" size="6"></s:textfield></td>
-                <td align="right" nowrap>Assign Color:</td>
-                <td><s:textfield name="color1" theme="simple" cssClass="color" size="6"></s:textfield></td>
-            </tr>
-            <tr>
-                <td align="right">Range2:</td>
-                <td align="left"><s:textfield name="range2" theme="simple" size="6"></s:textfield></td>
-                <td align="right" nowrap>Assign Color:</td>
-                <td><s:textfield name="color2" cssClass="color" theme="simple" size="6"></s:textfield></td>
-            </tr>
-            <tr>
-                <td align="right">Range3:</td>
-                <td align="left"><s:textfield name="range3" theme="simple" size="6"></s:textfield></td>
-                <td align="right" nowrap>Assign Color:</td>
-                <td><s:textfield name="color3" cssClass="color" theme="simple" size="6"></s:textfield></td>
-            </tr>
-            <tr><td colspan="4"><img src="images/spacer.gif" width="1" height="10"></td></tr>
-            <tr><td colspan="4" align="center"><input type="button" value="Submit" onClick="change_scheme();"></td></tr>
-        </table>
-    </div>
-    </div>
     </s:form>
     <div id="dialog_alert" title="Connection Recovered" style="display:none;">
         <p>Application Server Connection is Recovered. Please Login Again!</p>

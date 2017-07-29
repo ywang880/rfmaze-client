@@ -6,24 +6,9 @@
 <link rel="stylesheet" href="css/matrix.css?version=1.0.0">
 
 <style>
-#block_container {
-    text-align:center;
-}
-#connection_state, #hardware_name {
-    display:inline;
-}
-.spinner {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-left: -50px; /* half width of the spinner gif */
-    margin-top: -50px; /* half height of the spinner gif */
-    text-align:center;
-    z-index:1234;
-    overflow: auto;
-    width: 100px; /* width of the spinner gif */
-    height: 102px; /*hight of the spinner gif +2px to fix IE8 issue */
-}
+#block_container {text-align:center;}
+#connection_state, #hardware_name {display:inline;}
+.spinner {position: fixed; top: 50%; left: 50%; margin-left: -50px; margin-top: -50px; text-align:center; z-index:1234; overflow: auto; width: 100px; height: 102px;}
 </style>
 
 <SCRIPT type="text/javascript" language="javascript" src="js/rfmaze.js"></SCRIPT>
@@ -45,7 +30,7 @@ function onInit() {
         $(this).hide();
     }).bind("ajaxError", function() {
         $(this).hide();
-    }); 
+    });
     ping();
 }
 
@@ -71,39 +56,36 @@ function pingConnection() {
         $('#spinner').show();
     });
 }
-</SCRIPT>
-<SCRIPT language="javascript">
+
 function changeAttn(a) {
     var b = document.getElementById("matrix_view").rows[0].cells[a.cellIndex], c = document.getElementById("matrix_view").rows[a.parentNode.rowIndex].cells[0], d = b.childNodes[1];
     headerText = d.childNodes[0].nodeValue, d = c.childNodes[1], labelText = d.childNodes[0].nodeValue;
     var e = a.parentNode.rowIndex, f = a.cellIndex - 1;
     if (0 != f) {
         if (isSetAttenuationActive) return void changeAttn2(a);
-        document.getElementById("attenuation").value = a.innerHTML, $("#slider").slider("value", a.innerHTML), 
-        "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "", 
-        $("#bkg").hide()), "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "", 
+        document.getElementById("attenuation").value = a.innerHTML, $("#slider").slider("value", a.innerHTML),
+        "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "",
+        $("#bkg").hide()), "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "",
         $("#dlg").hide()), $("#bkg").fadeIn(500, "linear", function() {
             isSetAttenuationActive = !0, $("#dlg").css({top:300, left:300, position:'absolute'}).show(500, "swing"), $("#dlg").draggable();
-        }), document.getElementById("id_inputs").value = e, document.getElementById("id_outputs").value = f, 
-        document.getElementById("id_inputs").disabled = !0, document.getElementById("id_outputs").disabled = !0, 
-        document.getElementById("mimo").disabled = !0, document.getElementById("inputs_label").innerHTML = labelText, 
-        document.getElementById("outputs_label").innerHTML = headerText, $("#mimo").attr("checked", !1), 
-        $("#mimo1").attr("checked", !1);
+        }), document.getElementById("id_inputs").value = e, document.getElementById("id_outputs").value = f,
+        document.getElementById("id_inputs").disabled = !0, document.getElementById("id_outputs").disabled = !0,
+        document.getElementById("inputs_label").innerHTML = labelText,
+        document.getElementById("outputs_label").innerHTML = headerText;
     }
 }
 
 function changeAttn2(a) {
     var b = a.parentNode.rowIndex, c = a.cellIndex - 1;
-    0 != c && (document.getElementById("attenuation1").value = a.innerHTML, $("#slider1").slider("value", a.innerHTML), 
-    "hidden" == document.getElementById("bkg1").style.visibility && (document.getElementById("bkg1").style.visibility = "", 
-    $("#bkg1").hide()), "hidden" == document.getElementById("dlg1").style.visibility && (document.getElementById("dlg1").style.visibility = "", 
+    0 != c && (document.getElementById("attenuation1").value = a.innerHTML, $("#slider1").slider("value", a.innerHTML),
+    "hidden" == document.getElementById("bkg1").style.visibility && (document.getElementById("bkg1").style.visibility = "",
+    $("#bkg1").hide()), "hidden" == document.getElementById("dlg1").style.visibility && (document.getElementById("dlg1").style.visibility = "",
     $("#dlg1").hide()), $("#bkg1").fadeIn(500, "linear", function() {
         $("#dlg1").css({top:320, left:350, position:'absolute'}).show(500, "swing"), $("#dlg1").draggable();
-    }), document.getElementById("id_inputs1").value = b, document.getElementById("id_outputs1").value = c, 
-    document.getElementById("id_inputs1").disabled = !0, document.getElementById("id_outputs1").disabled = !0, 
-    document.getElementById("mimo1").disabled = !0, document.getElementById("inputs_label1").innerHTML = labelText, 
-    document.getElementById("outputs_label1").innerHTML = headerText, $("#mimo").attr("checked", !1), 
-    $("#mimo1").attr("checked", !1));
+    }), document.getElementById("id_inputs1").value = b, document.getElementById("id_outputs1").value = c,
+    document.getElementById("id_inputs1").disabled = !0, document.getElementById("id_outputs1").disabled = !0,
+    document.getElementById("inputs_label1").innerHTML = labelText,
+    document.getElementById("outputs_label1").innerHTML = headerText);
 }
 
 function set_attenuation_btn(a) {
@@ -135,13 +117,13 @@ function increment_and_send(a) {
         var b = document.getElementById("id_inputs").value, c = document.getElementById("id_outputs").value, d = document.getElementById("attenuation").value;
         if (120 == d) return void alert("The new value exceeds the limit. Maximum value is 120");
         var e = ++d;
-        document.getElementById("attenuation").value = e, $("#slider").slider("value", e), 
+        document.getElementById("attenuation").value = e, $("#slider").slider("value", e),
         set_attenuation(b, c, e);
     } else if (2 == a) {
         var b = document.getElementById("id_inputs1").value, c = document.getElementById("id_outputs1").value, d = document.getElementById("attenuation1").value;
         if (120 == d) return void alert("The new value exceeds the limit. Maximum value is 120");
         var e = ++d;
-        document.getElementById("attenuation1").value = e, $("#slider1").slider("value", e), 
+        document.getElementById("attenuation1").value = e, $("#slider1").slider("value", e),
         set_attenuation(b, c, e);
     }
 }
@@ -153,13 +135,13 @@ function decrment_and_send(a) {
         var b = document.getElementById("id_inputs").value, c = document.getElementById("id_outputs").value, d = document.getElementById("attenuation").value;
         if (0 == d) return void alert("The value cannot be decremented as the current value already reached the low boundary!");
         var e = --d;
-        document.getElementById("attenuation").value = e, $("#slider").slider("value", e), 
+        document.getElementById("attenuation").value = e, $("#slider").slider("value", e),
         set_attenuation(b, c, e);
     } else if (2 == a) {
         var b = document.getElementById("id_inputs1").value, c = document.getElementById("id_outputs1").value, d = document.getElementById("attenuation1").value;
         if (0 == d) return void alert("The value cannot be decremented as the current value already reached the low boundary!");
         var e = --d;
-        document.getElementById("attenuation1").value = e, $("#slider1").slider("value", e), 
+        document.getElementById("attenuation1").value = e, $("#slider1").slider("value", e),
         set_attenuation(b, c, e);
     }
 }
@@ -171,81 +153,26 @@ function set_attenuation(a, b, c) {
     if (d = /^[0-9,]*$/.test(b), !d) return void alert("Output is invalid. The outputs must be digits separated by comma.");
     for (var e = document.getElementById("matrix_view").rows.length - 1, f = document.getElementById("matrix_view").rows[0].cells.length - 2, g = a.split(","), h = b.split(","), i = 0; i < g.length; i++) if (g[i] > e) return void alert("Input is invalid. Maximum row number is " + e);
     for (var i = 0; i < h.length; i++) if (h[i] > f) return void alert("Output is invalid. Maximum column number is " + f);
-    var j = document.getElementById("mimo").checked, k = "set_attenuation";
-    j && (k = "set_mimo"), 0 > c ? c = 0 : c > 120 && (c = 120);
+    k = "set_attenuation";
+    0 > c ? c = 0 : c > 120 && (c = 120);
     var l;
-    l = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP"), 
+    l = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP"),
     l.cache = false;
     l.onreadystatechange = function() {
         if (4 == l.readyState && 200 == l.status) var a = l.responseXML.documentElement.getElementsByTagName("tr");
-    }, l.open("POST", "/rfmaze/mazeServlet?command=" + k + "&outputs=" + b + "&inputs=" + a + "&value=" + c, !0), 
+    }, l.open("POST", "/rfmaze/mazeServlet?command=" + k + "&outputs=" + b + "&inputs=" + a + "&value=" + c, !0),
     l.send(null);
 }
 
 function updateMatrix(a, b) {
     var a, c, d, e, f, g = document.getElementById("matrix_view");
     for (c = 0; c < a.length; c++) try {
-        for (tds = a[c].getElementsByTagName("td"), d = 1; d < tds.length; d++) (0 != d || b) && (e = tds[d].getElementsByTagName("v"), 
-        f = tds[d].getElementsByTagName("c"), g.rows[c + 1].cells[d + 1].innerHTML = e[0].firstChild.nodeValue, 
+        for (tds = a[c].getElementsByTagName("td"), d = 1; d < tds.length; d++) (0 != d || b) && (e = tds[d].getElementsByTagName("v"),
+        f = tds[d].getElementsByTagName("c"), g.rows[c + 1].cells[d + 1].innerHTML = e[0].firstChild.nodeValue,
         g.rows[c + 1].cells[d + 1].style.backgroundColor = f[0].firstChild.nodeValue);
     } catch (h) {
         console.log("Failed to update matrix");
     }
-}
-
-function hand_off_start(cmd_string) {
-    var a = document.getElementById("mimo_sele").selectedIndex, b = document.getElementById("mimo_sele").options[a].value, c = document.getElementById("handoff_out1").value;
-    if (isBlank(c)) return void alert("Input is invalid!");
-    var d = document.getElementById("handoff_out2").value;
-    if ("NO" != b && isBlank(d)) return void alert("Input is invalid!");
-    var e = document.getElementById("handoff_out3").value;
-    if ("4X4" == b && isBlank(e)) return void alert("Input is invalid!");
-    var f = document.getElementById("handoff_out4").value;
-    if ("4X4" == b && isBlank(f)) return void alert("Input is invalid!");
-    var g = document.getElementById("handoff_in1").value;
-    if (isBlank(g)) return void alert("Input is invalid!");
-    var h = document.getElementById("handoff_in2").value;
-    if ("NO" != b && isBlank(h)) return void alert("Input is invalid!");
-    var i = document.getElementById("handoff_in3").value;
-    if ("4X4" == b && isBlank(i)) return void alert("Input is invalid!");
-    var j = document.getElementById("handoff_in4").value;
-    if ("4X4" == b && isBlank(j)) return void alert("Input is invalid!");
-    var k = document.getElementById("handoff_step").value, l = document.getElementById("handoff_start").value, m = document.getElementById("handoff_speed").value, n = document.getElementById("handoff_target").value;
-    if (isBlank(k) || isBlank(l) || isBlank(m) || isBlank(n)) return void alert("Input is invalid!");
-    var o = document.getElementById("mm_pause").value, p = 0;
-    var q = "command="+cmd_string+"&mimo=" + b;
-    "NO" == b ? q = q + "&handoff_out1=" + c + "&handoff_in1=" + g : "2X2" == b ? q = q + "&handoff_out1=" + c + "&handoff_out2=" + d + "&handoff_in1=" + g + "&handoff_in2=" + h : "4X4" == b && (q = q + "&handoff_out1=" + c + "&handoff_out2=" + d + "&handoff_out3=" + e + "&handoff_out4=" + f + "&handoff_in1=" + g + "&handoff_in2=" + h + "&handoff_in3=" + i + "&handoff_in4=" + j), 
-    q = q + "&handoff_step=" + k + "&handoff_start=" + l + "&handoff_speed=" + m + "&handoff_target=" + n + "&mm_pause=" + o + "&target_fadein=" + p, 
-    
-    stopRefresh();
-    sendStartHandoverCommand(q);
-    refreshInterval=800;
-    startRefresh();
-}
-
-function hand_off_stop(cmd_string) {
-    var a = document.getElementById("mimo_sele").selectedIndex, b = document.getElementById("mimo_sele").options[a].value;
-    var c = document.getElementById("handoff_out1").value;
-    if (isBlank(c)) return void alert("Input is invalid!");
-    var d = document.getElementById("handoff_out2").value;
-    if ("NO" != b && isBlank(d)) return void alert("Input is invalid!");
-    var e = document.getElementById("handoff_out3").value;
-    if ("4X4" == b && isBlank(e)) return void alert("Input is invalid!");
-    var f = document.getElementById("handoff_out4").value;
-    if ("4X4" == b && isBlank(f)) return void alert("Input is invalid!");
-    var g = "command="+cmd_string+"&mimo=" + b + "&handoff_out1=" + c + "&handoff_out2=" + d + "&handoff_out3=" + e + "&handoff_out4=" + f;
-    
-    stopRefresh();
-    sendStopHandoverCommand(g);
-    refreshInterval=2000;
-    startRefresh();
-}
-
-function mimo_selected(a) {
-    var b = a.selectedIndex, c = a.options[b].value;
-    "NO" == c ? ($("#id_row_2").hide(), $("#id_row_3").hide(), $("#id_row_4").hide()) : "2X2" == c ? ($("#id_row_2").show(), 
-    $("#id_row_3").hide(), $("#id_row_4").hide()) : "4X4" == c && ($("#id_row_2").show(), 
-    $("#id_row_3").show(), $("#id_row_4").show(), $(".cont").css("height", "250px"));
 }
 
 function timedRefresh() {
@@ -266,7 +193,7 @@ function stopRefresh() {
 
 function sendStartHandoverCommand(a) {
     var b;
-    b = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP"), 
+    b = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP"),
     b.onreadystatechange = function() {
         4 == b.readyState && 200 == b.status && (document.getElementById("server_response").innerHTML = b.responseText);
     }, b.open("POST", "/rfmaze/mazeServlet?" + a, !0), b.send(null);
@@ -274,7 +201,7 @@ function sendStartHandoverCommand(a) {
 
 function sendStopHandoverCommand(a) {
     var b;
-    b = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP"), 
+    b = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP"),
     b.onreadystatechange = function() {
         4 == b.readyState && 200 == b.status && (document.getElementById("server_response").innerHTML = b.responseText);
     }, b.open("POST", "/rfmaze/mazeServlet?" + a, !0), b.send(null);
@@ -292,7 +219,7 @@ function sendRefreshCommand() {
     a.onreadystatechange = function() {
         if (4 == a.readyState && 200 == a.status) {
             var b = a.responseXML.documentElement.getElementsByTagName("tr");
-            if (b.length > 0) {            
+            if (b.length > 0) {
                 updateMatrix(b, !0);
             }
         }
@@ -307,13 +234,13 @@ function heartbeat() {
 
 function checkConnection() {
     var a;
-    a = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP"), 
+    a = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP"),
     a.onreadystatechange = function() {
         if (4 == a.readyState && 200 == a.status) {
             var b = a.responseXML.documentElement.getElementsByTagName("server_state"), c = b[0].firstChild.nodeValue;
             if ("reload" == c) return void (window.location = "rfmaze.action");
             var d = a.responseXML.documentElement.getElementsByTagName("state"), e = d[0].firstChild.nodeValue;
-            document.getElementById("connection_state").innerHTML = '<img src="images/' + e + '">', 
+            document.getElementById("connection_state").innerHTML = '<img src="images/' + e + '">',
             -1 == e.indexOf("disconnected") && $("#progressbar").hide();
         }
     }, a.open("POST", "/rfmaze/mazeServlet?command=isconnected", !0), a.send();
@@ -330,41 +257,39 @@ $(document).ready(function() {
         $("#dlg1").hide("500", "swing", function() {
             $("#bkg1").fadeOut("300");
         });
-    }), $("#setattenuation").click(function() {        
+    }), $("#setattenuation").click(function() {
         if (!isSetAttenuationActive) {
             isSetAttenuationActive = true;
-            manual_input = !0, "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "", 
-            $("#bkg").hide()), "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "", 
+            manual_input = !0, "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "",
+            $("#bkg").hide()), "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "",
             $("#dlg").hide()), $("#bkg").fadeIn(300, "linear", function() {
                 $("#dlg").show(500, "swing"); $("#dlg").draggable();
-            }), document.getElementById("inputs_label").innerHTML = "Inputs", document.getElementById("outputs_label").innerHTML = "Outputs", 
-            document.getElementById("id_inputs").value = "", document.getElementById("id_outputs").value = "", 
-            document.getElementById("id_inputs").disabled = !1, document.getElementById("id_outputs").disabled = !1, 
-            document.getElementById("mimo").disabled = !1;
+            }), document.getElementById("inputs_label").innerHTML = "Inputs", document.getElementById("outputs_label").innerHTML = "Outputs",
+            document.getElementById("id_inputs").value = "", document.getElementById("id_outputs").value = "",
+            document.getElementById("id_inputs").disabled = !1, document.getElementById("id_outputs").disabled = !1;
         } else {
             isSetAttenuationActive = false;
-            manual_input = !0, "hidden" == document.getElementById("bkg1").style.visibility && (document.getElementById("bkg1").style.visibility = "", 
-            $("#bkg1").hide()), "hidden" == document.getElementById("dlg1").style.visibility && (document.getElementById("dlg1").style.visibility = "", 
+            manual_input = !0, "hidden" == document.getElementById("bkg1").style.visibility && (document.getElementById("bkg1").style.visibility = "",
+            $("#bkg1").hide()), "hidden" == document.getElementById("dlg1").style.visibility && (document.getElementById("dlg1").style.visibility = "",
             $("#dlg1").hide()), $("#bkg1").fadeIn(300, "linear", function() {
                 $("#dlg1").show(500, "swing"); $("#dlg1").draggable();
-            }), document.getElementById("inputs_label1").innerHTML = "Inputs", document.getElementById("outputs_label1").innerHTML = "Outputs", 
-            document.getElementById("id_inputs1").value = "", document.getElementById("id_outputs1").value = "", 
-            document.getElementById("id_inputs1").disabled = !1, document.getElementById("id_outputs1").disabled = !1, 
-            document.getElementById("mimo1").disabled = !1;
+            }), document.getElementById("inputs_label1").innerHTML = "Inputs", document.getElementById("outputs_label1").innerHTML = "Outputs",
+            document.getElementById("id_inputs1").value = "", document.getElementById("id_outputs1").value = "",
+            document.getElementById("id_inputs1").disabled = !1, document.getElementById("id_outputs1").disabled = !1;
         }
     }), $("#dlg").draggable(), $("#closebtn2").click(function() {
         $("#dlg2").hide("500", "swing", function() {
             $("#bkg2").fadeOut("300");
         });
     }), $("#handoff").click(function() {
-        "hidden" == document.getElementById("bkg2").style.visibility && (document.getElementById("bkg2").style.visibility = "", 
-        $("#bkg2").hide()), "hidden" == document.getElementById("dlg2").style.visibility && (document.getElementById("dlg2").style.visibility = "", 
+        "hidden" == document.getElementById("bkg2").style.visibility && (document.getElementById("bkg2").style.visibility = "",
+        $("#bkg2").hide()), "hidden" == document.getElementById("dlg2").style.visibility && (document.getElementById("dlg2").style.visibility = "",
         $("#dlg2").hide()), $("#bkg2").fadeIn(300, "linear", function() {
             $("#dlg2").show(500, "swing"), $("#dlg2").draggable();
         });
     }), $("#tierroam").click(function() {
-        "hidden" == document.getElementById("tr_bkg").style.visibility && (document.getElementById("tr_bkg").style.visibility = "", 
-        $("#tr_bkg").hide()), "hidden" == document.getElementById("tr_dlg").style.visibility && (document.getElementById("tr_dlg").style.visibility = "", 
+        "hidden" == document.getElementById("tr_bkg").style.visibility && (document.getElementById("tr_bkg").style.visibility = "",
+        $("#tr_bkg").hide()), "hidden" == document.getElementById("tr_dlg").style.visibility && (document.getElementById("tr_dlg").style.visibility = "",
         $("#tr_dlg").hide()), $("#tr_bkg").fadeIn(300, "linear", function() {
             $("#tr_dlg").show(500, "swing"), $("#tr_dlg").draggable();
         });
@@ -377,8 +302,8 @@ $(document).ready(function() {
             $("#bkg_cp").fadeOut("300");
         });
     }), $("#customer_color_picker").click(function() {
-        "hidden" == document.getElementById("bkg_cp").style.visibility && (document.getElementById("bkg_cp").style.visibility = "", 
-        $("#bkg_cp").hide()), "hidden" == document.getElementById("dlg_cp").style.visibility && (document.getElementById("dlg_cp").style.visibility = "", 
+        "hidden" == document.getElementById("bkg_cp").style.visibility && (document.getElementById("bkg_cp").style.visibility = "",
+        $("#bkg_cp").hide()), "hidden" == document.getElementById("dlg_cp").style.visibility && (document.getElementById("dlg_cp").style.visibility = "",
         $("#dlg_cp").hide()), $("#bkg_cp").fadeIn(300, "linear", function() {
             $("#dlg_cp").show(500, "swing"), $("#dlg_cp").draggable();
         });
@@ -416,47 +341,184 @@ $(document).ready(function() {
         });
     });
 });
-        
-function start_tier_roam() {
-    var a = document.getElementById("tierroam_out").value;
-    if (isBlank(a)) return void alert("Output is invalid!");
-    var b = document.getElementById("tierroam_in").value;    
-    if (isBlank(b)) return void alert("Input is invalid!");
-    var c = document.getElementById("tierroam_step").value;
-    if (isBlank(c)) return void alert("step value is invalid!");
-    var d = document.getElementById("tierroam_start").value;
-    if (isBlank(d)) return void alert("start value is invalid!");
-    var e = document.getElementById("tierroam_speed").value; 
-    if (isBlank(e)) return void alert("speed value is invalid!");    
-    var f = document.getElementById("tierroam_end").value;
-    if (isBlank(f)) return void alert("end value is invalid!");    
-    var g = document.getElementById("tierroam_mm_pause").value;
-    if (isBlank(g)) return void alert("minimum/maximum pause value is invalid!");
 
-    var cmd = "command=tierroam_start&tierroam_out=" + a + "&tierroam_in=" + b + 
-            "&tierroam_step=" + c + "&tierroam_start=" + d + "&tierroam_speed=" + e + 
-            "&tierroam_end=" + f + "&mm_pause=" + g;
-            
-    stopRefresh();
-    sendTierRoamCommand(cmd);
-    refreshInterval=800;
-    startRefresh();
-}
+$(function() {
+    $( "#id_all_1" ).click( function() {
+        var ischecked =  $('#id_c11').is(':checked')? false : true;
+        $('#id_c11').prop('checked', ischecked);
+        $('#id_c12').prop('checked', ischecked);
+        $('#id_c13').prop('checked', ischecked);
+        $('#id_c14').prop('checked', ischecked);
+        $('#id_c15').prop('checked', ischecked);
+        $('#id_c16').prop('checked', ischecked);
+        $('#id_c17').prop('checked', ischecked);
+        $('#id_c18').prop('checked', ischecked);
+    });
+});
 
-function stop_tier_roam() {
-    var a = document.getElementById("tierroam_out").value;
-    if (isBlank(a)) return void alert("Output is invalid!");
+$(function() {
+    $( "#id_all_2" ).click( function() {
+        var ischecked =  $('#id_c21').is(':checked')? false : true;
+        $('#id_c21').prop('checked', ischecked);
+        $('#id_c22').prop('checked', ischecked);
+        $('#id_c23').prop('checked', ischecked);
+        $('#id_c24').prop('checked', ischecked);
+        $('#id_c25').prop('checked', ischecked);
+        $('#id_c26').prop('checked', ischecked);
+        $('#id_c27').prop('checked', ischecked);
+        $('#id_c28').prop('checked', ischecked);
+    });
+});
 
-    var cmd = "command=tierroam_stop&tierroam_out="+a;
-    stopRefresh();
-    sendTierRoamCommand(cmd);
-    refreshInterval=2000;
-    startRefresh();
-}
+$(function() {
+    $( "#dialog-1-apply" ).click( function() {
+        var selection;
+        if ( $('#id_c11').is(':checked') ) {
+            selection='1';
+        }
+        if ( $('#id_c12').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'2';
+            } else {
+                selection = '2';
+            }
+        }
+        if ( $('#id_c13').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'3';
+            } else {
+                selection = '3';
+            }
+        }
+        if ( $('#id_c14').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'4';
+            } else {
+                selection = '4';
+            }
+        }
+        if ( $('#id_c15').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'5';
+            } else {
+                selection = '5';
+            }
+        }
+        if ( $('#id_c16').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'6';
+            } else {
+                selection = '6';
+            }
+        }
+        if ( $('#id_c17').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'7';
+            } else {
+                selection = '7';
+            }
+        }
+        if ( $('#id_c18').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'8';
+            } else {
+                selection = '8';
+            }
+        }
+
+        $("#id_outputs").val(selection);
+        $( "#quick_pick-11" ).show();
+        $( "#quick_pick-12" ).show();
+        $( "#quick_pick-13" ).show();
+        $( "#dialog-1" ).hide();
+    });
+});
+
+$(function() {
+    $( "#dialog-2-apply" ).click( function() {
+        var selection;
+        if ( $('#id_c21').is(':checked') ) {
+            selection='1';
+        }
+        if ( $('#id_c22').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'2';
+            } else {
+                selection = '2';
+            }
+        }
+        if ( $('#id_c23').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'3';
+            } else {
+                selection = '3';
+            }
+        }
+        if ( $('#id_c24').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'4';
+            } else {
+                selection = '4';
+            }
+        }
+        if ( $('#id_c25').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'5';
+            } else {
+                selection = '5';
+            }
+        }
+        if ( $('#id_c26').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'6';
+            } else {
+                selection = '6';
+            }
+        }
+        if ( $('#id_c27').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'7';
+            } else {
+                selection = '7';
+            }
+        }
+        if ( $('#id_c28').is(':checked') ) {
+            if ( selection!=null) {
+                selection = selection + ","+'8';
+            } else {
+                selection = '8';
+            }
+        }
+
+        $("#id_outputs1").val(selection);
+        $( "#quick_pick-21" ).show();
+        $( "#quick_pick-22" ).show();
+        $( "#quick_pick-23" ).show();
+        $( "#dialog-2" ).hide();
+    });
+});
+
+$(function() {
+    $( "#output_select2" ).click(function() {
+        $( "#quick_pick-21" ).hide();
+        $( "#quick_pick-22" ).hide();
+        $( "#quick_pick-23" ).hide();
+        $( "#dialog-2" ).show();
+    });
+});
+
+$(function() {
+    $( "#output_select1" ).click(function() {
+        $( "#quick_pick-11" ).hide();
+        $( "#quick_pick-12" ).hide();
+        $( "#quick_pick-13" ).hide();
+        $( "#dialog-1" ).show();
+    });
+});
 
 function sendTierRoamCommand(cmd) {
     var b;
-    b = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP"), 
+    b = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP"),
     b.onreadystatechange = function() {
         4 == b.readyState && 200 == b.status && (document.getElementById("server_response").innerHTML = b.responseText);
     }, b.open("POST", "/rfmaze/mazeServlet?" + cmd, !0), b.send(null);
@@ -489,12 +551,12 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
             <tr><td align="center" colspan="2"><img src="images/spacer.gif" width="1" height="5"/></td></tr>
             <tr>
                 <td align="center"><s:select onchange="viewmatrix();" label="Matrix Hardware" headerKey="-1" headerValue="-- select matrix --" list="hardwares" name="hardware"/></td>
-                <td><div id="datachanged"></div></td>                
+                <td><div id="datachanged"></div></td>
             </tr>
             <tr><td align="center" colspan="2"><img src="images/spacer.gif" width="1" height="5"/></td></tr>
         </tbody>
     </table>
-    
+
    <table class="matrix" id="matrix_view" align="center">
        <thead>
            <tr>
@@ -550,15 +612,15 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
 
        <table>
             <thead>
-            <tr><th><div id="outputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th><th><div id="inputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>Attenuation(db)</th><th nowrap>MIMO</th></tr>
+            <tr><th><div id="outputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th><th><div id="inputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>Attenuation(db)</th><th nowrap>&nbsp;</th></tr>
             </thead>
             <tr>
-                <td align="center"><s:textfield id="id_outputs" name="output" size="6"></s:textfield></td>
+                <td align="center"><s:textfield id="id_outputs" name="output" size="10"></s:textfield>&nbsp;<img src="images/output_select.png" id="output_select1"></td>
                 <td align="center"><s:textfield id="id_inputs" name="input" size="6"></s:textfield></td>
                 <td align="center"><s:textfield id="attenuation" name="value" size="6"></s:textfield></td>
-                <td align="center"><input type="checkbox" id="mimo"></td>
+                <td align="center">&nbsp;</td>
             </tr>
-            <tr>
+            <tr id="quick_pick-11" >
                 <td colspan="4" align="center">
                     <fieldset>
                         <legend>Quick Pick</legend>
@@ -581,8 +643,8 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
                     </fieldset>
                 </td>
             </tr>
-            <tr><td colspan="4"><div id="slider"></div></td></tr>
-            <tr>
+            <tr id="quick_pick-12" ><td colspan="4"><div id="slider"></div></td></tr>
+            <tr id="quick_pick-13" >
                 <td align="left" valign="top">0</td>
                 <td colspan="2" align="center">
                     <input type="button" class="button" onclick="decrment_and_send(1);" value="1 <<"><img src="images/spacer.gif" height="1" width="3"><input type="button" class="button" onclick="increment_and_send(1);" value=">> 1">
@@ -591,6 +653,28 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
             </tr>
             <tr><td colspan="4"><img src="images/spacer.gif" width="1" height="5"></td></tr>
             <tr style="visibility:hidden" id="attenuation_field"><td colspan="4" align="center"><input type="button" name="setatten" value="Set Attenuation" onclick="set_attenuation_btn(1);"/></td></tr>
+            <tr id="dialog-1" style="display:none;">
+                <td colspan="3" align="center" >
+                    <table>
+                         <tr><td colspan="4"><img src="images/spacer.gif" width="1" height="10"></td></tr>
+                        <tr>
+                            <td><input id="id_c11" type="checkbox" name="Ch-1" value="Ch-1">C1</td>
+                            <td><input id="id_c12" type="checkbox" name="Ch-2" value="Ch-2">C2</td>
+                            <td><input id="id_c13" type="checkbox" name="Ch-3" value="Ch-3">C3</td>
+                            <td><input id="id_c14" type="checkbox" name="Ch-4" value="Ch-4">C4</td>
+                            <td><input id="id_c15" type="checkbox" name="Ch-5" value="Ch-5">C5</td>
+                            <td><input id="id_c16" type="checkbox" name="Ch-6" value="Ch-6">C6</td>
+                            <td><input id="id_c17" type="checkbox" name="Ch-7" value="Ch-7">C7</td>
+                            <td><input id="id_c18" type="checkbox" name="Ch-8" value="Ch-8">C8</td>
+                            <td><input id="id_all_1" type="checkbox" id="id_all" name="All" value="All">All</td>
+                        </tr>
+                        <tr><td><img src="images/spacer.gif" width="1" height="10"></td></tr>
+                        <tr>
+                            <td colspan="9" align="center"><input type="button" class="button-large" id="dialog-1-apply" value="Apply"></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
         </table>
     </div>
     </div>
@@ -599,7 +683,6 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
     <div class="cont" id="dlg1" style="visibility: hidden;">
         <table >
             <tr>
-                <td><img src="images/spacer.gif" width="90" height="1"></td>
                 <td align="right"><strong>Set Attenuation</strong></td>
                 <td><img src="images/spacer.gif" width="90" height="1"></td>
                 <td align="right"><div class="closebtn" title="Close" id="closebtn1"></div></td>
@@ -607,16 +690,15 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
         </table>
         <table>
             <thead>
-            <tr><th><div id="outputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th><div id="inputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>Attenuation(db)</th><th nowrap>MIMO</th></tr>
+            <tr><th><div id="outputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th><div id="inputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>Attenuation(db)</th><th nowrap>&nbsp;</th></tr>
             </thead>
             <tr>
-                <td align="center"><s:textfield id="id_outputs1" name="output" size="6"></s:textfield></td>
+                <td align="center"><s:textfield id="id_outputs1" name="output" size="10"></s:textfield>&nbsp;<img src="images/output_select.png" id="output_select2"></td>
                 <td align="center"><s:textfield id="id_inputs1" name="input" size="6"></s:textfield></td>
                 <td align="center"><s:textfield id="attenuation1" name="value" size="6" ></s:textfield></td>
-                <td align="center"><input type="checkbox" id="mimo1"></td>
             </tr>
-            <tr>
-                <td colspan="4" align="center">
+            <tr id="quick_pick-21" >
+                <td colspan="3" align="center">
                     <fieldset>
                         <legend>Quick Pick</legend>
                         <table>
@@ -638,159 +720,41 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
                     </fieldset>
                 </td>
             </tr>
-            <tr><td colspan="4"><div id="slider1"></div></td></tr>
-            <tr>
+            <tr id="quick_pick-22" ><td colspan="3"><div id="slider1"></div></td></tr>
+            <tr id="quick_pick-23" >
                 <td align="left" valign="top">0</td>
-                <td colspan="2" align="center">
+                <td colspan="1" align="center">
                     <input type="button" class="button" onclick="decrment_and_send(2);" value="1 <<"><img src="images/spacer.gif" height="1" width="3"><input type="button" class="button" onclick="increment_and_send(2);" value=">> 1">
                 </td>
                 <td align="right" valign="top">120</td>
             </tr>
-            <tr style="visibility:hidden" id="attenuation_field1"><td colspan="4" align="center"><input type="button" name="setatten" value="Set Attenuation" onclick="set_attenuation_btn(2);"/></td></tr>
+            <tr style="visibility:hidden" id="attenuation_field1"><td colspan="3" align="center"><input type="button" name="setatten" value="Set Attenuation" onclick="set_attenuation_btn(2);"/></td></tr>
+            <tr id="dialog-2" style="display:none;">
+                <td colspan="3" align="center">
+                    <table>
+                         <tr><td colspan="4"><img src="images/spacer.gif" width="1" height="10"></td></tr>
+                        <tr>
+                            <td><input id="id_c21" type="checkbox" name="Ch-1" value="Ch-1">C1</td>
+                            <td><input id="id_c22" type="checkbox" name="Ch-2" value="Ch-2">C2</td>
+                            <td><input id="id_c23" type="checkbox" name="Ch-3" value="Ch-3">C3</td>
+                            <td><input id="id_c24" type="checkbox" name="Ch-4" value="Ch-4">C4</td>
+                            <td><input id="id_c25" type="checkbox" name="Ch-5" value="Ch-5">C5</td>
+                            <td><input id="id_c26" type="checkbox" name="Ch-6" value="Ch-6">C6</td>
+                            <td><input id="id_c27" type="checkbox" name="Ch-7" value="Ch-7">C7</td>
+                            <td><input id="id_c28" type="checkbox" name="Ch-8" value="Ch-8">C8</td>
+                            <td><input id="id_all_2" type="checkbox" id="id_all" name="All" value="All">All</td>
+                        </tr>
+                        <tr><td><img src="images/spacer.gif" width="1" height="10"></td></tr>
+                        <tr>
+                            <td colspan="9" align="center"><input type="button" class="button-large" id="dialog-2-apply" value="Apply"></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
         </table>
     </div>
     </div>
 
-    <div class="blockbkg" id="bkg2" style="visibility: hidden;">
-    <div class="cont" id="dlg2" style="visibility: hidden;">
-    <table>
-        <tr>
-              <td align="left">MIMO:
-                <select id="mimo_sele" onchange="mimo_selected(this);">
-                    <option>NO</option>
-                    <option>2X2</option>
-                    <option>4X4</option>
-                </select>
-            </td>
-            <td align="left"><strong>HandOver</strong></td>
-            <td align="right"><div class="closebtn" title="Close" id="closebtn2"></div></td></tr>
-        <tr>
-            <td colspan="3">
-                <table width="100%">
-                    <thead><tr><th>Output</th><th>Inputs</th></tr><thead>
-                   <tr><td align="center"><input type="text" size="12" id="handoff_out1" value=""></td><td align="center"><input type="text" size="12" id="handoff_in1"  value=""></td></tr>
-                    <tr id="id_row_2" style="display: none;"><td align="center"><input type="text" size="12" id="handoff_out2" value=""></td><td align="center"><input type="text" size="12" id="handoff_in2" value=""></td></tr>
-                    <tr id="id_row_3" style="display: none;"><td align="center"><input type="text" size="12" id="handoff_out3" value=""></td><td align="center"><input type="text" size="12" id="handoff_in3" value=""></td></tr>
-                    <tr id="id_row_4" style="display: none;"><td align="center"><input type="text" size="12" id="handoff_out4" value=""></td><td align="center"><input type="text" size="12" id="handoff_in4" value=""></td></tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <table>
-                    <tr>
-                        <td align="right" nowrap>Step (dB)</td>
-                        <td align="left"><input type="text" id="handoff_step" value="" size="6"></td>
-                        <td align="right" nowrap>Start ATTN (dB)</td>
-                        <td align="left"><input type="text" id="handoff_start" value="" size="6"></td>
-                    </tr>
-                     <tr>
-                        <td align="right" nowrap>Speed (sec.)</td>
-                        <td align="left"><input type="text" id="handoff_speed" value="" size="6"></td>
-                        <td align="right" nowrap>End ATTN (dB)</td>
-                        <td align="left"><input type="text" id="handoff_target" value="" size="6"></td>
-                    </tr>
-                    <tr>
-                        <td align="right">Min/Max Pause(Sec.)</td>
-                        <td align="left" valign="top"><input type="text" id="mm_pause" value="0" size="6"></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr><td colspan="3"><img src="images/spacer.gif" width="1" height="10"></td></tr>
-        <tr>
-            <td align="center" colspan="3">
-               <input type="button" value="Start" onClick="hand_off_start('handoff_start');"><img src="images/spacer.gif" width="5" height="1">
-               <img src="images/spacer.gif" width="5" height="1"><input type="button" value="Stop" onClick="hand_off_stop('handoff_stop');">
-            </td>
-        </tr>
-    </table>
-    </div>
-    </div>
-
-    <div class="block_tr_bkg" id="tr_bkg" style="visibility: hidden;">
-    <div class="cont" id="tr_dlg" style="visibility: hidden;">
-    <table>
-        <tr>
-            <td><img src="images/spacer.gif" width="1" height="1"></td>
-            <td align="center"><strong>Tier Roam</strong></td>
-            <td align="right"><div class="closebtn" title="Close" id="tier_roam_closebtn"></div></td></tr>
-        <tr>
-            <td colspan="3">
-                <table width="100%">
-                    <thead><tr><th>Output</th><th>Input</th></tr><thead>
-                    <tr>
-                       <td align="center"><input type="text" size="12" id="tierroam_out" value=""></td>
-                       <td align="center"><input type="text" size="12" id="tierroam_in"  value=""></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <table>
-                    <tr>
-                        <td align="right" nowrap>Step (dB)</td>
-                        <td align="left"><input type="text" id="tierroam_step" value="" size="6"></td>
-                        <td align="right" nowrap>Start ATTN (dB)</td>
-                        <td align="left"><input type="text" id="tierroam_start" value="" size="6"></td>
-                    </tr>
-                     <tr>
-                        <td align="right" nowrap>Speed (sec.)</td>
-                        <td align="left"><input type="text" id="tierroam_speed" value="" size="6"></td>
-                        <td align="right" nowrap>End ATTN (dB)</td>
-                        <td align="left"><input type="text" id="tierroam_end" value="" size="6"></td>
-                    </tr>
-                    <tr>
-                        <td align="right" colspan="2" nowrap>Min/Max Pause(Sec.)</td>
-                        <td align="left" colspan="2" valign="top"><input type="text" id="tierroam_mm_pause" value="0" size="6"></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr><td colspan="3"><img src="images/spacer.gif" width="1" height="10"></td></tr>
-        <tr>
-            <td align="center" colspan="3">
-               <input type="button" value="Start" onClick="start_tier_roam();">
-               <img src="images/spacer.gif" width="10" height="1">
-               <input type="button" value="Stop" onClick="stop_tier_roam();">
-            </td>
-        </tr>
-    </table>
-    </div>
-    </div>
-
-    <div class="blockbkg" id="bkg_cp" style="visibility: hidden;">
-    <div class="cont" id="dlg_cp" style="visibility: hidden;">
-        <table>
-            <tr><td colspan="2">&nbsp;</td></tr>
-            <tr>
-                <td align="right" colspan="3"><strong>Color Scheme</strong></td>
-                <td align="right"><div class="closebtn" title="Close" id="closebtn_cp"></div></td>
-            </tr>
-            <tr>
-                <td align="right">Range1:</td>
-                <td align="left"><s:textfield theme="simple" name="range1" size="6"></s:textfield></td>
-                <td align="right" nowrap>Assign Color:</td>
-                <td><s:textfield name="color1" theme="simple" cssClass="color" size="6"></s:textfield></td>
-            </tr>
-            <tr>
-                <td align="right">Range2:</td>
-                <td align="left"><s:textfield name="range2" theme="simple" size="6"></s:textfield></td>
-                <td align="right" nowrap>Assign Color:</td>
-                <td><s:textfield name="color2" cssClass="color" theme="simple" size="6"></s:textfield></td>
-            </tr>
-            <tr>
-                <td align="right">Range3:</td>
-                <td align="left"><s:textfield name="range3" theme="simple" size="6"></s:textfield></td>
-                <td align="right" nowrap>Assign Color:</td>
-                <td><s:textfield name="color3" cssClass="color" theme="simple" size="6"></s:textfield></td>
-            </tr>
-            <tr><td colspan="4"><img src="images/spacer.gif" width="1" height="10"></td></tr>
-            <tr><td colspan="4" align="center"><input type="button" value="Submit" onClick="change_scheme();"></td></tr>
-        </table>
-    </div>
-    </div>
     </s:form>
     <div id="dialog_alert" title="Connection Recovered" style="display:none;">
         <p>Application Server Connection is Recovered. Please Login Again!</p>

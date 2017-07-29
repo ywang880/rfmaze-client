@@ -15,7 +15,6 @@ import javax.management.ReflectionException;
 import com.rfview.comm.ProcessInfo;
 import com.rfview.conf.Assignment;
 import com.rfview.conf.BroadcastConf;
-import com.rfview.conf.MatrixConfig;
 import com.rfview.maze.User;
 import com.rfview.utils.CommandBuilder;
 import com.rfview.utils.Constants;
@@ -25,14 +24,14 @@ public class UsersAction extends BaseActionSupport {
 
     private static final long serialVersionUID = 1L;
     private static final String[] STR_SIGNATURE = { String.class.getName() };
-    
     private List<User> users = null;
     private User user = null;
     private String username;
-
-    private List<String> assignedHardwares;
-    
-    private BroadcastConf bConf = BroadcastConf.getInstance();
+    private String assignTo="";
+    private String assignedHardwareToUser;
+	private String hardwareAssignment;
+	private BroadcastConf bConf = BroadcastConf.getInstance();
+    private String action;
     
     public String getUsername() {
         return username;
@@ -42,7 +41,21 @@ public class UsersAction extends BaseActionSupport {
         this.username = username;
     }
     
-    private String action;
+    public String getAssignTo() {
+		return assignTo;
+	}
+
+	public void setAssignTo(String assignTo) {
+		this.assignTo = assignTo;
+	}
+	 
+	public String getAssignedHardwareToUser() {
+		return assignedHardwareToUser;
+	}
+
+	public void setAssignedHardwareToUser(String assignedHardwareToUser) {
+		this.assignedHardwareToUser = assignedHardwareToUser;
+	}
     
     public String commit() {
         return SUCCESS;
@@ -56,24 +69,18 @@ public class UsersAction extends BaseActionSupport {
         this.action = action;
     }
     
-    public List<String> getAssignedHardwares() {
-
-    	if ( assignedHardwares == null ) {
-    		assignedHardwares = new ArrayList<>();
-    	}
-        try {
-            Assignment userAssignment = dbAccess.getAssignment(username);
-            assignedHardwares = userAssignment.getHardwares();
-        } catch (SQLException e2) {
-            logger.warn(e2.getMessage());
-        }
-		return assignedHardwares;
+	public String getHardwareAssignment() {
+		return hardwareAssignment;
 	}
 
-	public void setAssignedHardwares(List<String> assignedHardwares) {
-		this.assignedHardwares = assignedHardwares;
+	public void setHardwareAssignment(String hardwareAssignment) {
+		this.hardwareAssignment = hardwareAssignment;
 	}
 	
+    public List<String> getAssignedHardwares() {    
+    	return new ArrayList<>();    	
+	}
+
     public List<String> getHardwarelist() {
     	return bConf.getHardwareList();
     }

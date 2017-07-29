@@ -19,6 +19,13 @@
 		<put-attribute name="footer" value="/Footer.jsp" />
 	</definition>
 
+    <definition name="topyoungBaseLayout" template="/BaseLayout.jsp">
+		<put-attribute name="title" value=""/>
+		<put-attribute name="header" value="/TopYoungHeader.jsp" />
+		<put-attribute name="body" value=""/>
+		<put-attribute name="footer" value="/Footer.jsp" />
+	</definition>
+    
     <definition name="BaseLayout_no_menu" template="/BaseLayout_no_menu.jsp">
 		<put-attribute name="title" value=""/>
 		<put-attribute name="header" value="/NoMenuHeader.jsp" />
@@ -102,7 +109,7 @@
 		<put-attribute name="body" value="/matrix.jsp" />
 	</definition>
 
-    <definition name="/tyview.tiles" extends="userBaseLayout">
+    <definition name="/tyview.tiles" extends="topyoungBaseLayout">
 		<put-attribute name="title" value="TopyoundView View" />
 		<put-attribute name="body" value="/matrixTopYoung.jsp" />
 	</definition>

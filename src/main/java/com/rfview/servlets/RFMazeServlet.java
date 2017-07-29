@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.lang.management.ManagementFactory;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
@@ -22,9 +24,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.rfview.conf.Assignment;
+import com.rfview.conf.BroadcastConf;
 import com.rfview.management.MazeserverManagement;
 import com.rfview.maze.AssignMapper;
 import com.rfview.maze.Datagrid;
@@ -77,13 +81,13 @@ public class RFMazeServlet extends HttpServlet {
         try {
             user = (String) request.getSession().getAttribute("loginId");
             hardware = (String) request.getSession().getAttribute("hardware");
-            if ((user == null) || (hardware == null)) {
+            String command = request.getParameter("command");
+            
+            if ( (user == null || hardware == null) && !"gethardwares".equals(command) ) {
                 out.println("ERROR: invalid user session parameters.");
+                return;
             }
 
-            debugLogger.debug("session user name = " + user + ", session hardware = " + hardware);
-
-            String command = request.getParameter("command");
             if ((command == null) || command.isEmpty()) {
                 out.println("Unsupported Command!");
             }
@@ -110,6 +114,24 @@ public class RFMazeServlet extends HttpServlet {
             } else if ("isconnected".equalsIgnoreCase(command)) {
                 StringBuilder ret_buffer = onCheckConnection();
                 out.println(ret_buffer);
+            } else if ("gethardwares".equalsIgnoreCase(command)) {
+            	 String user = request.getParameter("user");
+            	 List<String> hardwares = new ArrayList<>();
+                 try {
+                	 Assignment userAssignment = dbAccess.getAssignment(user);
+                     List<String> hwAssigned = userAssignment.getHardwares();
+                     List<String> availableServers = BroadcastConf.getInstance().getNonSwitchHardwareList();
+                     for ( String ss : availableServers ) {
+                         for ( String sss : hwAssigned ) {
+                             if (sss.equals(ss) ) {
+                                 hardwares.add(ss);
+                             }
+                         }
+                     }
+                 } catch (SQLException e2) {
+                	 debugLogger.warn(e2.getMessage());
+                 }
+            	 out.println(StringUtils.join(hardwares, ","));
             } else {
                 debugLogger.warn("Unknown command [" + command + "]");
             }

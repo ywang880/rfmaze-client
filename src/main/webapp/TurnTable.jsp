@@ -30,7 +30,8 @@
 .myselect option { 
     width:80px; 
 }
-.container{width:90%;margin-left:0;margin-right:0;padding:5px}.container div{padding:5px;width:100%}.container .header{background-color:silver;border:1px solid silver;border-radius:5px;padding:2px;cursor:pointer;font-weight:700}.container .content{display:none;padding:5px}table.altrowstable{font-family:verdana,arial,sans-serif;font-size:12px;color:#333;text-align:center;border-collapse:collapse;border-color:#506080;border-width:1px}.button{height:25px;width:80px;border:1px solid rgba(200,200,200,0.59);color:rgba(0,0,0,0.8);text-align:center;font:bold "Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;background:linear-gradient(top,#E0E0E0,gray);-webkit-border-radius:5px;-khtml-border-radius:5px;-moz-border-radius:5px;border-radius:5px;text-shadow:0 2px 2px rgba(255,255,255,0.2)}
+
+.container{width:90%;margin-left:0;margin-right:0;padding:5px}.container div{padding:5px;width:100%}.container .header{background-color:silver;border:1px solid silver;border-radius:5px;padding:2px;cursor:pointer;font-weight:700}.container .content{display:none;padding:5px}table.altrowstable{font-family:verdana,arial,sans-serif;font-size:12px;color:#333;text-align:center;border-collapse:collapse;border-color:#506080;border-width:1px}.button_large{height:25px;width:80px;border:1px solid rgba(200,200,200,0.59);color:rgba(0,0,0,0.8);text-align:center;font:bold "Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;background:linear-gradient(top,#E0E0E0,gray);-webkit-border-radius:5px;-khtml-border-radius:5px;-moz-border-radius:5px;border-radius:5px;text-shadow:0 2px 2px rgba(255,255,255,0.2)}.button_large:hover{cursor: pointer;background-color:#A8A8A8;}
 </style>
 
 <SCRIPT type="text/javascript" language="javascript" src="js/rfmaze.js"></SCRIPT>
@@ -99,6 +100,22 @@ function viewmatrix() {
     document.getElementById('rfmaze').submit();
 }
 
+function increment_and_send() {
+    val = document.getElementById('id_angle_input').value() + 1;
+    document.getElementById('id_angle_input').value(val);
+    sendCommand("angle&param="+val);
+}
+
+function decrment_and_send() {
+     val = document.getElementById('id_angle_input').value() - 1;
+     document.getElementById('id_angle_input').value(val);
+     sendCommand("angle&param="+val);
+}
+
+function set_atten(val) {
+    sendCommand("angle&param="+val);
+}
+
 function sendCommand(a) {
     var b;
     var cmd = "/rfmaze/mazeServlet?command=turntable." + a;
@@ -114,14 +131,36 @@ $(document).ready(function() {
     $("#id_init").click(function() {
         sendCommand("init");
     }),
-
-    $("#id_angle").click(function() {        
-        "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "", 
-        $("#bkg").hide()), "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "", 
-        $("#dlg").hide()), 
-        $("#bkg").fadeIn(300, "linear", function() {
-            $("#dlg").show(500, "swing"); $("#dlg").draggable();
+    $("#closebtn").click(function() {
+        isSetAttenuationActive = !1, $("#dlg").hide("500", "swing", function() {
+            $("#bkg").fadeOut("300");
         });
+    }),
+    $(function() {
+        $("#slider").slider({
+            value: 0,
+            min: -720,
+            max: 720,
+            step: 1,
+            slide: function(a, b) {
+                $("#id_angle_input").val(b.value);
+            }
+        }),
+        $("#id_angle_input").val($("#slider").slider("value")), $("#slider").mouseup(function() {
+            $(this).after(function() {
+               var a = document.getElementById("id_angle_input").value;
+               sendCommand("angle&param="+a);
+           });
+        });
+    }),
+    
+    $("#id_angle").click(function() {        
+         $("#slider").slider("value", 0),
+         "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "", 
+         $("#bkg").hide()), "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "",  
+         $("#dlg").hide()), $("#bkg").fadeIn(500, "linear", function() {
+             $("#dlg").css({top:300, left:300, position:'absolute'}).show(500, "swing"), $("#dlg").draggable();
+         })
     }),
     
     $("#id_home").click(function() {
@@ -136,11 +175,7 @@ $(document).ready(function() {
         sendCommand("poweroff");
     }),
     
-    $("#id_set_angle").click(function() {
-        $("#dlg").hide("500", "swing", function() {
-            $("#bkg").fadeOut("300");
-        });
-        
+    $("#id_set_angle").click(function() {        
         var val = $("#id_angle_input").val();
         sendCommand("angle&param="+val);
     }),
@@ -188,11 +223,11 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
 
     <table border="0" cellspacing="10" cellpadding="10" align="center">
         <tr>
-            <td align="center"><input id="id_init" theme="simple" value="Initialize" class="button"><img src="images/spacer.gif" width="10" height="1"/></td>
-            <td align="center"><input id="id_home" theme="simple" value="Home Table" class="button"><img src="images/spacer.gif" width="10" height="1"/>
-            <td align="center"><input id="id_power_on" theme="simple" value="Power On" class="button"><img src="images/spacer.gif" width="10" height="1"/>
-            <td align="center"><input id="id_power_off" theme="simple" value="Power Off" class="button"><img src="images/spacer.gif" width="10" height="1"/>
-            <td align="center"><input id="id_angle" theme="simple" value="Set Angle" class="button"><img src="images/spacer.gif" width="10" height="1"/>
+            <td align="center"><input id="id_init" theme="simple" value="Initialize" class="button_large"><img src="images/spacer.gif" width="10" height="1"/></td>
+            <td align="center"><input id="id_home" theme="simple" value="Home Table" class="button_large"><img src="images/spacer.gif" width="10" height="1"/>
+            <td align="center"><input id="id_power_on" theme="simple" value="Power On" class="button_large"><img src="images/spacer.gif" width="10" height="1"/>
+            <td align="center"><input id="id_power_off" theme="simple" value="Power Off" class="button_large"><img src="images/spacer.gif" width="10" height="1"/>
+            <td align="center"><input id="id_angle" theme="simple" value="Set Angle" class="button_large"><img src="images/spacer.gif" width="10" height="1"/>
             <td align="center">Set RPM: <s:select label="Set RPM" id="set_rpm" list="rmpList" name="rpm" cssClass="myselect"/>
            </td>
        </tr>      
@@ -204,22 +239,65 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
         <img id="img-spinner" src="images/spinner.gif" alt="Connecting"/>
     </div>
 
-    <div class="blockbkg" id="bkg" style="visibility: hidden;">
-    <div class="cont" id="dlg" style="visibility: hidden;">
+    
+    
+     <div class="blockbkg" id="bkg" style="visibility: hidden;">
+   <div class="cont" id="dlg" style="visibility: hidden;">
+       <table >
+           <tr>
+               <td><img src="images/spacer.gif" width="90" height="1"></td>
+               <td align="right"><strong>Set Angle</strong></td>
+               <td><img src="images/spacer.gif" width="90" height="1"></td>
+               <td align="right"><div class="closebtn" title="Close" id="closebtn"></div></td>
+           </tr>
+       </table>
+
        <table>
-            <thead>
-                <tr><th nowrap>Set Angle ( Degree )</th></tr>
-            </thead>
-            <tr><td align="center"><img src="spacer.gif" width="1" height="20"</td></tr>
+            <tr><td align="center" colspan="6"><s:textfield id="id_angle_input" name="value" size="6"></s:textfield> Angle (Degree)</td></tr>
             <tr>
-                <td align="center"><s:textfield id="id_angle_input" name="angle" size="10"></s:textfield></td>              
+                <td colspan="4" align="center">
+                    <fieldset>
+                        <legend>Quick Pick</legend>
+                        <table>
+                        <tr>
+                            <td><input type="button" class="button" value="0" onclick="set_atten('0');"></td>
+                            <td><input type="button" class="button" value="30" onclick="set_atten('30');"></td>
+                            <td><input type="button" class="button" value="60" onclick="set_atten('60');"></td>
+                            <td><input type="button" class="button" value="90" onclick="set_atten('90');"></td>
+                            <td><input type="button" class="button" value="120" onclick="set_atten('120');"></td>
+                            <td><input type="button" class="button" value="180" onclick="set_atten('180');"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" class="button" value="210" onclick="set_atten('210');"></td>
+                            <td><input type="button" class="button" value="240" onclick="set_atten('240');"></td>
+                            <td><input type="button" class="button" value="270" onclick="set_atten('270');"></td>
+                            <td><input type="button" class="button" value="300" onclick="set_atten('300');"></td>
+                            <td><input type="button" class="button" value="330" onclick="set_atten('330');"></td>
+                            <td><input type="button" class="button" value="360" onclick="set_atten('360');"></td>
+                        </tr>
+                        </table>
+                    </fieldset>
+                </td>
             </tr>
-            <tr>             
-                <td align="center"><input id="id_set_angle" type="button" class="button" value="Submit"></td>                 
-            </tr>          
+            <tr><td colspan="6"><img src="images/spacer.gif" width="1" height="5"></div></td></tr>
+            <tr><td colspan="6"><div id="slider"></div></td></tr>
+            <tr>
+                <td align="left" valign="top">-720</td>
+                <td colspan="2" align="center">
+                    <input type="button" class="button" onclick="decrment_and_send();" value="1 <<">
+                </td>
+                <td colspan="2" align="center">
+                    <input type="button" class="button" onclick="increment_and_send();" value=">> 1">
+                </td>
+                <td align="right" valign="top">720</td>
+            </tr>
+            <tr><td colspan="6"><img src="images/spacer.gif" width="1" height="5"></td></tr>
+            <tr id="attenuation_field"><td colspan="6" align="center"><input id="id_set_angle" type="button" class="button" value="Submit"></td></tr>
         </table>
     </div>
     </div>
+    
+    
     
     </s:form>
     <div id="dialog_alert" title="Connection Recovered" style="display:none;">

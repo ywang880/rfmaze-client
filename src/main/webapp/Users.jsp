@@ -10,14 +10,41 @@
 </STYLE>
 
 <SCRIPT language="javascript">
-function addRow(e){var t=document.getElementById(e);var n=t.rows.length;var r=t.insertRow(n);var i=t.rows[0].cells.length;for(var s=0;s<i;s++){var o=r.insertCell(s);o.innerHTML=t.rows[0].cells[s].innerHTML;switch(o.childNodes[0].type){case"text":o.childNodes[0].value="";break;case"checkbox":o.childNodes[0].checked=false;break;case"select-one":o.childNodes[0].selectedIndex=0;break}}}function deleteRow(e){try{var t=document.getElementById(e);var n=t.rows.length;for(var r=0;r<n;r++){var i=t.rows[r];var s=i.cells[0].childNodes[0];if(null!=s&&true==s.checked){if(n<=1){alert("Cannot delete all the rows.");break}t.deleteRow(r);n--;r--}}}catch(o){alert(o)}}function enableInput(e){var t=document.getElementById(e).style.display;if(t=="none"){document.getElementById(e).style.display=""}else{document.getElementById(e).style.display="none"}}function disableInput(e){document.getElementById(e).style.display="none"}function commit(e){document.getElementById("_action").value=e;document.getElementById("users").submit()}function deleteUser(e){if(!confirm("Do you want to delete selected user?")){return}document.getElementById("_action").value="delete "+e;document.getElementById("users").submit()}function editUser(e,t,n){var r=e.parentNode.parentNode.cells[0].innerHTML;var i=e.parentNode.parentNode.cells[1].innerHTML;enableInput(t);document.getElementById("users_id").value=r;document.getElementById("users_password").value=i}function show_hide_password(){var attr=$("#user_passwd").attr('type');if (attr=="text"){$("#user_passwd").attr('type','password');}else{$("#user_passwd").attr('type','text');}}
+function addRow(e){var t=document.getElementById(e);var n=t.rows.length;var r=t.insertRow(n);var i=t.rows[0].cells.length;for(var s=0;s<i;s++){var o=r.insertCell(s);o.innerHTML=t.rows[0].cells[s].innerHTML;switch(o.childNodes[0].type){case"text":o.childNodes[0].value="";break;case"checkbox":o.childNodes[0].checked=false;break;case"select-one":o.childNodes[0].selectedIndex=0;break}}}function deleteRow(e){try{var t=document.getElementById(e);var n=t.rows.length;for(var r=0;r<n;r++){var i=t.rows[r];var s=i.cells[0].childNodes[0];if(null!=s&&true==s.checked){if(n<=1){alert("Cannot delete all the rows.");break}t.deleteRow(r);n--;r--}}}catch(o){alert(o)}}function enableInput(e){var t=document.getElementById(e).style.display;if(t=="none"){document.getElementById(e).style.display=""}else{document.getElementById(e).style.display="none"}}function disableInput(e){document.getElementById(e).style.display="none"}function commit(e){document.getElementById("_action").value=e;document.getElementById("users").submit()}function deleteUser(e){if(!confirm("Do you want to delete selected user?")){return}document.getElementById("_action").value="delete "+e;document.getElementById("users").submit()}function editUser(e,t,n){var r=e.parentNode.parentNode.cells[0].innerHTML;getListAssignedHardwares(r);var i=e.parentNode.parentNode.cells[1].innerHTML;enableInput(t);document.getElementById("users_id").value=r;document.getElementById("user_passwd").value=i;}function show_hide_password(){var attr=$("#user_passwd").attr('type');if (attr=="text"){$("#user_passwd").attr('type','password');}else{$("#user_passwd").attr('type','text');}}
+
+function getListAssignedHardwares(user) {
+    var jqxhr = $.get( "/rfmaze/mazeServlet?command=gethardwares&user=" + user, function(responseData) {
+        var i;
+        var selectbox = document.getElementById('id_assigned');
+        for(i = selectbox.options.length - 1 ; i >= 0 ; i--) {
+            selectbox.remove(i);
+        }
+    
+        if ( responseData && responseData.length > 0 ) {
+            var res = responseData.split(",");
+            for (a=0; a<res.length;a++) {
+                $("#id_assigned").append('<option value=' + res[a] + '>' + res[a] + '</option>');
+            }
+        }
+    });
+}
+
+var selectedHardwares = new Array();
 $(document).ready(function() {
+    
     $("#addselected").click(function() {
-alert("aaa");
-        }),
+        $('#id_hardwarelist :selected').each(function(i, selectedElement) {
+            var a = $(selectedElement).val();
+            var b = $(selectedElement).text();
+            selectedHardwares.push( b );
+            $("#id_assigned").append('<option value=' + a + '>' + b + '</option>');
+        });
+        $( "#id_assignedHardware" ).val(selectedHardwares.join(","));
+    });
+
     $("#removeselected").click(function() {
-        alert("bbb");
-});
+        $("#id_assigned option:selected").remove();
+    });
 });
 </SCRIPT>
 
@@ -67,7 +94,7 @@ alert("aaa");
         <table align="center">
           <tr>
             <td align="right" nowrap>
-              <s:select cssStyle="width:260px;" label="AvailableHardware" multiple="true" size="5" headerKey="-1" list="hardwarelist" name="hardware"/></td>
+              <s:select cssStyle="width:260px;" id="id_hardwarelist" label="AvailableHardware" multiple="true" size="5" headerKey="-1" list="hardwarelist" name="hardware"/></td>
             <td>
               <table>
                 <tr>
@@ -83,7 +110,7 @@ alert("aaa");
               </table>
             </td>
        	    <td align="right" nowrap>
-              <s:select cssStyle="width:260px;" label="Assigned" multiple="true" size="5" list="assignedHardwares" name="assigntouser"/>
+              <s:select cssStyle="width:260px;" id="id_assigned" label="Assigned" multiple="true" size="5" list="assignedHardwares" name="assignTo"/>
             </td>
 	      </tr>
         </table>
@@ -99,4 +126,5 @@ alert("aaa");
     <tr><td><img src="images/spacer.gif" width="1" height="20"/></td><tr>
    </table>
    <s:hidden name="action" id="_action" value="commit"/>
+   <s:hidden name="assignedHardwareToUser" id="id_assignedHardware" value=""/>
 </s:form>
