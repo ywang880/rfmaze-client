@@ -615,7 +615,7 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
             <tr><th><div id="outputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th><th><div id="inputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>Attenuation(db)</th><th nowrap>&nbsp;</th></tr>
             </thead>
             <tr>
-                <td align="center"><s:textfield id="id_outputs" name="output" size="10"></s:textfield>&nbsp;<img src="images/output_select.png" id="output_select1"></td>
+                <td align="center"><s:textfield id="id_outputs" name="output" size="10"></s:textfield>&nbsp;<img src="images/output_select.png" id="output_select1" style="cursor: pointer; cursor: hand;"></td>
                 <td align="center"><s:textfield id="id_inputs" name="input" size="6"></s:textfield></td>
                 <td align="center"><s:textfield id="attenuation" name="value" size="6"></s:textfield></td>
                 <td align="center">&nbsp;</td>
@@ -693,7 +693,7 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
             <tr><th><div id="outputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th><div id="inputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>Attenuation(db)</th><th nowrap>&nbsp;</th></tr>
             </thead>
             <tr>
-                <td align="center"><s:textfield id="id_outputs1" name="output" size="10"></s:textfield>&nbsp;<img src="images/output_select.png" id="output_select2"></td>
+                <td align="center"><s:textfield id="id_outputs1" name="output" size="10"></s:textfield>&nbsp;<img src="images/output_select.png" id="output_select2" style="cursor: pointer; cursor: hand;"></td>
                 <td align="center"><s:textfield id="id_inputs1" name="input" size="6"></s:textfield></td>
                 <td align="center"><s:textfield id="attenuation1" name="value" size="6" ></s:textfield></td>
             </tr>

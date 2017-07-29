@@ -24,11 +24,11 @@
     width: 100px; /* width of the spinner gif */
     height: 102px; /*hight of the spinner gif +2px to fix IE8 issue */
 }
-.myselect { 
-    width:100px; 
-} 
-.myselect option { 
-    width:80px; 
+.myselect {
+    width:100px;
+}
+.myselect option {
+    width:80px;
 }
 
 .container{width:90%;margin-left:0;margin-right:0;padding:5px}.container div{padding:5px;width:100%}.container .header{background-color:silver;border:1px solid silver;border-radius:5px;padding:2px;cursor:pointer;font-weight:700}.container .content{display:none;padding:5px}table.altrowstable{font-family:verdana,arial,sans-serif;font-size:12px;color:#333;text-align:center;border-collapse:collapse;border-color:#506080;border-width:1px}.button_large{height:25px;width:80px;border:1px solid rgba(200,200,200,0.59);color:rgba(0,0,0,0.8);text-align:center;font:bold "Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;background:linear-gradient(top,#E0E0E0,gray);-webkit-border-radius:5px;-khtml-border-radius:5px;-moz-border-radius:5px;border-radius:5px;text-shadow:0 2px 2px rgba(255,255,255,0.2)}.button_large:hover{cursor: pointer;background-color:#A8A8A8;}
@@ -100,19 +100,8 @@ function viewmatrix() {
     document.getElementById('rfmaze').submit();
 }
 
-function increment_and_send() {
-    val = document.getElementById('id_angle_input').value() + 1;
-    document.getElementById('id_angle_input').value(val);
-    sendCommand("angle&param="+val);
-}
-
-function decrment_and_send() {
-     val = document.getElementById('id_angle_input').value() - 1;
-     document.getElementById('id_angle_input').value(val);
-     sendCommand("angle&param="+val);
-}
-
 function set_atten(val) {
+    $( "#id_angle_input" ).val(val);
     sendCommand("angle&param="+val);
 }
 
@@ -153,16 +142,16 @@ $(document).ready(function() {
            });
         });
     }),
-    
-    $("#id_angle").click(function() {        
+
+    $("#id_angle").click(function() {
          $("#slider").slider("value", 0),
-         "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "", 
-         $("#bkg").hide()), "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "",  
+         "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "",
+         $("#bkg").hide()), "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "",
          $("#dlg").hide()), $("#bkg").fadeIn(500, "linear", function() {
              $("#dlg").css({top:300, left:300, position:'absolute'}).show(500, "swing"), $("#dlg").draggable();
          })
     }),
-    
+
     $("#id_home").click(function() {
         sendCommand("home");
     }),
@@ -174,8 +163,8 @@ $(document).ready(function() {
     $("#id_power_off").click(function() {
         sendCommand("poweroff");
     }),
-    
-    $("#id_set_angle").click(function() {        
+
+    $("#id_set_angle").click(function() {
         var val = $("#id_angle_input").val();
         sendCommand("angle&param="+val);
     }),
@@ -183,6 +172,20 @@ $(document).ready(function() {
     $("#set_rpm").on('change', function() {
         var val = $("#set_rpm").val();
         sendCommand("rpm&param="+val);
+    }),
+
+    $( "#increment_and_send" ).click( function() {
+        $('#id_angle_input').val( function(i, oldval) {
+            return parseInt( oldval, 10) + 1;
+        });
+        set_atten( $('#id_angle_input').val() );
+    }),
+
+    $( "#decrment_and_send" ).click( function() {
+        $('#id_angle_input').val( function(i, oldval) {
+            return parseInt( oldval, 10) - 1;
+        });
+        set_atten( $('#id_angle_input').val() );
     }),
     
     onInit(), heartbeat();
@@ -230,17 +233,17 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
             <td align="center"><input id="id_angle" theme="simple" value="Set Angle" class="button_large"><img src="images/spacer.gif" width="10" height="1"/>
             <td align="center">Set RPM: <s:select label="Set RPM" id="set_rpm" list="rmpList" name="rpm" cssClass="myselect"/>
            </td>
-       </tr>      
+       </tr>
     </table>
     <div id="progressbar"><img src="images/progress_bar.gif"></div>
     </s:else>
-    <s:hidden name="action" value=""/>    
+    <s:hidden name="action" value=""/>
     <div id="spinner" class="spinner" style="display:none;">
         <img id="img-spinner" src="images/spinner.gif" alt="Connecting"/>
     </div>
 
-    
-    
+
+
      <div class="blockbkg" id="bkg" style="visibility: hidden;">
    <div class="cont" id="dlg" style="visibility: hidden;">
        <table >
@@ -284,10 +287,10 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
             <tr>
                 <td align="left" valign="top">-720</td>
                 <td colspan="2" align="center">
-                    <input type="button" class="button" onclick="decrment_and_send();" value="1 <<">
+                    <input type="button" class="button" id="decrment_and_send" value="1 <<">
                 </td>
                 <td colspan="2" align="center">
-                    <input type="button" class="button" onclick="increment_and_send();" value=">> 1">
+                    <input type="button" class="button" id="increment_and_send" value=">> 1">
                 </td>
                 <td align="right" valign="top">720</td>
             </tr>
@@ -296,9 +299,9 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
         </table>
     </div>
     </div>
-    
-    
-    
+
+
+
     </s:form>
     <div id="dialog_alert" title="Connection Recovered" style="display:none;">
         <p>Application Server Connection is Recovered. Please Login Again!</p>
