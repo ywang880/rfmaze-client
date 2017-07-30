@@ -435,6 +435,15 @@ $(function() {
 });
 
 $(function() {
+    $( "#dialog-1-cancel" ).click( function() {
+        $( "#quick_pick-11" ).show();
+        $( "#quick_pick-12" ).show();
+        $( "#quick_pick-13" ).show();
+        $( "#dialog-1" ).hide();
+    });
+});
+
+$(function() {
     $( "#dialog-2-apply" ).click( function() {
         var selection;
         if ( $('#id_c21').is(':checked') ) {
@@ -496,6 +505,15 @@ $(function() {
         $( "#quick_pick-23" ).show();
         $( "#dialog-2" ).hide();
     });
+});
+
+$(function() {
+    $( "#dialog-2-cancel" ).click( function() {
+        $( "#quick_pick-21" ).show();
+        $( "#quick_pick-22" ).show();
+        $( "#quick_pick-23" ).show();
+        $( "#dialog-2" ).hide();
+    })
 });
 
 $(function() {
@@ -670,7 +688,11 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
                         </tr>
                         <tr><td><img src="images/spacer.gif" width="1" height="10"></td></tr>
                         <tr>
-                            <td colspan="9" align="center"><input type="button" class="button-large" id="dialog-1-apply" value="Apply"></td>
+                            <td colspan="9" align="center">
+                                <input type="button" class="button-large" id="dialog-1-apply" value="Apply">
+                                <img src="images/spacer.gif" width="10" height="1">
+                                <input type="button" class="button-large" id="dialog-1-cancel" value="Cancel">
+                            </td>
                         </tr>
                     </table>
                 </td>
@@ -681,7 +703,7 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
 
     <div class="blockbkg" id="bkg1" style="visibility: hidden;">
     <div class="cont" id="dlg1" style="visibility: hidden;">
-        <table >
+        <table>
             <tr>
                 <td align="right"><strong>Set Attenuation</strong></td>
                 <td><img src="images/spacer.gif" width="90" height="1"></td>
@@ -746,7 +768,11 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
                         </tr>
                         <tr><td><img src="images/spacer.gif" width="1" height="10"></td></tr>
                         <tr>
-                            <td colspan="9" align="center"><input type="button" class="button-large" id="dialog-2-apply" value="Apply"></td>
+                            <td colspan="9" align="center">
+                                <input type="button" class="button-large" id="dialog-2-apply" value="Apply">
+                                <img src="images/spacer.gif" width="10" height="1">
+                                <input type="button" class="button-large" id="dialog-2-cancel" value="Cancel">
+                            </td>
                         </tr>
                     </table>
                 </td>
