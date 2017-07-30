@@ -57,4 +57,10 @@ public class Constants {
     public static final String OK = "OK";
     public static final String RELOAD = "reload";
     public static final String UPDATE = "update";
+    
+    public static class COLOR {
+    	public static final String GREEN = "#008800";
+    	public static final String ORANGE = "#EE9933";
+    	public static final String RED = "#DD0000";
+    }
 }

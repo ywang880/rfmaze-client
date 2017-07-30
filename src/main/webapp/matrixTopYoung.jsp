@@ -634,8 +634,8 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
             </thead>
             <tr>
                 <td align="center"><s:textfield id="id_outputs" name="output" size="10"></s:textfield>&nbsp;<img src="images/output_select.png" id="output_select1" style="cursor: pointer; cursor: hand;"></td>
-                <td align="center"><s:textfield id="id_inputs" name="input" size="6"></s:textfield></td>
-                <td align="center"><s:textfield id="attenuation" name="value" size="6"></s:textfield></td>
+                <td align="center"><s:textfield id="id_inputs" name="input" size="4"></s:textfield></td>
+                <td align="center"><s:textfield id="attenuation" name="value" size="4"></s:textfield></td>
                 <td align="center">&nbsp;</td>
             </tr>
             <tr id="quick_pick-11" >
@@ -716,8 +716,8 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
             </thead>
             <tr>
                 <td align="center"><s:textfield id="id_outputs1" name="output" size="10"></s:textfield>&nbsp;<img src="images/output_select.png" id="output_select2" style="cursor: pointer; cursor: hand;"></td>
-                <td align="center"><s:textfield id="id_inputs1" name="input" size="6"></s:textfield></td>
-                <td align="center"><s:textfield id="attenuation1" name="value" size="6" ></s:textfield></td>
+                <td align="center"><s:textfield id="id_inputs1" name="input" size="4"></s:textfield></td>
+                <td align="center"><s:textfield id="attenuation1" name="value" size="4" ></s:textfield></td>
             </tr>
             <tr id="quick_pick-21" >
                 <td colspan="3" align="center">
