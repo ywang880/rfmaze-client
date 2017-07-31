@@ -17,6 +17,11 @@
 			org.apache.struts2.tiles.StrutsTilesListener
 		</listener-class>
 	</listener>
+    <listener>
+	    <listener-class>
+            com.rfview.servlets.listeners.RFMatrixServletListener
+        </listener-class>
+    </listener>
 	<context-param>
 		<param-name>tilesDefinitions</param-name>
 		<param-value>/WEB-INF/tiles.xml</param-value>
