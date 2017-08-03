@@ -4,6 +4,40 @@
 <link rel="stylesheet" href="css/jquery_style.css">
 <link rel="stylesheet" href="css/jquery-ui.css">
 
+<style>
+
+.StatusTable {
+    margin: 10px;
+    -moz-border-radius : 5px;
+    -webkit-border-radius : 5px;
+    -khtml-border-radius : 5px;
+    border-radius : 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #005566;
+    padding: 0px;
+    border-spacing: 0px;
+    overflow: hidden;
+    background: #eeeeee;
+    background: -moz-linear-gradient(top, #eeeeee 0%, #AAAAAA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#AAAAAA));
+    background: -webkit-linear-gradient(top, #eeeeee 0%,#AAAAAA 100%);
+    background: -o-linear-gradient(top, #eeeeee 0%,#AAAAAA 100%);
+    background: -ms-linear-gradient(top, #eeeeee 0%,#AAAAAA 100%);
+    background: linear-gradient(to bottom, #eeeeee 0%,#AAAAAA 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#AAAAAA', GradientType=0 );
+}
+
+.StatusTable tr:hover {
+   background: #FEFEFE;
+}
+
+.StatusTable th {
+   height: 20px;
+   color: #FFFFFF;
+   background: #005566;
+}
+</style>
 <SCRIPT language="javascript">  
 
 function start_process(obj) {
@@ -25,7 +59,7 @@ function stop_process(obj) {
 </SCRIPT>
 
 <s:form theme="simple" action="process-status.action" method="post">
-	<table class="ConfigDataTable" width="90%" align="center" style="border-collapse:collapse;" >
+	<table class="StatusTable" width="90%" align="center" style="border-collapse:collapse;" >
       <thead>  
             <tr>            
                 <th width="40%" nowrap>Configuration</th>  
