@@ -253,6 +253,10 @@ public class MatrixConfig {
 	        sb.append("matrix_socket_port2").append("=").append(getHwPort2()).append(NEW_LINE);
 	        sb.append("quintech_type").append("=").append(getQuintechType()).append(NEW_LINE);
         }
+        
+        if ( "K".equals(getMatrixType()) && "N".equals(getQuintechType()) ) {
+            sb.append("quintech_type").append("=").append(getQuintechType()).append(NEW_LINE);
+        }
         sb.append("EOF = Mandatory").append(NEW_LINE);
         
         PrintWriter writer;

@@ -69,7 +69,7 @@ public class ServerInfoAction extends BaseActionSupport {
     	listQuintechType = new HashMap<String, String>();
         listQuintechType.put("X", "Default");
         listQuintechType.put("N", "NEXUS");
-        listQuintechType.put("C", " NEXUS Combined");
+        listQuintechType.put("C", "NEXUS Combined");
     }
     
     public String execute() {
@@ -464,13 +464,17 @@ public class ServerInfoAction extends BaseActionSupport {
     }
 
     public boolean isQRB3000() {
-    	return "K".equals(getMatrixType()) && "C".equals(getQuintechType());
+    	return "K".equals(getMatrixType()) && ("C".equals(getQuintechType()) || "N".equals(getQuintechType()));
     }
     
     public boolean isQRB3000C() {
     	return "K".equals(getMatrixType()) && "C".equals(getQuintechType());
     }
 
+    public boolean isQRB3000N() {
+        return "K".equals(getMatrixType()) && "N".equals(getQuintechType());
+    }
+    
     private void buildRegularMazeServerInfo(boolean create_new, int thePort) {
 
         MatrixConfig mConf = MatrixConfig.getInstance();
@@ -517,7 +521,7 @@ public class ServerInfoAction extends BaseActionSupport {
         mConf.setInvertInputOutput(isInvertInputOutput());
 
         // only save quintech type a for QRB mode
-        if ( isQRB3000() ) {
+        if ( isQRB3000N() || isQRB3000C()  ) {
         	mConf.setQuintechType(quintechType);
         }
         
