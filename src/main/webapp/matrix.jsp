@@ -26,7 +26,7 @@
 }
 </style>
 
-<SCRIPT type="text/javascript" language="javascript" src="js/rfmaze.js"></SCRIPT>
+<SCRIPT type="text/javascript" language="javascript" src="js/rfmaze.js?001"></SCRIPT>
 <SCRIPT type="text/javascript" src="js/jscolor.js"></SCRIPT>
 <SCRIPT language="javascript">
 function viewmatrix() {
@@ -203,19 +203,20 @@ function updateMatrixOffset(a) {
 
 function hand_off_start(cmd_string) {
     var a = document.getElementById("mimo_sele").selectedIndex, b = document.getElementById("mimo_sele").options[a].value, c = document.getElementById("handoff_out1").value;
-    if (isBlank(c)) return void alert("Input is invalid!");
+    if ( !isInteger(c) ) return void alert("Output must be an integer!");
     var d = document.getElementById("handoff_out2").value;
-    if ("NO" != b && isBlank(d)) return void alert("Input is invalid!");
+    if ("NO" != b && !isInteger(d)) return void alert("Output must be an integer!");
     var e = document.getElementById("handoff_out3").value;
-    if ("4X4" == b && isBlank(e)) return void alert("Input is invalid!");
+    if ("2X2" == b && !isInteger(e)) return void alert("Output must be an integer!");
     var f = document.getElementById("handoff_out4").value;
-    if ("4X4" == b && isBlank(f)) return void alert("Input is invalid!");
+    if ("4X4" == b && !isInteger(f)) return void alert("Output must be an integer!");
+    
     var g = document.getElementById("handoff_in1").value;
     if (isBlank(g)) return void alert("Input is invalid!");
     var h = document.getElementById("handoff_in2").value;
     if ("NO" != b && isBlank(h)) return void alert("Input is invalid!");
     var i = document.getElementById("handoff_in3").value;
-    if ("4X4" == b && isBlank(i)) return void alert("Input is invalid!");
+    if ("2X2" == b && isBlank(i)) return void alert("Input is invalid!");
     var j = document.getElementById("handoff_in4").value;
     if ("4X4" == b && isBlank(j)) return void alert("Input is invalid!");
     var k = document.getElementById("handoff_step").value, l = document.getElementById("handoff_start").value, m = document.getElementById("handoff_speed").value, n = document.getElementById("handoff_target").value;

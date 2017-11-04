@@ -9,3 +9,10 @@ function isBlank(str) {
 
     return false;
 }
+
+function isInteger(str) {
+	if (isBlank(str)) {
+		return false;
+	}
+    return /^\+?(0|[1-9]\d*)$/.test(str);
+}
