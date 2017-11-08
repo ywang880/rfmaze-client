@@ -206,19 +206,21 @@ function hand_off_start(cmd_string) {
     if ( !isInteger(c) ) return void alert("Output must be an integer!");
     var d = document.getElementById("handoff_out2").value;
     if ("NO" != b && !isInteger(d)) return void alert("Output must be an integer!");
+    
     var e = document.getElementById("handoff_out3").value;
-    if ("2X2" == b && !isInteger(e)) return void alert("Output must be an integer!");
     var f = document.getElementById("handoff_out4").value;
-    if ("4X4" == b && !isInteger(f)) return void alert("Output must be an integer!");
+    if ("4X4" == b && (!isInteger(e) || !isInteger(f))) return void alert("Output must be an integer!");
     
     var g = document.getElementById("handoff_in1").value;
     if (isBlank(g)) return void alert("Input is invalid!");
+    
     var h = document.getElementById("handoff_in2").value;
     if ("NO" != b && isBlank(h)) return void alert("Input is invalid!");
-    var i = document.getElementById("handoff_in3").value;
-    if ("2X2" == b && isBlank(i)) return void alert("Input is invalid!");
+    
+    var i = document.getElementById("handoff_in3").value;    
     var j = document.getElementById("handoff_in4").value;
-    if ("4X4" == b && isBlank(j)) return void alert("Input is invalid!");
+    if ("4X4" == b && ( isBlank(i) || isBlank(j) )) return void alert("Input is invalid!");
+    
     var k = document.getElementById("handoff_step").value, l = document.getElementById("handoff_start").value, m = document.getElementById("handoff_speed").value, n = document.getElementById("handoff_target").value;
     if (isBlank(k) || isBlank(l) || isBlank(m) || isBlank(n)) return void alert("Input is invalid!");
     var o = document.getElementById("mm_pause").value, p = 0;
