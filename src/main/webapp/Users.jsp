@@ -89,6 +89,7 @@ $(document).ready(function() {
         </table>
       </td>
     </tr>
+    <!--
     <tr>
       <td align="center">
         <table align="center">
@@ -116,6 +117,7 @@ $(document).ready(function() {
         </table>
       </td>
     </tr>
+    -->
     <tr><td><img src="images/spacer.gif" width="1" height="10"/></td></tr>
     <tr>
       <td colspan="2" align="center">
