@@ -26,6 +26,7 @@ public class ServerInfoAction extends BaseActionSupport {
     private List<ServerInfo> serverInfo;
     private List<String> mazeServers;
     private String mazeServer;
+    private int serverPort;
     private String action;
     private String matrixType;
     private String defaultType;
@@ -54,7 +55,7 @@ public class ServerInfoAction extends BaseActionSupport {
 	}
 
 	private String pMatrixName = "Matrix Name: ";
-		
+
     private final static BroadcastConf bServer = BroadcastConf.getInstance();
     static {
         listType = new HashMap<String, String>();
@@ -71,7 +72,7 @@ public class ServerInfoAction extends BaseActionSupport {
         listQuintechType.put("N", "NEXUS");
         listQuintechType.put("C", "NEXUS Combined");
     }
-    
+
     public String execute() {
 
         if (sessionMap != null) {
@@ -90,9 +91,9 @@ public class ServerInfoAction extends BaseActionSupport {
 
         // process browser action
         if (actionCmd.equals("create_server")) {
-            int thePort = getMatrixControlPort();
-            buildRegularMazeServerInfo(true, thePort);
-            String message = bServer.assignMazeServer(getMatrixName(), getLocalhost(), thePort);
+            serverPort = getMatrixControlPort();
+            buildRegularMazeServerInfo(true, serverPort);
+            String message = bServer.assignMazeServer(getMatrixName(), getLocalhost(), serverPort);
             if (message != null) {
                 setSuccessMessage(message);
             }
@@ -194,6 +195,8 @@ public class ServerInfoAction extends BaseActionSupport {
                     if (token1.equalsIgnoreCase("MATRIX_NAME")) {
                         setMatrixName(token2);
                         setCurrentMatrixName(token2);
+                    } else if (token1.equalsIgnoreCase("server_socket_port")) {
+                        setServerPort(Integer.parseInt(token2));
                     } else if (token1.equalsIgnoreCase("matrix_socket_port")) {
                         setHwPort(Integer.parseInt(token2));
                     } else if (token1.equalsIgnoreCase("matrix_inputs")) {
@@ -228,7 +231,7 @@ public class ServerInfoAction extends BaseActionSupport {
             } catch (IOException e) {
                 logger.warn(e);
             }
-            
+
             if ( "T".equals(getQuintechType()) ) {
             	pMatrixName = "Hardware Name: ";
             }
@@ -246,6 +249,14 @@ public class ServerInfoAction extends BaseActionSupport {
 
     public int getMatrixControlPort() {
         return nextMatrixControlPort();
+    }
+
+    public int getServerPort() {
+        return serverPort;
+    }
+
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
     }
 
     public int getNumServers() {
@@ -466,7 +477,7 @@ public class ServerInfoAction extends BaseActionSupport {
     public boolean isQRB3000() {
     	return "K".equals(getMatrixType()) && ("C".equals(getQuintechType()) || "N".equals(getQuintechType()));
     }
-    
+
     public boolean isQRB3000C() {
     	return "K".equals(getMatrixType()) && "C".equals(getQuintechType());
     }
@@ -474,7 +485,7 @@ public class ServerInfoAction extends BaseActionSupport {
     public boolean isQRB3000N() {
         return "K".equals(getMatrixType()) && "N".equals(getQuintechType());
     }
-    
+
     private void buildRegularMazeServerInfo(boolean create_new, int thePort) {
 
         MatrixConfig mConf = MatrixConfig.getInstance();
@@ -524,7 +535,7 @@ public class ServerInfoAction extends BaseActionSupport {
         if ( isQRB3000N() || isQRB3000C()  ) {
         	mConf.setQuintechType(quintechType);
         }
-        
+
         // only save address and port 2 for QRB combined mode
         if ( isQRB3000C() ) {
         	mConf.setHwPort2(getHwPort2());
@@ -539,8 +550,8 @@ public class ServerInfoAction extends BaseActionSupport {
         if (create_new) {
             dbAccess.updatePort(matrixControlPort, getMatrixName());
         }
-        
-         
+
+
         setDefaultType(getMatrixType());
         setMatrixType(getMatrixType());
         defaultQuintechType = getQuintechType();

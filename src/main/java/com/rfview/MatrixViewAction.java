@@ -660,8 +660,7 @@ public class MatrixViewAction extends BaseActionSupport {
     }
 
     private void updateColorScheme() {
-        ColorMapping.update(username, getRange1(), getRange2(), getRange3(), getColor1(),
-                getColor2(), getColor3());
+        ColorMapping.update(username, getRange1(), getRange2(), getRange3(), getColor1(), getColor2(), getColor3());
         matrix = cache.getMatrixCache(CompositeKey.key(username, hardware));
         for (Cell[] cc : matrix) {
             for (Cell ccc : cc) {

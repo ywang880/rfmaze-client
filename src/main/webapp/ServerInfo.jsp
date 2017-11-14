@@ -263,10 +263,9 @@ $(document).ready(function() {
 			            <tr style="display: none;"><td colspan="2"><s:textfield name="currentMatrixName" size="20" /><td></tr>			            
 			            <tr id="mhw"><td align="right">Hardware Address: </td><td align="left"><s:textfield name="hwIp" size="20" /></td></tr>
 			            <tr id="mhp"><td align="right">Hardware Port: </td><td align="left"><s:textfield name="hwPort" size="20" /></td></tr>
-                        <tr id="ip2" style="display: none"><td align="right">Hardware Address2: </td><td align="left"><s:textfield name="hwIp2" size="20" /></td></tr>
-			            <tr id="port2" style="display: none"><td align="right">Hardware Port2: </td><td align="left"><s:textfield name="hwPort2" size="20" /></td></tr>                      
-			            <tr id="row_max_atten"><td align="right"><span id="max_atten">Maximum Attenuation: </span></td><td align="left"><s:textfield name="maxAttn" size="20" /><span id="attr_unit">dB</span></td></tr>
-			            <tr id="row_min_atten"><td align="right"><span id="min_atten">Minimum Attenuation: </span></td><td align="left"><s:textfield name="minAttn" size="20" />dB</td></tr>
+			            <tr id="ip2" style="display: none"><td align="right">Hardware Address2: </td><td align="left"><s:textfield name="hwIp2" size="20" /></td></tr>
+			            <tr id="port2" style="display: none"><td align="right">Hardware Port2: </td><td align="left"><s:textfield name="hwPort2" size="20" /></td></tr>
+                        <tr id="serverport" ><td align="right">Server Port: </td><td align="left"><s:textfield name="serverPort" disbable="true" size="20" /></td></tr>
 			         </table>
   		          </td>
 		          <td valign="top" align="left">
@@ -283,6 +282,8 @@ $(document).ready(function() {
 			   	        <tr><td align="right" id="num_outputs">Number of Outputs:</td><td align="left"><s:textfield name="numberOfOutputs" size="20" /></td></tr>			
 			   	        <tr id="row_step_atten"><td align="right"><span id="step_atten">Step Attenuation:</span></td><td align="left"><s:textfield name="stepAttn" size="20" />dB</td></tr>
 			   	        <tr id="invertInputOutput"><td align="right">Invert Input Output:</td><td align="left"><s:checkbox name="invertInputOutput"/></td></tr>
+   			            <tr id="row_max_atten"><td align="right"><span id="max_atten">Maximum Attenuation: </span></td><td align="left"><s:textfield name="maxAttn" size="20" /><span id="attr_unit">dB</span></td></tr>
+			            <tr id="row_min_atten"><td align="right"><span id="min_atten">Minimum Attenuation: </span></td><td align="left"><s:textfield name="minAttn" size="20" />dB</td></tr>
 			         </table>
 		          </td>
 		       </tr>
