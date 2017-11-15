@@ -1,15 +1,11 @@
 package com.rfview.utils;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.logging.Logger;
 
 public class ColorMapping {
 
-    private static final Map<String, Set<Range>> mapper = new HashMap<String, Set<Range>> ();
-    private static final Logger logger = Logger.getLogger(ColorMapping.class.getName());
+    private static final Map<String, Range[]> mapper = new HashMap<String, Range[]> ();
 
     public static String mapping(String user, int v) {
     	return mapping(user, false, v);
@@ -27,48 +23,20 @@ public class ColorMapping {
                 return color;
             }
         }
-
         return defaultScheme(isTopYoung, v);
     }
 
     public static void update(String user, String r1, String r2, String r3, String c1, String c2, String c3) {
 
-        Set<Range> s = mapper.get(user);
-        if (s == null) {
-            s = new HashSet<Range>();
-            mapper.put(user, s);
+        Range[] ranges = mapper.get(user);
+        if (ranges == null) {
+            ranges = new Range[3];
+            mapper.put(user, ranges);
         }
 
-        if (validate(r1)) {
-            Range r = new Range(r1, c1);
-            if (s.contains(r)) {
-                s.remove(r);
-            }
-            logger.info(r.toString());
-            s.add(r);
-        }
-
-        if (validate(r2)) {
-            Range r = new Range(r2, c2);
-            if (s.contains(r)) {
-                s.remove(r);
-            }
-            logger.info(r.toString());
-            s.add(r);
-        }
-
-        if (validate(r3)) {
-            Range r = new Range(r3, c3);
-            if (s.contains(r)) {
-                s.remove(r);
-            }
-            logger.info(r.toString());
-            s.add(r);
-        }
-    }
-
-    public static boolean validate(String r) {
-        return true;
+        ranges[0] = new Range(r1, c1);
+        ranges[1] = new Range(r2, c2);
+        ranges[2] = new Range(r3, c3);
     }
 
     public static String defaultScheme(boolean isTopYoung, int v) {

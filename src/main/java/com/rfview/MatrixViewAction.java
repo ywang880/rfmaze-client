@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.rfview.comm.HeartBeatTask;
 import com.rfview.comm.MazeServer;
@@ -53,11 +54,11 @@ public class MatrixViewAction extends BaseActionSupport {
 	private List<String> outputAttenuation;
     private final List<String> hardwares = new ArrayList<String>();
     private final RfMazeServerConnectionInfo serverConntionInfo = RfMazeServerConnectionInfo.getInstance();
-    private final Logger logger = Logger.getLogger(MatrixViewAction.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(MatrixViewAction.class.getName());
 
 	private boolean powerOn = false;
     private int rpm;
-    
+
     public boolean isPoweron() {
 		return powerOn;
 	}
@@ -65,7 +66,7 @@ public class MatrixViewAction extends BaseActionSupport {
     public boolean isPowerOff() {
     	return !powerOn;
     }
-    
+
 	public void setPoweron(boolean powerOn) {
 		this.powerOn = powerOn;
 	}
@@ -81,7 +82,7 @@ public class MatrixViewAction extends BaseActionSupport {
 	public void setRpm(int rpm) {
 		this.rpm = rpm;
 	}
-	
+
     public int getMaxAtten() {
 		return maxAtten;
 	}
@@ -89,7 +90,7 @@ public class MatrixViewAction extends BaseActionSupport {
 	public void setMaxAtten(int maxAtten) {
 		this.maxAtten = maxAtten;
 	}
-	
+
     public List<MatrixLabel> getInputLabels() {
 		return inputLabels;
 	}
@@ -235,7 +236,7 @@ public class MatrixViewAction extends BaseActionSupport {
 	}
 
 	private int defaultValue = 1;
-    
+
     private Integer handoffOut1;
     private Integer handoffIn1;
 
@@ -244,10 +245,10 @@ public class MatrixViewAction extends BaseActionSupport {
 
     private Integer handoffOut3;
     private Integer handoffIn3;
-    
+
     private Integer handoffOut4;
     private Integer handoffIn4;
-    
+
     private Map<Integer, Integer>listHandoffOut1 = new HashMap<>();
     private Map<Integer, Integer>listHandoffIn1 = new HashMap<>();
 
@@ -256,10 +257,10 @@ public class MatrixViewAction extends BaseActionSupport {
 
     private Map<Integer, Integer>listHandoffOut3 = new HashMap<>();
     private Map<Integer, Integer>listHandoffIn3 = new HashMap<>();
-    
+
     private Map<Integer, Integer>listHandoffOut4 = new HashMap<>();
     private Map<Integer, Integer>listHandoffIn4 = new HashMap<>();
-      
+
     public String getShowDialog() {
         return showDialog;
     }
@@ -268,13 +269,13 @@ public class MatrixViewAction extends BaseActionSupport {
     	for ( int i = 0; i < 10; i++ ) {
     		listHandoffOut1.put(i, i);
     		listHandoffIn1.put(i, i);
-    		
+
     		listHandoffOut2.put(i, i);
     		listHandoffIn2.put(i, i);
 
     		listHandoffOut3.put(i, i);
     		listHandoffIn3.put(i, i);
-    		
+
     		listHandoffOut4.put(i, i);
     		listHandoffIn4.put(i, i);
     	}
@@ -398,7 +399,7 @@ public class MatrixViewAction extends BaseActionSupport {
     public List<String> getOutputAttenuation() {
         return outputAttenuation;
     }
-    
+
     public String execute() {
         logger.info("invoke matrix view action");
         if (sessionMap != null) {
@@ -449,17 +450,17 @@ public class MatrixViewAction extends BaseActionSupport {
 		try {
 			assignedInfo = dbAccess.getAssignment(getHardware(), username);
 		} catch (SQLException e2) {
-
+            logger.error("DB access error", e2);
 		}
         if ( isLTE( hardware )) {
             returnCode = SUCCESS2;
         } else if ( isRBM( hardware )) {
             returnCode = SUCCESS3;
         } else if ( isTurnTable( hardware ) ) {
-        	returnCode = SUCCESS4;        	
+            returnCode = SUCCESS4;
         } else if ( isQRBTopYoung( hardware, assignedInfo ) ) {
         	returnCode = SUCCESS5;
-        } else { 	
+        } else {
             returnCode = SUCCESS1;
         }
         logger.info("server type = " + getMetrixType( hardware )+ ", return code " + returnCode);
@@ -475,7 +476,7 @@ public class MatrixViewAction extends BaseActionSupport {
         if ("color_scheme".equals(action)) {
             updateColorScheme();
         }
-    	
+
         String args[] = new String[2];
         if (!hasCachedData(hardware)) {
             logger.info("no cached data, fetch the data from maze server");
@@ -493,22 +494,22 @@ public class MatrixViewAction extends BaseActionSupport {
                 args[1] = Integer.toString(theServer.getPort());
 
             } catch (IOException e1) {
-                logger.error(e1);
+                logger.error("IO Exception", e1);
                 setWarningMessage("WARN: Connection cannot be established. Please go to matrix control page to check server status!");
                 return returnCode;
             }
 
             Datagrid.getInstance().createAgent(args, hardware);
         }
-        
+
         Assignment assignment = null;
         try {
             logger.info("Get user assignment information user = " + username + " hardware = "
                     + getHardware());
             assignment = dbAccess.getAssignment(getHardware(), username);
-            logger.info("===== USER ASSIGNMENT ===== " + this.hashCode() + ",  " + assignment);
+            logger.info("===== USER ASSIGNMENT ===== {}", assignment);
         } catch (SQLException e) {
-            logger.error(e);
+            logger.error("DBAccess error", e);
             setErrorMessage("There is no inputs and output assigned for user " + username + ".");
             return returnCode;
         }
@@ -604,7 +605,7 @@ public class MatrixViewAction extends BaseActionSupport {
         String[] atten = cache.getAttenuation(hardware);
         if ( atten != null ) {
             for (int i = 0; i < numCols; i++) {
-            	
+
                 if ( i < atten.length ) {
                 	outputAttenuation.add(atten[i]);
                 } else {
@@ -613,10 +614,10 @@ public class MatrixViewAction extends BaseActionSupport {
             }
         } else {
             logger.warn("no outout attenuation data" );
-        }        
+        }
         return returnCode;
     }
-    
+
     private boolean validateAssignment(String data) {
         return ((data != null) && !data.trim().isEmpty() && !data.equalsIgnoreCase("null"));
     }
@@ -660,6 +661,7 @@ public class MatrixViewAction extends BaseActionSupport {
     }
 
     private void updateColorScheme() {
+        logger.info("updateColorScheme() {}, {}, {}, {}, {}, {}, {}", username, getRange1(), getRange2(), getRange3(), getColor1(), getColor2(), getColor3());
         ColorMapping.update(username, getRange1(), getRange2(), getRange3(), getColor1(), getColor2(), getColor3());
         matrix = cache.getMatrixCache(CompositeKey.key(username, hardware));
         for (Cell[] cc : matrix) {
@@ -686,7 +688,7 @@ public class MatrixViewAction extends BaseActionSupport {
         return ((matrix_data != null) && (offset_data != null));
     }
 
-    public boolean isRunning(List<ProcessInfo> pinfo, String pname) {    	
+    public boolean isRunning(List<ProcessInfo> pinfo, String pname) {
         for (ProcessInfo info : pinfo) {
             if (info.getConfigFile().endsWith(pname) && info.getStatus().contains("running")) {
                 return true;

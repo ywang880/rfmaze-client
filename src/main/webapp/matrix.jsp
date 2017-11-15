@@ -399,7 +399,8 @@ $(document).ready(function() {
         document.getElementById("attenuation_field").style.visibility = "";
     }), $("#attenuation1").keypress(function() {
         document.getElementById("attenuation_field1").style.visibility = "";
-    }), onInit(), heartbeat(), startRefresh();
+    }), 
+    onInit(), heartbeat(), startRefresh();
 }), $(function() {
     $("#slider").slider({
         value: 32,
@@ -783,19 +784,19 @@ var timerId, timer_is_on = 0, refreshInterval=2000, connection_mon_timer;
             </tr>
             <tr>
                 <td align="right">Range1:</td>
-                <td align="left"><s:textfield theme="simple" name="range1" size="6"></s:textfield></td>
+                <td align="left"><s:textfield id="range1" theme="simple" name="range1" size="6"></s:textfield></td>
                 <td align="right" nowrap>Assign Color:</td>
                 <td><s:textfield name="color1" theme="simple" cssClass="color" size="6"></s:textfield></td>
             </tr>
             <tr>
                 <td align="right">Range2:</td>
-                <td align="left"><s:textfield name="range2" theme="simple" size="6"></s:textfield></td>
+                <td align="left"><s:textfield id="range2" name="range2" theme="simple" size="6"></s:textfield></td>
                 <td align="right" nowrap>Assign Color:</td>
                 <td><s:textfield name="color2" cssClass="color" theme="simple" size="6"></s:textfield></td>
             </tr>
             <tr>
                 <td align="right">Range3:</td>
-                <td align="left"><s:textfield name="range3" theme="simple" size="6"></s:textfield></td>
+                <td align="left"><s:textfield id="range3" name="range3" theme="simple" size="6"></s:textfield></td>
                 <td align="right" nowrap>Assign Color:</td>
                 <td><s:textfield name="color3" cssClass="color" theme="simple" size="6"></s:textfield></td>
             </tr>
