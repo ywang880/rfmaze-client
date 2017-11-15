@@ -265,7 +265,7 @@ $(document).ready(function() {
 			            <tr id="mhp"><td align="right">Hardware Port: </td><td align="left"><s:textfield name="hwPort" size="20" /></td></tr>
 			            <tr id="ip2" style="display: none"><td align="right">Hardware Address2: </td><td align="left"><s:textfield name="hwIp2" size="20" /></td></tr>
 			            <tr id="port2" style="display: none"><td align="right">Hardware Port2: </td><td align="left"><s:textfield name="hwPort2" size="20" /></td></tr>
-                        <tr id="serverport" ><td align="right">Server Port: </td><td align="left"><s:textfield name="serverPort" disbable="true" size="20" /></td></tr>
+                        <tr id="serverport" ><td align="right">Server Port: </td><td align="left"><s:textfield name="serverPort" disabled="true" size="20" /></td></tr>
 			         </table>
   		          </td>
 		          <td valign="top" align="left">
