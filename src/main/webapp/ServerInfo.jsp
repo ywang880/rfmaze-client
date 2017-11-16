@@ -281,10 +281,10 @@ $(document).ready(function() {
 		 		        <tr id="numInputs"><td align="right">Number of Inputs:</td><td align="left"><s:textfield name="numberOfInputs" size="20" /></td></tr>
 			   	        <tr><td align="right" id="num_outputs">Number of Outputs:</td><td align="left"><s:textfield name="numberOfOutputs" size="20" /></td></tr>			
 			   	        <tr id="row_step_atten"><td align="right"><span id="step_atten">Step Attenuation:</span></td><td align="left"><s:textfield name="stepAttn" size="20" />dB</td></tr>
-			   	        <tr id="invertInputOutput"><td align="right">Invert Input Output:</td><td align="left"><s:checkbox name="invertInputOutput"/></td></tr>
    			            <tr id="row_max_atten"><td align="right"><span id="max_atten">Maximum Attenuation: </span></td><td align="left"><s:textfield name="maxAttn" size="20" /><span id="attr_unit">dB</span></td></tr>
 			            <tr id="row_min_atten"><td align="right"><span id="min_atten">Minimum Attenuation: </span></td><td align="left"><s:textfield name="minAttn" size="20" />dB</td></tr>
-			         </table>
+			   	        <tr id="invertInputOutput"><td align="right">Invert Input Output:</td><td align="left"><s:checkbox name="invertInputOutput"/></td></tr>
+                        </table>
 		          </td>
 		       </tr>
 		       <tr>
