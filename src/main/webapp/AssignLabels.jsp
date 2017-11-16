@@ -14,6 +14,11 @@ function editthis(obj){obj.className='bb'}function resetstyle(obj){obj.className
 </SCRIPT>
    
 <s:form theme="simple" action="labels.action" method="post" enctype="multipart/form-data">
+
+   <s:if test="%{errorMessage != null}">
+       <img src="images/warn.png">&nbsp;<div class="error_message"><s:property value="errorMessage"/></div>
+   </s:if>
+
    <table class="ConfigDataTable" width="60%" align="center">
    <thead><tr><th colspan="2">Matrix Input Output Label Assignment</th></tr></thead>
       <tbody>
@@ -74,7 +79,7 @@ function editthis(obj){obj.className='bb'}function resetstyle(obj){obj.className
 	      </tr>
 	    </s:iterator>
 	  </table>
-      <table width="80%" class="labels_table" id="label_edit">
+      <table width="80%" class="labels_table" id="label_edit" style="border: 0px">
          <tr>
             <td align="right" valign="top">
                <table id="inputs_labels" width="250px" style="border: 1px solid green; border-collapse:collapse; padding:2px; margin:0px;">

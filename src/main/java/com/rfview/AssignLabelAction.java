@@ -42,14 +42,14 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
     private String hardware;
     private String createDefault="no";
     private String filename;
- 
+
     private File labelImport;
     private String labelImportContentType;
     private String labelImportFileName;
     private final Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
-    
+
     private static final String[] SUPPORTED_FILE_EXTENSIONS = new String[] {
-        "xlsx",    
+        "xlsx",
         "xlsm",
         "xlsb",
         "xltx",
@@ -58,9 +58,9 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
         "xlt",
         "xlam",
         "xla",
-        "xlw" 
+        "xlw"
     };
-    
+
 
     public String getCreateDefault() {
         return createDefault;
@@ -72,11 +72,11 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
 
     public AssignLabelAction() {
     }
-    
+
     public String getHardware() {
         return hardware;
     }
-    
+
     public void setHardware(String hardware) {
         this.hardware = hardware;
         sessionMap.put("hardware", hardware);
@@ -89,10 +89,10 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
     public void setFilename(String filename) {
         this.filename = filename;
     }
-    
+
     public LogFile[] getFilelist() {
         File f = new File(MazeserverManagement.getInstance().getConfigureDir());
-     
+
         File[] files = f.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -102,19 +102,19 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
                     }
                 }
                 return false;
-            }            
+            }
         });
-        
+
         int i = 0;
         LogFile[] filelist = new LogFile[files.length];
-        for (File theFile : files) {            
+        for (File theFile : files) {
             LogFile lf = new LogFile(theFile.getName(), theFile.length(), convertTime(theFile.lastModified()));
             lf.setUrl("labels.action?filename="+theFile.getName());
             filelist[i++] = lf;
         }
         return filelist;
     }
-    
+
     public String execute() {
         if (sessionMap!=null) {
             String uid = (String)sessionMap.get("loginId");
@@ -123,16 +123,16 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
             }
             this.username = uid;
         }
-      
+
         try {
-            if ((labelImport!=null) && (this.labelImportFileName!=null)) {          
-                File fileForImport = new File(mgmt.getConfigureDir(), this.labelImportFileName);                
+            if ((labelImport!=null) && (this.labelImportFileName!=null)) {
+                File fileForImport = new File(mgmt.getConfigureDir(), this.labelImportFileName);
                 FileUtils.copyFile(this.labelImport, fileForImport);
                 logger.info("labelImport = " + this.labelImport);
                 logger.info("fileForImport = " + fileForImport);
                 ImportExport ie = new ImportExport("");
                 ie.read(fileForImport);
-                
+
                 String dataInputLebel[] = ie.getDataInputLebel();
                 String dataInputDesc[] = ie.getDataInputDesc();
 
@@ -143,7 +143,7 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
                 dbAccess.insertLabels(ie.getHardwareName(), dataInputLebel, dataInputDesc, dataOutputLebel, dataOutputDesc);
                 Datagrid.getInstance().setLabelsChanged(getHardware(), true);
                 setHardware(getHardware());
-                return SUCCESS;                
+                return SUCCESS;
             }
         } catch (Exception e) {
             logger.error(e);
@@ -163,30 +163,48 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
             return SUCCESS;
         }
 
-        String[] tokens = action.split(" ");  
+        String[] tokens = action.split(" ");
         String command = tokens[0];
         if (tokens.length > 1) {
             param = tokens[1];
         }
         setHardware(param);
-        
+
         setShowcontent(Constants.CONST_YES);
-        List<MatrixLabel> inputLabels = dbAccess.queryInputLabels(hardware);      
+        List<MatrixLabel> inputLabels = dbAccess.queryInputLabels(hardware);
         List<MatrixLabel> outputLabels = dbAccess.queryOutputLabels(hardware);
-        
+
         if ((inputLabels==null) || (inputLabels.isEmpty()) || (outputLabels == null) || (outputLabels.isEmpty())) {
             setWarningMessage("Labels are not assigned. Click create button to add default values!");
             createDefault="yes";
         }
-            
+
         if (command.equals("reset")) {
             return SUCCESS;
         } else if (command.equals("commit")) {
             String dataInputLebel[] = getInputLabels().split(DELIMITOR);
+            if ( !isValid(dataInputLebel)) {
+                setErrorMessage("Invalid Input Label!");
+                return SUCCESS;
+            }
+
             String dataInputDesc[] = getInputDesc().split(DELIMITOR);
-            
+            if ( !isValid(dataInputDesc)) {
+                setErrorMessage("Invalid Input Description!");
+                return SUCCESS;
+            }
+
             String dataOutputLebel[] = getOutputLabels().split(DELIMITOR);
+            if ( !isValid(dataOutputLebel)) {
+                setErrorMessage("Invalid Output Label!");
+                return SUCCESS;
+            }
+
             String dataOutputDesc[] = getOutputDesc().split(DELIMITOR);
+            if ( !isValid(dataOutputDesc)) {
+                setErrorMessage("Invalid Output Description!");
+                return SUCCESS;
+            }
 
             dbAccess.deleteLabels(getHardware());
             dbAccess.insertLabels(getHardware(), dataInputLebel, dataInputDesc, dataOutputLebel, dataOutputDesc);
@@ -203,7 +221,7 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
 
                 int matrix_inputs = Integer.parseInt(str_matrix_inputs.trim());
                 int matrix_outputs = Integer.parseInt(str_matrix_outputs.trim());
-                
+
                 if ((matrix_inputs>0) && (matrix_outputs>0)) {
                     dbAccess.insertDefaultLabels(param, matrix_inputs, matrix_outputs);
                 }
@@ -214,7 +232,7 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
             }
             return SUCCESS;
         } else if (command.equals("import")) {
-            setHardware(param);          
+            setHardware(param);
             return SUCCESS;
         } else if (command.equals("export")) {
             setHardware(param);
@@ -225,7 +243,7 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
             setShowcontent(Constants.CONST_NO);
             logger.warn("unsupported action " + action);
             return ERROR;
-        }        
+        }
     }
 
     public String getAction() {
@@ -235,7 +253,7 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
     public void setAction(String action) {
         this.action = action;
     }
-    
+
     public List<String> getHardwarelist() {
         return bConf.getHardwareList();
     }
@@ -249,7 +267,7 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
     }
 
     public String getInputDesc() {
-        
+
         return (inputDesc==null)? "" : inputDesc;
     }
 
@@ -272,7 +290,7 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
     public void setOutputDesc(String outputDesc) {
         this.outputDesc = outputDesc;
     }
-    
+
     public List<MatrixLabel> getInputs() {
         if (hardware==null) {
             return Collections.emptyList();
@@ -287,12 +305,12 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
         }
         return dbAccess.queryOutputLabels(hardware);
     }
-    
+
     //////
     public InputStream getFileInputStream() {
         return fileInputStream;
     }
-        
+
     public String download() {
         String filename = request.getParameter("filename");
         try {
@@ -301,7 +319,7 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
         } catch (FileNotFoundException e) {
             logger.warn(e.getMessage());
         }
-        
+
         return "download";
     }
 
@@ -309,12 +327,12 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
         Date date = new Date(time);
         return format.format(date);
     }
-    
+
     @Override
     public void setServletRequest(HttpServletRequest request) {
-        this.request = request;        
+        this.request = request;
     }
-    
+
     //////////
     // Upload and import
     public File getLabelImport() {
@@ -339,5 +357,18 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
 
     public void setLabelImportFileName(String labelImportFileName) {
         this.labelImportFileName = labelImportFileName;
+    }
+
+    private boolean isValid(String[] data) {
+        if ( data == null ) {
+            return false;
+        }
+
+        for ( String s : data ) {
+            if ( s == null || s.trim().isEmpty() ) {
+                return false;
+            }
+        }
+        return true;
     }
 }
