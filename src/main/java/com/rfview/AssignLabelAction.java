@@ -182,32 +182,74 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
         if (command.equals("reset")) {
             return SUCCESS;
         } else if (command.equals("commit")) {
-            String dataInputLebel[] = getInputLabels().split(DELIMITOR);
-            if ( !isValid(dataInputLebel)) {
+
+            List<MatrixLabel> currentInputLabels = dbAccess.queryInputLabels(hardware);
+            List<MatrixLabel> currentOutputLabels = dbAccess.queryOutputLabels(hardware);
+
+            String dataInputLabel[] = getInputLabels().split(DELIMITOR);
+            String dataInputDesc[] = getInputDesc().split(DELIMITOR);
+
+            if ( dataInputLabel.length != dataInputDesc.length || dataInputLabel.length != currentInputLabels.size() ) {
+                setErrorMessage("Missing Input Labels or description!");
+                return SUCCESS;
+            }
+
+            if ( !isValid(dataInputLabel)) {
                 setErrorMessage("Invalid Input Label!");
                 return SUCCESS;
             }
 
-            String dataInputDesc[] = getInputDesc().split(DELIMITOR);
+
             if ( !isValid(dataInputDesc)) {
                 setErrorMessage("Invalid Input Description!");
                 return SUCCESS;
             }
 
-            String dataOutputLebel[] = getOutputLabels().split(DELIMITOR);
-            if ( !isValid(dataOutputLebel)) {
+            String dataOutputLabel[] = getOutputLabels().split(DELIMITOR);
+            String dataOutputDesc[] = getOutputDesc().split(DELIMITOR);
+            if ( dataOutputLabel.length != dataOutputDesc.length || dataOutputLabel.length != currentOutputLabels.size() ) {
+                setErrorMessage("Missing Output Labels or description!");
+                return SUCCESS;
+            }
+
+            if ( !isValid(dataOutputLabel)) {
                 setErrorMessage("Invalid Output Label!");
                 return SUCCESS;
             }
 
-            String dataOutputDesc[] = getOutputDesc().split(DELIMITOR);
             if ( !isValid(dataOutputDesc)) {
                 setErrorMessage("Invalid Output Description!");
                 return SUCCESS;
             }
 
             dbAccess.deleteLabels(getHardware());
-            dbAccess.insertLabels(getHardware(), dataInputLebel, dataInputDesc, dataOutputLebel, dataOutputDesc);
+            try {
+                dbAccess.insertLabels(getHardware(), dataInputLabel, dataInputDesc, dataOutputLabel, dataOutputDesc);
+            } catch (Exception e) {
+                //rollback
+                String[] inLab = new String[currentInputLabels.size()];
+                String[] inDesc = new String[currentInputLabels.size()];
+                int i = 0;
+                for ( MatrixLabel ml : currentInputLabels ) {
+                    inLab[i] = ml.getLabel();
+                    inDesc [i]= ml.getDescription();
+                    i++;
+                }
+
+                String[] outLab = new String[currentOutputLabels.size()];
+                String [] outDesc = new String[currentOutputLabels.size()];
+                i = 0;
+                for ( MatrixLabel ml : currentOutputLabels ) {
+                   outLab[i] = ml.getLabel();
+                   outDesc [i]= ml.getDescription();
+                   i++;
+                }
+
+                try {
+                    dbAccess.insertLabels(getHardware(), inLab,inDesc, outLab, outDesc);
+                } catch (Exception e1) {
+                }
+            }
             Datagrid.getInstance().setLabelsChanged(getHardware(), true);
             return SUCCESS;
         } else if (command.equals("edit")) {

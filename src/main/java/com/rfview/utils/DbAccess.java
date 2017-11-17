@@ -647,7 +647,7 @@ public class DbAccess {
         }
     }
 
-    public void insertLabels(String hardware, String[] inputs, String[] inputDesc, String[] outputs, String[] outputsDesc) {
+    public void insertLabels(String hardware, String[] inputs, String[] inputDesc, String[] outputs, String[] outputsDesc) throws Exception {
         Connection conn = null;
         PreparedStatement stat = null;
         ResultSet rs = null;
@@ -681,13 +681,14 @@ public class DbAccess {
             conn.setAutoCommit(true);
         } catch (NamingException e) {
             LOGGER.error(e);
+            throw e;
         } catch (SQLException e) {
             LOGGER.error(e);
+            throw e;
         } finally {
             closeResultset(rs);
             closeStatement(stat);
             closeConnection(conn);
-
         }
     }
 
@@ -898,7 +899,7 @@ public class DbAccess {
         try {
             conn = connect();
             stat = conn.createStatement();
-            String SQL = "INSERT INTO assignments VALUES('" + hardware + "', '" + username + "', '" + 
+            String SQL = "INSERT INTO assignments VALUES('" + hardware + "', '" + username + "', '" +
             ALL + "', '" + ALL + "')" ;
             stat.execute(SQL);
         } catch (Exception e) {
