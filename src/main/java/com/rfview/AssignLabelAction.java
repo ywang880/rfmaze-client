@@ -194,31 +194,10 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
                 return SUCCESS;
             }
 
-            if ( !isValid(dataInputLabel)) {
-                setErrorMessage("Invalid Input Label!");
-                return SUCCESS;
-            }
-
-
-            if ( !isValid(dataInputDesc)) {
-                setErrorMessage("Invalid Input Description!");
-                return SUCCESS;
-            }
-
             String dataOutputLabel[] = getOutputLabels().split(DELIMITOR);
             String dataOutputDesc[] = getOutputDesc().split(DELIMITOR);
             if ( dataOutputLabel.length != dataOutputDesc.length || dataOutputLabel.length != currentOutputLabels.size() ) {
                 setErrorMessage("Missing Output Labels or description!");
-                return SUCCESS;
-            }
-
-            if ( !isValid(dataOutputLabel)) {
-                setErrorMessage("Invalid Output Label!");
-                return SUCCESS;
-            }
-
-            if ( !isValid(dataOutputDesc)) {
-                setErrorMessage("Invalid Output Description!");
                 return SUCCESS;
             }
 
@@ -399,18 +378,5 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
 
     public void setLabelImportFileName(String labelImportFileName) {
         this.labelImportFileName = labelImportFileName;
-    }
-
-    private boolean isValid(String[] data) {
-        if ( data == null ) {
-            return false;
-        }
-
-        for ( String s : data ) {
-            if ( s == null || s.trim().isEmpty() ) {
-                return false;
-            }
-        }
-        return true;
     }
 }
