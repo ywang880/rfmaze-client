@@ -10,7 +10,102 @@
 </STYLE>
 
 <SCRIPT language="javascript">
-function addRow(e){var t=document.getElementById(e);var n=t.rows.length;var r=t.insertRow(n);var i=t.rows[0].cells.length;for(var s=0;s<i;s++){var o=r.insertCell(s);o.innerHTML=t.rows[0].cells[s].innerHTML;switch(o.childNodes[0].type){case"text":o.childNodes[0].value="";break;case"checkbox":o.childNodes[0].checked=false;break;case"select-one":o.childNodes[0].selectedIndex=0;break}}}function deleteRow(e){try{var t=document.getElementById(e);var n=t.rows.length;for(var r=0;r<n;r++){var i=t.rows[r];var s=i.cells[0].childNodes[0];if(null!=s&&true==s.checked){if(n<=1){alert("Cannot delete all the rows.");break}t.deleteRow(r);n--;r--}}}catch(o){alert(o)}}function enableInput(e){var t=document.getElementById(e).style.display;if(t=="none"){document.getElementById(e).style.display=""}else{document.getElementById(e).style.display="none"}}function disableInput(e){document.getElementById(e).style.display="none"}function commit(e){document.getElementById("_action").value=e;document.getElementById("users").submit()}function deleteUser(e){if(!confirm("Do you want to delete selected user?")){return}document.getElementById("_action").value="delete "+e;document.getElementById("users").submit()}function editUser(e,t,n){var r=e.parentNode.parentNode.cells[0].innerHTML;getListAssignedHardwares(r);var i=e.parentNode.parentNode.cells[1].innerHTML;enableInput(t);document.getElementById("users_id").value=r;document.getElementById("user_passwd").value=i;}function show_hide_password(){var attr=$("#user_passwd").attr('type');if (attr=="text"){$("#user_passwd").attr('type','password');}else{$("#user_passwd").attr('type','text');}}
+function addRow(e) {
+    var t = document.getElementById(e);
+    var n = t.rows.length;
+    var r = t.insertRow(n);
+    var i = t.rows[0].cells.length;
+    for (var s = 0; s < i; s++) {
+        var o = r.insertCell(s);
+        o.innerHTML = t.rows[0].cells[s].innerHTML;
+        switch (o.childNodes[0].type) {
+            case "text":
+                o.childNodes[0].value = "";
+                break;
+            case "checkbox":
+                o.childNodes[0].checked = false;
+                break;
+            case "select-one":
+                o.childNodes[0].selectedIndex = 0;
+                break
+        }
+    }
+}
+
+function deleteRow(e) {
+    try {
+        var t = document.getElementById(e);
+        var n = t.rows.length;
+        for (var r = 0; r < n; r++) {
+            var i = t.rows[r];
+            var s = i.cells[0].childNodes[0];
+            if (null != s && true == s.checked) {
+                if (n <= 1) {
+                    alert("Cannot delete all the rows.");
+                    break
+                }
+                t.deleteRow(r);
+                n--;
+                r--
+            }
+        }
+    } catch (o) {
+        alert(o)
+    }
+}
+
+function enableInput(e) {
+    var t = document.getElementById(e).style.display;
+    if (t == "none") {
+        document.getElementById(e).style.display = ""
+    } else {
+        document.getElementById(e).style.display = "none"
+    }
+}
+
+function disableInput(e) {
+    document.getElementById(e).style.display = "none"
+}
+
+function commit(e) {
+    var x=document.getElementById("id_assigned");
+    var hardwares='';
+    for (var i = 0; i < x.options.length; i++) {
+        if ( i == 0 ) {
+             hardwares = x.options[i].value;
+        } else {
+          hardwares = hardwares + ',' + x.options[i].value;
+       }
+    }
+    document.getElementById("_action").value = e+'?hardwares='+hardwares;
+    document.getElementById("users").submit();
+}
+
+function deleteUser(e) {
+    if (!confirm("Do you want to delete selected user?")) {
+        return
+    }
+    document.getElementById("_action").value = "delete " + e;
+    document.getElementById("users").submit()
+}
+
+function editUser(e, t, n) {
+    var r = e.parentNode.parentNode.cells[0].innerHTML;
+    getListAssignedHardwares(r);
+    var i = e.parentNode.parentNode.cells[1].innerHTML;
+    enableInput(t);
+    document.getElementById("users_id").value = r;
+    document.getElementById("user_passwd").value = i;
+}
+
+function show_hide_password() {
+    var attr = $("#user_passwd").attr('type');
+    if (attr == "text") {
+        $("#user_passwd").attr('type', 'password');
+    } else {
+        $("#user_passwd").attr('type', 'text');
+    }
+}
 
 function getListAssignedHardwares(user) {
     var jqxhr = $.get( "/rfmaze/mazeServlet?command=gethardwares&user=" + user, function(responseData) {
@@ -89,10 +184,14 @@ $(document).ready(function() {
         </table>
       </td>
     </tr>
-    <!--
     <tr>
       <td align="center">
         <table align="center">
+            <tr>
+            <td style=" color: white; font-size: 12 px; text-align: center">Available Hardwares</td>
+       	    <td><img src="images/spacer.gif"></td>
+            <td style=" color: white; font-size: 12 px; text-align: center">Assigned Hardwares</td>
+	      </tr>
           <tr>
             <td align="right" nowrap>
               <s:select cssStyle="width:260px;" id="id_hardwarelist" label="AvailableHardware" multiple="true" size="5" headerKey="-1" list="hardwarelist" name="hardware"/></td>
@@ -117,7 +216,6 @@ $(document).ready(function() {
         </table>
       </td>
     </tr>
-    -->
     <tr><td><img src="images/spacer.gif" width="1" height="10"/></td></tr>
     <tr>
       <td colspan="2" align="center">

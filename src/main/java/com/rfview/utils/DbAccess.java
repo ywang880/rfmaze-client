@@ -912,6 +912,36 @@ public class DbAccess {
         return null;
     }
 
+    public String assignAlltoUser(String username, String hardware, int rowNumber, int colNumber) {
+        Connection conn = null;
+        Statement stat = null;
+        
+        StringBuilder all_rows = new StringBuilder("1");
+        for ( int i = 1; i <= rowNumber; i++ ) {
+            all_rows.append(",").append(i);
+        }
+        
+        StringBuilder all_cols = new StringBuilder("1");
+        for ( int i = 1; i <= colNumber; i++ ) {
+            all_cols.append(",").append(i);
+        }
+
+        try {
+            conn = connect();
+            stat = conn.createStatement();
+            String SQL = "INSERT INTO assignments VALUES('" + hardware + "', '" + username + "', '" +
+            all_rows.toString() + "', '" + all_cols.toString() + "')" ;
+            stat.execute(SQL);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            return e.getMessage();
+        } finally {
+            closeStatement(stat);
+            closeConnection(conn);
+        }
+        return null;
+    }
+    
     public String freeAllFromUser(String username, String hardware) {
         Connection conn = null;
         Statement stat = null;

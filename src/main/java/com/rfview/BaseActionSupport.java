@@ -31,7 +31,7 @@ public class BaseActionSupport extends ActionSupport implements SessionAware, Se
     protected static final String SUCCESS4 = SUCCESS + "4";
     protected static final String SUCCESS5 = SUCCESS + "5";
     
-    protected final Logger logger = Logger.getLogger(BaseActionSupport.class.getName());
+    protected final Logger logger = Logger.getLogger(BaseActionSupport.class);
     protected final DbAccess dbAccess = DbAccess.getInstance();
     protected final MazeserverManagement mgmt = MazeserverManagement.getInstance();
     protected String username;
@@ -118,7 +118,7 @@ public class BaseActionSupport extends ActionSupport implements SessionAware, Se
         try {
             return MatrixConfig.getInstance().getServerInfo(hardware).isLTE();
         } catch (InvalidConfigurationException e) {
-            logger.error(e);
+            logger.error("ERR", e);
         }
         return false;
     }
@@ -127,7 +127,7 @@ public class BaseActionSupport extends ActionSupport implements SessionAware, Se
         try {
             return MatrixConfig.getInstance().getServerInfo(hardware).isRBM();
         } catch (InvalidConfigurationException e) {
-            logger.error(e);
+            logger.error("ERR", e);
         }
         return false;
     }
@@ -136,7 +136,7 @@ public class BaseActionSupport extends ActionSupport implements SessionAware, Se
         try {
             return MatrixConfig.getInstance().getServerInfo(hardware).getType();
         } catch (InvalidConfigurationException e) {
-            logger.error(e);
+            logger.error("ERR", e);
         }
         return "";
     }
@@ -145,7 +145,7 @@ public class BaseActionSupport extends ActionSupport implements SessionAware, Se
         try {
             return MatrixConfig.getInstance().getServerInfo(hardware).isTurnTable();
         } catch (InvalidConfigurationException e) {
-            logger.error(e);
+            logger.error("ERR", e);
         }
         return false;
     }
@@ -154,7 +154,7 @@ public class BaseActionSupport extends ActionSupport implements SessionAware, Se
         try {
             return MatrixConfig.getInstance().getServerInfo(hardware).isTopYoung();
         } catch (InvalidConfigurationException e) {
-            logger.error(e);
+            logger.error("ERR", e);
         }
         return false;
     }
@@ -167,7 +167,7 @@ public class BaseActionSupport extends ActionSupport implements SessionAware, Se
             String rowTokens[] = assignment.getRows().split(",");
             return rowTokens != null && rowTokens.length == 1;
         } catch (InvalidConfigurationException e) {
-            logger.error(e);
+            logger.error("ERR", e);
         }
         return false;
     }

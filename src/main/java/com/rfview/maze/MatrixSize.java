@@ -10,10 +10,10 @@ public class MatrixSize {
         this.numOutputs = numOutputs;
     }
     
-    public int getNuminputs() {
+    public int getNumInputs() {
         return numInputs;
     }
-    public int getNumouputs() {
+    public int getNumOuputs() {
         return numOutputs;
     }
 }

@@ -8,7 +8,43 @@
 <link href="css/defaultTheme.css" rel="stylesheet" media="screen" />
 
 <style>
-.divider{margin-top:20px}.height380{height:380px;overflow-x:auto;overflow-y:auto}.matrixscrollabe{font-size:12px;color:#000;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}.matrixscrollabe td,.matrixscrollabe th{border:1px solid #789;padding:5px}.matrixscrollabe tbody tr td{background-color:#eef2f9;background-image:-moz-linear-gradient(top,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.0) 100%);background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,0.4)),color-stop(100%,rgba(255,255,255,0.0)))}.matrixscrollabe tbody tr.odd td{background-color:#d6e0ef;background-image:-moz-linear-gradient(top,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.0) 100%);background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,0.4)),color-stop(100%,rgba(255,255,255,0.0)))}.matrixscrollabe thead tr th,.matrixscrollabe thead tr td,.matrixscrollabe tfoot tr th,.matrixscrollabe tfoot tr td{background-color:#8ca9cf;background-image:-moz-linear-gradient(top,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.0) 100%);background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,0.4)),color-stop(100%,rgba(255,255,255,0.0)));font-weight:700}
+.divider {
+    margin-top: 20px
+}
+.height380 {
+    height: 380px;
+    overflow-x: auto;
+    overflow-y: auto
+}
+.matrixscrollabe {
+    font-size: 12px;
+    color: #000;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
+}
+.matrixscrollabe td,
+.matrixscrollabe th {
+    border: 1px solid #789;
+    padding: 5px
+}
+.matrixscrollabe tbody tr td {
+    background-color: #eef2f9;
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.0) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.4)), color-stop(100%, rgba(255, 255, 255, 0.0)))
+}
+.matrixscrollabe tbody tr.odd td {
+    background-color: #d6e0ef;
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.0) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.4)), color-stop(100%, rgba(255, 255, 255, 0.0)))
+}
+.matrixscrollabe thead tr th,
+.matrixscrollabe thead tr td,
+.matrixscrollabe tfoot tr th,
+.matrixscrollabe tfoot tr td {
+    background-color: #8ca9cf;
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.0) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.4)), color-stop(100%, rgba(255, 255, 255, 0.0)));
+    font-weight: 700
+}
 </style>
 
 <script type="text/javascript" language="javascript" src="js/rfmaze.js"></script>

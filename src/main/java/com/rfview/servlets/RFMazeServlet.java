@@ -120,13 +120,8 @@ public class RFMazeServlet extends HttpServlet {
                  try {
                 	 Assignment userAssignment = dbAccess.getAssignment(user);
                      List<String> hwAssigned = userAssignment.getHardwares();
-                     List<String> availableServers = BroadcastConf.getInstance().getNonSwitchHardwareList();
-                     for ( String ss : availableServers ) {
-                         for ( String sss : hwAssigned ) {
-                             if (sss.equals(ss) ) {
-                                 hardwares.add(ss);
-                             }
-                         }
+                     for ( String sss : hwAssigned ) {
+                         hardwares.add(sss);
                      }
                  } catch (SQLException e2) {
                 	 debugLogger.warn(e2.getMessage());

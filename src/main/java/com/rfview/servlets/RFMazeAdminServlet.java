@@ -52,7 +52,6 @@ public class RFMazeAdminServlet extends HttpServlet {
         user = (String)request.getSession().getAttribute("loginId");
         hardware = (String)request.getSession().getAttribute(Constants.KEY_HARDWARE);
         if ((user==null) || (hardware == null)) {
-            out.println("ERROR: invalid user session parameters.");
         }
 
         String command = request.getParameter("command");
@@ -287,14 +286,14 @@ public class RFMazeAdminServlet extends HttpServlet {
     }
 
     private void onRefresh(PrintWriter out) {
-    	debugLogger.info("onRefresh() hardware " + hardware + ", user " + user);
+        refreshLogger.info("onRefresh() hardware " + hardware + ", user " + user);
     	String matrixtable = MatrixBuilder.toFullXml(cache.getMatrix(hardware), user, hardware);
     	out.println(matrixtable);
-    	debugLogger.debug("onRefresh() done. return 0 bytes.");
+    	refreshLogger.debug("onRefresh() done. return 0 bytes.");
     	if (matrixtable==null) {
-    		debugLogger.debug("onRefresh() done. return 0 bytes.");
+    	    refreshLogger.debug("onRefresh() done. return 0 bytes.");
     	} else {
-    		debugLogger.debug("onRefresh() done. return " + matrixtable.length());
+    	    refreshLogger.debug("onRefresh() done. return " + matrixtable.length());
     	}
     }
 

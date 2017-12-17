@@ -38,6 +38,7 @@ public class MazeserverManagement implements MazeserverManagementMBean {
     private final String catalina_home = System.getProperty("catalina.home");
 
     private final String configureDir = (CONF_DIR != null) ? CONF_DIR : CATALINA_CONF_DIR + File.separator + "conf";
+    
     private List<ProcessInfo> processes;
     private String processId=null;
 
