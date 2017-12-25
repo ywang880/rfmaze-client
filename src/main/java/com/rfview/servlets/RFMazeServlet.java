@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.lang.management.ManagementFactory;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -28,7 +28,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.rfview.conf.Assignment;
-import com.rfview.conf.BroadcastConf;
 import com.rfview.management.MazeserverManagement;
 import com.rfview.maze.AssignMapper;
 import com.rfview.maze.Datagrid;
@@ -83,7 +82,7 @@ public class RFMazeServlet extends HttpServlet {
             hardware = (String) request.getSession().getAttribute("hardware");
             String command = request.getParameter("command");
             
-            if ( (user == null || hardware == null) && !"gethardwares".equals(command) ) {
+            if ( (user == null || hardware == null) && !"gethardwares".equals(command) && !"getassignedusers".equals(command) ) {
                 out.println("ERROR: invalid user session parameters.");
                 return;
             }
@@ -114,9 +113,16 @@ public class RFMazeServlet extends HttpServlet {
             } else if ("isconnected".equalsIgnoreCase(command)) {
                 StringBuilder ret_buffer = onCheckConnection();
                 out.println(ret_buffer);
+            } else if ("getassignedusers".equalsIgnoreCase(command)) {
+                String hw = request.getParameter("hw");
+                try {
+                    out.println(StringUtils.join(dbAccess.getAssignedUsers(hw), ","));
+                } catch (SQLException e2) {
+                    debugLogger.warn(e2.getMessage());
+                }
             } else if ("gethardwares".equalsIgnoreCase(command)) {
             	 String user = request.getParameter("user");
-            	 List<String> hardwares = new ArrayList<>();
+            	 List<String> hardwares = new LinkedList<>();
                  try {
                 	 Assignment userAssignment = dbAccess.getAssignment(user);
                      List<String> hwAssigned = userAssignment.getHardwares();

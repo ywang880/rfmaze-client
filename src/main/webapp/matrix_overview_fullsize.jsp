@@ -4,40 +4,52 @@
 <link rel="stylesheet" href="css/jquery_style.css">
 <link rel="stylesheet" href="css/jquery-ui.css">
 <link rel="stylesheet" href="css/matrix.css">
+<link href="css/960.css" rel="stylesheet" media="screen" />
 <link href="css/defaultTheme.css" rel="stylesheet" media="screen" />
 
 <style>
-.divider {
-  margin-top: 20px;
+
+.matrix_fullsize {
+    font-size: 12px;
+    color: #000;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
 }
 
-
-.matrixscrollabe {
-  font-size: 10px;
-  color: #000;
-  font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+.matrix_fullsize th {
+    width: 40px;
+    max-width:40px;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    border: 1px solid #789;
+    padding: 5px
 }
 
-.matrixscrollabe td,.matrixscrollabe th {
-  border: 1px solid #789;
+.matrix_fullsize td {
+    width: 40px;
+    max-width:40px;
+    border: 1px solid #789;
+    padding: 5px
+}
+                   
+.matrix_fullsize tbody tr td {
+    background-color: #eef2f9;
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.0) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.4)), color-stop(100%, rgba(255, 255, 255, 0.0)))
 }
 
-.matrixscrollabe tbody tr td {
-  background-color: #eef2f9;
-  background-image: -moz-linear-gradient(top,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.0) 100%);
-  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,0.4)),color-stop(100%,rgba(255,255,255,0.0)));
+.matrix_fullsize tbody tr.odd td {
+    background-color: #d6e0ef;
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.0) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.4)), color-stop(100%, rgba(255, 255, 255, 0.0)))
 }
-
-.matrixscrollabe tbody tr.odd td {
-  background-color: #d6e0ef;
-  background-image: -moz-linear-gradient(top,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.0) 100%);
-  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,0.4)),color-stop(100%,rgba(255,255,255,0.0)));
-}
-
-.matrixscrollabe thead tr th,.matrixscrollabe thead tr td,.matrixscrollabe tfoot tr th,.matrixscrollabe tfoot tr td {
-  background-color: #8ca9cf;
-  background-image: -moz-linear-gradient(top,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.0) 100%);
-  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,0.4)),color-stop(100%,rgba(255,255,255,0.0)));
+.matrix_fullsize thead tr th,
+.matrix_fullsize thead tr td,
+.matrix_fullsize tfoot tr th,
+.matrix_fullsize tfoot tr td {
+    background-color: #8ca9cf;
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.0) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.4)), color-stop(100%, rgba(255, 255, 255, 0.0)));
+    font-weight: 700
 }
 </style>
 
@@ -46,6 +58,7 @@
 <SCRIPT language="javascript">
 function changeAttn(e){var t=document.getElementById("matrix_view").rows[0].cells[e.cellIndex],n=document.getElementById("matrix_view").rows[e.parentNode.rowIndex].cells[0],i=t.childNodes[1];headerText=i.childNodes[0].nodeValue,i=n.childNodes[1],labelText=i.childNodes[0].nodeValue;var d=e.parentNode.rowIndex,l=e.cellIndex-1;if(0!=l){if(isSetAttenuationActive)return void changeAttn2(e);document.getElementById("attenuation").value=e.innerHTML,$("#slider").slider("value",e.innerHTML),"hidden"==document.getElementById("bkg").style.visibility&&(document.getElementById("bkg").style.visibility="",$("#bkg").hide()),"hidden"==document.getElementById("dlg").style.visibility&&(document.getElementById("dlg").style.visibility="",$("#dlg").hide()),$("#bkg").fadeIn(500,"linear",function(){isSetAttenuationActive=!0,$("#dlg").show(500,"swing"),$("#dlg").draggable();$("#dlg").zIndex(1)}),document.getElementById("id_inputs").value=d-1,document.getElementById("id_outputs").value=l,document.getElementById("id_inputs").disabled=!0,document.getElementById("id_outputs").disabled=!0,document.getElementById("mimo").disabled=!0,document.getElementById("inputs_label").innerHTML=labelText,document.getElementById("outputs_label").innerHTML=headerText,$("#mimo").attr("checked",!1),$("#mimo1").attr("checked",!1)}}function changeAttn2(e){document.getElementById("attenuation1").value=e.innerHTML,$("#slider1").slider("value",e.innerHTML);var t=e.parentNode.rowIndex,n=e.cellIndex-1;0!=n&&("hidden"==document.getElementById("bkg1").style.visibility&&(document.getElementById("bkg1").style.visibility="",$("#bkg1").hide()),"hidden"==document.getElementById("dlg1").style.visibility&&(document.getElementById("dlg1").style.visibility="",$("#dlg1").hide()),$("#bkg1").fadeIn(500,"linear",function(){$("#dlg1").show(500,"swing"),$("#dlg1").draggable();$("#dlg1").zIndex(1)}),document.getElementById("id_inputs1").value=t-1,document.getElementById("id_outputs1").value=n,document.getElementById("id_inputs1").disabled=!0,document.getElementById("id_outputs1").disabled=!0,document.getElementById("mimo1").disabled=!0,document.getElementById("inputs_label1").innerHTML=labelText,document.getElementById("outputs_label1").innerHTML=headerText,$("#mimo").attr("checked",!1),$("#mimo1").attr("checked",!1))}function set_attenuation_btn(e){if(1==e){var t=document.getElementById("attenuation").value,n=document.getElementById("id_inputs").value,i=document.getElementById("id_outputs").value;$("#slider").slider("value",t),set_attenuation(n,i,t)}else if(2==e){var t=document.getElementById("attenuation1").value,n=document.getElementById("id_inputs1").value,i=document.getElementById("id_outputs1").value;$("#slider1").slider("value",t),set_attenuation(n,i,t)}}function set_atten(e,t){if(1==e){document.getElementById("attenuation").value=t;var n=document.getElementById("id_inputs").value,i=document.getElementById("id_outputs").value;$("#slider").slider("value",t),set_attenuation(n,i,t)}else if(2==e){document.getElementById("attenuation1").value=t;var n=document.getElementById("id_inputs1").value,i=document.getElementById("id_outputs1").value;$("#slider1").slider("value",t),set_attenuation(n,i,t)}}function increment_and_send(e){if(!in_progress1)if(in_progress1=!0,setTimeout(function(){in_progress1=!1},300),1==e){var t=document.getElementById("id_inputs").value,n=document.getElementById("id_outputs").value,i=document.getElementById("attenuation").value;if(63==i)return void alert("The new value exceeds the limit. Maximum value is 63");var d=++i;document.getElementById("attenuation").value=d,$("#slider").slider("value",d),set_attenuation(t,n,d)}else if(2==e){var t=document.getElementById("id_inputs1").value,n=document.getElementById("id_outputs1").value,i=document.getElementById("attenuation1").value;if(63==i)return void alert("The new value exceeds the limit. Maximum value is 63");var d=++i;document.getElementById("attenuation1").value=d,$("#slider1").slider("value",d),set_attenuation(t,n,d)}}function decrment_and_send(e){if(!in_progress2)if(in_progress2=!0,setTimeout(function(){in_progress2=!1},300),1==e){var t=document.getElementById("id_inputs").value,n=document.getElementById("id_outputs").value,i=document.getElementById("attenuation").value;if(0==i)return void alert("The value cannot be decremented as the current value already reached the low boundary!");var d=--i;document.getElementById("attenuation").value=d,$("#slider").slider("value",d),set_attenuation(t,n,d)}else if(2==e){var t=document.getElementById("id_inputs1").value,n=document.getElementById("id_outputs1").value,i=document.getElementById("attenuation1").value;if(0==i)return void alert("The value cannot be decremented as the current value already reached the low boundary!");var d=--i;document.getElementById("attenuation1").value=d,$("#slider1").slider("value",d),set_attenuation(t,n,d)}}function set_attenuation(e,t,n){if(isBlank(e)||isBlank(t))return void alert("Input is invalid. Row and column cannot not empty!");var i=/^[0-9,]*$/.test(e);if(!i)return void alert("Input is invalid. The inputs must be digits separated by comma.");if(i=/^[0-9,]*$/.test(t),!i)return void alert("Output is invalid. The outputs must be digits separated by comma.");for(var d=document.getElementById("matrix_view").rows.length-1,l=document.getElementById("matrix_view").rows[0].cells.length-2,a=e.split(","),u=t.split(","),o=0;o<a.length;o++)if(a[o]>d)return void alert("Input is invalid. Maximum row number is "+d);for(var o=0;o<u.length;o++)if(u[o]>l)return void alert("Output is invalid. Maximum column number is "+l);var s=document.getElementById("mimo").checked,m="set_attenuation";s&&(m="set_mimo"),0>n?n=0:n>63&&(n=63);var r;r=window.XMLHttpRequest?new XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP"),r.onreadystatechange=function(){if(4==r.readyState&&200==r.status){var e=r.responseXML.documentElement.getElementsByTagName("tr");updateMatrix(e,!1)}};var c=document.getElementById("hardware_name").innerHTML;r.open("GET","/rfmaze/mazeAdminServlet?command="+m+"&outputs="+t+"&inputs="+e+"&value="+n+"&hardware="+c,!0),r.send(null)}function updateMatrix(e,t){var e,n,i,d,l,a=document.getElementById("matrix_view"),u=a.rows.length;for(n=0;n<e.length;n++)try{for(tds=e[n].getElementsByTagName("td"),i=0;i<tds.length;i++)(0!=i||t)&&(d=tds[i].getElementsByTagName("v"),l=tds[i].getElementsByTagName("c"),u-2>n&&(a.rows[n+2].cells[i+1].innerHTML=d[0].firstChild.nodeValue,a.rows[n+2].cells[i+1].style.backgroundColor=l[0].firstChild.nodeValue))}catch(o){alert(o)}}function updateMatrixOffset(e){for(var t,n,i=document.getElementById("matrix_view"),d=i.rows.length,l=0;l<e.length;l++)try{t=e[l].getElementsByTagName("td"),n=t[0].getElementsByTagName("v"),d-2>l&&(i.rows[l+2].cells[1].innerHTML=n[0].firstChild.nodeValue)}catch(a){alert(a)}}function timedRefresh(){sendRefreshCommand(),timerId=setTimeout(function(){timedRefresh()},refreshInterval)}function startRefresh(){timer_is_on||(timer_is_on=1,timedRefresh())}function stopRefresh(){clearTimeout(timerId),timer_is_on=0}function sendRefreshCommand(){var e;e=window.XMLHttpRequest?new XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP");{var t=document.getElementById("matrix_view"),n=t.rows;n.length}e.onreadystatechange=function(){if(4==e.readyState&&200==e.status){var t=e.responseXML.documentElement.getElementsByTagName("tr");updateMatrix(t,!0)}};var i=document.getElementById("hardware_name").innerHTML;e.open("POST","/rfmaze/mazeAdminServlet?command=refresh&hardware="+i,!0),e.send()}function heartbeat(){checkConnection(),setTimeout(function(){heartbeat()},5e3)}function checkConnection(){var e;e=window.XMLHttpRequest?new XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP"),e.onreadystatechange=function(){if(4==e.readyState&&200==e.status){var t=e.responseXML.documentElement.getElementsByTagName("state"),n=t[0].firstChild.nodeValue;document.getElementById("connection_state").innerHTML='<img src="images/'+n+'">',-1==n.indexOf("disconnected")&&$("#progressbar").hide();var i=e.responseXML.documentElement.getElementsByTagName("tr");updateMatrixOffset(i)}};var t=document.getElementById("hardware_name").innerHTML;e.open("POST","/rfmaze/mazeAdminServlet?command=isconnected&hardware="+t,!0),e.send()}var isSetAttenuationActive=!1,headerText="",labelText="",in_progress1=!1,in_progress2=!1;$(document).ready(function(){$("#closebtn").click(function(){isSetAttenuationActive=!1,$("#dlg").hide("500","swing",function(){$("#bkg").fadeOut("300")})}),$("#closebtn1").click(function(){$("#dlg1").hide("500","swing",function(){$("#bkg1").fadeOut("300")})}),$("#setattenuation").click(function(){manual_input=!0,"hidden"==document.getElementById("bkg").style.visibility&&(document.getElementById("bkg").style.visibility="",$("#bkg").hide()),"hidden"==document.getElementById("dlg").style.visibility&&(document.getElementById("dlg").style.visibility="",$("#dlg").hide()),$("#bkg").fadeIn(300,"linear",function(){$("#dlg").show(500,"swing")}),document.getElementById("inputs_label").innerHTML="Inputs",document.getElementById("outputs_label").innerHTML="Outputs",document.getElementById("id_inputs").value="",document.getElementById("id_outputs").value="",document.getElementById("id_inputs").disabled=!1,document.getElementById("id_outputs").disabled=!1,document.getElementById("mimo").disabled=!1}),$("#dlg").draggable(),$("#closebtn2").click(function(){$("#dlg2").hide("500","swing",function(){$("#bkg2").fadeOut("300")})}),$("#handoff").click(function(){"hidden"==document.getElementById("bkg2").style.visibility&&(document.getElementById("bkg2").style.visibility="",$("#bkg2").hide()),"hidden"==document.getElementById("dlg2").style.visibility&&(document.getElementById("dlg2").style.visibility="",$("#dlg2").hide()),$("#bkg2").fadeIn(300,"linear",function(){$("#dlg2").show(500,"swing"),$("#dlg2").draggable()})}),$("#closebtn_cp").click(function(){$("#dlg_cp").hide("500","swing",function(){$("#bkg_cp").fadeOut("300")})}),heartbeat(),refreshInterval=5e3,startRefresh()}),$(function(){$("#slider").slider({value:32,min:0,max:63,step:1,slide:function(e,t){$("#attenuation").val(t.value)}}),$("#attenuation").val($("#slider").slider("value")),$("#slider").mouseup(function(){$(this).after(function(){var e=document.getElementById("attenuation").value,t=document.getElementById("id_inputs").value,n=document.getElementById("id_outputs").value;set_attenuation(t,n,e)})}),$("#slider1").slider({value:32,min:0,max:63,step:1,slide:function(e,t){$("#attenuation1").val(t.value)}}),$("#attenuation1").val($("#slider1").slider("value")),$("#slider1").mouseup(function(){$(this).after(function(){var e=document.getElementById("attenuation1").value,t=document.getElementById("id_inputs1").value,n=document.getElementById("id_outputs1").value;set_attenuation(t,n,e)})})});var timerId,timer_is_on=0,refreshInterval=1e3,connection_mon_timer;$(function(){$(document).tooltip()});
 </SCRIPT>
+<SCRIPT type="text/javascript" language="javascript" src="js/fix_table.js"></SCRIPT>
 <SCRIPT language="javascript">
 function viewmatrix() {
     if (document.getElementById('matrix_overview_hardware').selectedIndex == 0) {
@@ -86,45 +99,44 @@ function viewmatrix() {
          </tr>
          <tr><td align="center"><img src="images/spacer.gif" width="1" height="5"/></td></tr>
       </tbody>
-   </table>
+    </table>
 
-        <table id="matrix_view" cellpadding="0" cellspacing="0" style="table-layout: fixed; overflow: hidden; text-overflow: ellipsis;" width="100%">
-           <thead>
-              <tr>
-                 <th style="width:30px; max-width:30px; height: 12px; overflow: hidden; text-overflow: ellipsis "><img src="images/label_admin.png"/></th>
-                 <s:iterator value="tableHeader" status="tableHeaderStatus">
-                 <th align="center" style="width:30px; max-width:30px; height: 12px; overflow: hidden; text-overflow: ellipsis ">
-                    <div title='<s:property value="%{description}"/>'><s:property value="%{label}"/></div>
-                 </th>
-                 </s:iterator>
-              </tr>
-           </thead>
-           <tr>
-              <td style="cursor: default; background:#688DB2; width:30px; max-width:30px; height: 12px;" align="center">User</td>
-              <s:iterator value="tableHeader" status="tableHeaderUserStatus">
-                 <td align="center" style="cursor: default; background:#688DB2;">
-                   <s:property value="%{user}"/>
-              </td>
-              </s:iterator>
-           </tr>
-           <s:iterator value="matrix" status="rowsStatus" var="row">
-           <tr>
-              <td align="center" style="background: #8ca9cf; white-space:nowrap; width: 30px; max-width:30px; height: 12px; overflow: hidden; text-overflow: ellipsis;">
-                 <div title='<s:property value="%{#row[0].description}"/>'><s:property value="%{#row[0].label}"/></div>
-              </td>
+    <table class="matrix_fullsize" id="matrix_view" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th style="width:120px; max-width:120px;"><img src="images/label_admin.png"/></th>
+                <s:iterator value="tableHeader" status="tableHeaderStatus">
+                <th align="center">
+                <div title='<s:property value="%{description}"/>'><s:property value="%{label}"/></div>
+                </th>
+                </s:iterator>
+            </tr>
+        </thead>
+        <tr>
+            <td style="cursor: default; background:#688DB2; width:120px; max-width:120px;" align="center">User</td>
+            <s:iterator value="tableHeader" status="tableHeaderUserStatus">
+            <td align="center" style="cursor: default; background:#688DB2;">
+            <s:property value="%{user}"/>
+            </td>
+            </s:iterator>
+        </tr>
+        <s:iterator value="matrix" status="rowsStatus" var="row">
+        <tr>
+            <td align="center" style="background: #8ca9cf; white-space:nowrap; width: 120px; max-width:120px; overflow: hidden; text-overflow: ellipsis;">
+            <div title='<s:property value="%{#row[0].description}"/>'><s:property value="%{#row[0].label}"/></div>
+            </td>
 
-              <s:iterator value="#row" status="colStatus">
-              <s:if test="%{#colStatus.index==0}">
-              <td align="center" style="cursor: default; background:#688DB2;"><s:property value="%{name}"/></td>
-              </s:if>
-              <s:else>
-              <td align="center" style='background: <s:property value="%{bgcolor}"/>' onclick="changeAttn(this);"><s:property value="%{name}"/></td>
-              </s:else>
-              </s:iterator>
-           </tr>
-           </s:iterator>
-        </table>
- 
+            <s:iterator value="#row" status="colStatus">
+            <s:if test="%{#colStatus.index==0}">
+            <td align="center" style="cursor: default; background:#688DB2;"><s:property value="%{name}"/></td>
+            </s:if>
+            <s:else>
+            <td align="center" style='background: <s:property value="%{bgcolor}"/>' onclick="changeAttn(this);"><s:property value="%{name}"/></td>
+            </s:else>
+            </s:iterator>
+        </tr>
+        </s:iterator>
+    </table>
    </s:else>
 
    <s:hidden name="action" value=""/>

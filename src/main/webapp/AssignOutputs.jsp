@@ -21,20 +21,23 @@ function getPdata(e){var t=document.getElementById("pForm");var n;var r=document
             <td colspan="2"><img src="images/spacer.gif" width="1" height="5"/></td>
          </tr>
          <tr>
-            <td align="right" width="40%">Assign to User:</td>
+            <td align="right" width="40%">Assign to User: </td>
 		    <td align="left" width="60%">
 		       <s:select cssStyle="width:260px;" label="assigned user" headerKey="-1" headerValue="-- select user --" list="assignedusers" name="assigntouser" onchange="usertoassign(this);"/>
 	        </td>
          </tr>
          <tr>
-            <td align="right" width="40%">Select Hardware:</td>
+            <td align="right" width="40%">Select Hardware: </td>
             <td align="left" width="60%">
                <s:select cssStyle="width:260px;" label="Hardware" headerKey="-1" headerValue="-- select hardware --" list="hardwarelist" name="hardware" onchange="hardwareassignment(this);"/>
             </td>
          </tr>
          <tr>
-            <td align="right" width="40%">Selected Outputs:</td>
+            <td align="right" width="40%">Selected Outputs: </td>
             <td align="left" width="60%"><s:textfield name="assignedcolumns" size="40"/></td>
+         </tr>
+         <tr>
+            <td colspan="2">Assign entire matrix to a user go to user editor page. </td>
          </tr>
          <tr>
             <td colspan="2"><img src="images/spacer.gif" width="1" height="10"/></td>

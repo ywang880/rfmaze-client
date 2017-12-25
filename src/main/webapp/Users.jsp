@@ -63,8 +63,9 @@ function enableInput(e) {
     }
 }
 
-function disableInput(e) {
+function disableInput(e,f) {
     document.getElementById(e).style.display = "none"
+    document.getElementById(f).style.display = "none"
 }
 
 function commit(e) {
@@ -91,6 +92,17 @@ function deleteUser(e) {
 
 function editUser(e, t, n) {
     var r = e.parentNode.parentNode.cells[0].innerHTML;
+    var i = e.parentNode.parentNode.cells[1].innerHTML;
+    
+    document.getElementById('_user_assignment').style.display = "none"
+    
+    enableInput(t);
+    document.getElementById("users_id").value = r;
+    document.getElementById("user_passwd").value = i;
+}
+
+function assignMatrix(e, t, n) {
+    var r = e.parentNode.parentNode.cells[0].innerHTML;
     getListAssignedHardwares(r);
     var i = e.parentNode.parentNode.cells[1].innerHTML;
     enableInput(t);
@@ -105,6 +117,19 @@ function show_hide_password() {
     } else {
         $("#user_passwd").attr('type', 'text');
     }
+}
+
+function isAlreadyAssigned(a, b) {
+    var jqxhr = $.get( "/rfmaze/mazeServlet?command=getassignedusers&hw=" + b, function(responseData) {
+        if ( responseData && responseData.length > 0 ) {
+            var anwser = confirm("Matrix, " + b + ", is already assiged to the users (" + responseData + "). Do you want to assign it to another user?");
+            if ( anwser ) {
+                selectedHardwares.push( b );
+                $("#id_assigned").append('<option value=' + a + '>' + b + '</option>');
+            }
+        }
+    });
+    return false;
 }
 
 function getListAssignedHardwares(user) {
@@ -131,8 +156,7 @@ $(document).ready(function() {
         $('#id_hardwarelist :selected').each(function(i, selectedElement) {
             var a = $(selectedElement).val();
             var b = $(selectedElement).text();
-            selectedHardwares.push( b );
-            $("#id_assigned").append('<option value=' + a + '>' + b + '</option>');
+            isAlreadyAssigned(a, b);
         });
         $( "#id_assignedHardware" ).val(selectedHardwares.join(","));
     });
@@ -154,18 +178,19 @@ $(document).ready(function() {
       <tr>
          <th nowrap>User ID</th>
          <th nowrap>Password</th>
-         <th nowrap colspan="2"><input type="button" class="button" value="Add New" align="center" onClick="enableInput('_user_data');"/></th>
+         <th nowrap colspan="3"><input type="button" class="button" value="Add New" align="center" onClick="enableInput('_user_data');"/></th>
       </tr>
    </thead>
    <tbody>
       <s:iterator value="users" status="usersStatus">
-  	  <tr>
-		 <td align="center" style="border: 1px solid #A8A8A8;"><s:property value="%{id}"/></td>
-		 <td align="center" style="border: 1px solid #A8A8A8;">********</td>
-		 <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" value="Edit" onclick="editUser(this, '_user_data', '<s:property value="#usersStatus.count"/>');"/></td>
-		 <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" value="Delete" onclick="deleteUser('<s:property value="%{id}"/>');"/></td>
+        <tr>
+         <td align="center" style="border: 1px solid #A8A8A8;"><s:property value="%{id}"/></td>
+         <td align="center" style="border: 1px solid #A8A8A8;">********</td>
+         <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" style="width: 100px;" value=" Assign Matrix " onclick="assignMatrix(this, '_user_assignment', '<s:property value="#usersStatus.count"/>');"/></td>
+         <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" value=" Edit " onclick="editUser(this, '_user_data', '<s:property value="#usersStatus.count"/>');"/></td>
+         <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" value=" Delete " onclick="deleteUser('<s:property value="%{id}"/>');"/></td>
       </tr>
-	  </s:iterator>
+      </s:iterator>
    </table>
    <img src="images/spacer.gif" width="1" height="20"/>
 
@@ -173,25 +198,27 @@ $(document).ready(function() {
     <tr>
       <td align="center">
         <table>
-	      <tr>
-    	    <td align="right" nowrap>Name:&nbsp;</td>
+          <tr>
+            <td align="right" nowrap>Name:&nbsp;</td>
             <td align="left"><s:textfield name="id" key="label.username" size="20"/></td>
-    	    <td align="right" nowrap>Password:&nbsp;</td>
+            <td align="right" nowrap>Password:&nbsp;</td>
             <td align="left"><s:password id="user_passwd" name="password" key="label.password" size="20"/>
-               <img id="show_password" src="images/eye.png" onClick="show_hide_password();"/>
+                <img id="show_password" src="images/eye.png" onClick="show_hide_password();"/>
             </td>
           </tr>
         </table>
       </td>
     </tr>
+    </table>
+    <table align="center" id="_user_assignment" style="display: none;">
     <tr>
       <td align="center">
         <table align="center">
             <tr>
-            <td style=" color: white; font-size: 12 px; text-align: center">Available Hardwares</td>
-       	    <td><img src="images/spacer.gif"></td>
-            <td style=" color: white; font-size: 12 px; text-align: center">Assigned Hardwares</td>
-	      </tr>
+            <td style=" color: white; font-size: 12 px; font-weight: bold; text-align: center">Available Hardwares</td>
+                <td><img src="images/spacer.gif"></td>
+            <td style=" color: white; font-size: 12 px; font-weight: bold; text-align: center">Assigned Hardwares</td>
+          </tr>
           <tr>
             <td align="right" nowrap>
               <s:select cssStyle="width:260px;" id="id_hardwarelist" label="AvailableHardware" multiple="true" size="5" headerKey="-1" list="hardwarelist" name="hardware"/></td>
@@ -209,18 +236,18 @@ $(document).ready(function() {
                 </tr>
               </table>
             </td>
-       	    <td align="right" nowrap>
+               <td align="right" nowrap>
               <s:select cssStyle="width:260px;" id="id_assigned" label="Assigned" multiple="true" size="5" list="assignedHardwares" name="assignTo"/>
             </td>
-	      </tr>
+          </tr>
         </table>
       </td>
     </tr>
     <tr><td><img src="images/spacer.gif" width="1" height="10"/></td></tr>
     <tr>
       <td colspan="2" align="center">
-    	<input type="button" class="button" value="Commit" align="center" onclick="commit('commit');"/>
-    	<input type="button" class="button" value="Cancel" align="center" onClick="disableInput('_user_data');"/>
+        <input type="button" class="button" value="Commit" align="center" onclick="commit('commit');"/>
+        <input type="button" class="button" value="Cancel" align="center" onClick="disableInput('_user_data', '_user_assignment' );"/>
       </td>
     </tr>
     <tr><td><img src="images/spacer.gif" width="1" height="20"/></td><tr>

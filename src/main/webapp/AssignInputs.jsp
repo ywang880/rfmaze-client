@@ -38,6 +38,9 @@ function enableEditor(e){if(e){$(new_assignment).show();$(modify_assignment).hid
             </td>
          </tr>
          <tr>
+            <td colspan="2">Assign entire matrix to a user go to user editor page. </td>
+         </tr>
+         <tr>
             <td colspan="2">
                <img src="images/spacer.gif" width="1" height="10"/>
             </td>

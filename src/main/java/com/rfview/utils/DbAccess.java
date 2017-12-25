@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.naming.Context;
@@ -382,6 +383,32 @@ public class DbAccess {
         }
     }
 
+    public List<String> getAssignedUsers(String hw) throws SQLException {
+        Connection conn = null;
+        Statement stat = null;
+        ResultSet rs = null;
+        List<String> users = new LinkedList<>();
+        try {
+            conn = connect();
+            stat = conn.createStatement();
+            String SQL = "SELECT user FROM assignments WHERE hardware='" + hw + "'";
+            LOGGER.debug("SQL statement = " + SQL);
+            rs = stat.executeQuery(SQL);
+            while (rs.next()) {
+                users.add(rs.getString(1));
+            }
+        } catch (NamingException e) {
+            LOGGER.error(e);
+            throw new SQLException();
+        } finally {
+            closeResultset(rs);
+            closeStatement(stat);
+            closeConnection(conn);
+        }
+        return users;
+    }
+
+    
     public Assignment getAssignment(String user) throws SQLException {
         Connection conn = null;
         Statement stat = null;
