@@ -1,7 +1,7 @@
 function isBlank(str) {
-	if (str == undefined) {
-		return true;
-	}
+    if (str == undefined) {
+        return true;
+    }
 
     if (!str || /^\s*$/.test(str)) {
         return true;
@@ -11,8 +11,8 @@ function isBlank(str) {
 }
 
 function isInteger(str) {
-	if (isBlank(str)) {
-		return false;
-	}
+    if (isBlank(str)) {
+        return false;
+    }
     return /^\+?(0|[1-9]\d*)$/.test(str);
 }

@@ -9,6 +9,7 @@
 .button{height:25px;width:80px;border:1px solid rgba(200,200,200,0.59);color:rgba(0,0,0,0.8);text-align:center;font:bold "Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;background:linear-gradient(top,#E0E0E0,gray);-webkit-border-radius:5px;-khtml-border-radius:5px;-moz-border-radius:5px;border-radius:5px;text-shadow:0 2px 2px rgba(255,255,255,0.2)}
 </STYLE>
 
+<SCRIPT type="text/javascript" language="javascript" src="js/rfmaze.js"></SCRIPT>
 <SCRIPT language="javascript">
 function addRow(e) {
     var t = document.getElementById(e);
@@ -106,6 +107,9 @@ function assignMatrix(e, t, n) {
     getListAssignedHardwares(r);
     var i = e.parentNode.parentNode.cells[1].innerHTML;
     enableInput(t);
+
+    document.getElementById('_user_data').style.display = "none"
+
     document.getElementById("users_id").value = r;
     document.getElementById("user_passwd").value = i;
 }
@@ -121,7 +125,10 @@ function show_hide_password() {
 
 function isAlreadyAssigned(a, b) {
     var jqxhr = $.get( "/rfmaze/mazeServlet?command=getassignedusers&hw=" + b, function(responseData) {
-        if ( responseData && responseData.length > 0 ) {
+        if ( isBlank(responseData) ) {
+            selectedHardwares.push( b );
+            $("#id_assigned").append('<option value=' + a + '>' + b + '</option>');
+        } else {
             var anwser = confirm("Matrix, " + b + ", is already assiged to the users (" + responseData + "). Do you want to assign it to another user?");
             if ( anwser ) {
                 selectedHardwares.push( b );
@@ -211,6 +218,7 @@ $(document).ready(function() {
     </tr>
     </table>
     <table align="center" id="_user_assignment" style="display: none;">
+    <tr><td style="color: #ffe680; font-size: 12 px; font-weight: bold; text-align: left">Note: This assignment assigns entire matrix inputs and outputs to a user! Use assign input and output page for selected assignment.</td></tr>
     <tr>
       <td align="center">
         <table align="center">
@@ -220,9 +228,10 @@ $(document).ready(function() {
             <td style=" color: white; font-size: 12 px; font-weight: bold; text-align: center">Assigned Hardwares</td>
           </tr>
           <tr>
-            <td align="right" nowrap>
-              <s:select cssStyle="width:260px;" id="id_hardwarelist" label="AvailableHardware" multiple="true" size="5" headerKey="-1" list="hardwarelist" name="hardware"/></td>
-            <td>
+            <td align="right" valign="top" nowrap>
+              <s:select cssStyle="width:260px;" id="id_hardwarelist" label="AvailableHardware" multiple="true" size="5" headerKey="-1" list="hardwarelist" name="hardware"/>
+            </td>
+            <td  valign="middle" >
               <table>
                 <tr>
                   <td>
@@ -236,7 +245,7 @@ $(document).ready(function() {
                 </tr>
               </table>
             </td>
-               <td align="right" nowrap>
+            <td align="right" valign="top" nowrap>
               <s:select cssStyle="width:260px;" id="id_assigned" label="Assigned" multiple="true" size="5" list="assignedHardwares" name="assignTo"/>
             </td>
           </tr>
