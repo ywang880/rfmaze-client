@@ -37,7 +37,10 @@ function getPdata(e){var t=document.getElementById("pForm");var n;var r=document
             <td align="left" width="60%"><s:textfield name="assignedcolumns" size="40"/></td>
          </tr>
          <tr>
-            <td colspan="2">Assign entire matrix to a user go to user editor page. </td>
+            <td colspan="2" align="center"><img src="images/spacer.gif" width="1" height="10"></td>
+         </tr>
+         <tr>
+            <td colspan="2" align="center">Assign entire matrix to a user go to user management page. </td>
          </tr>
          <tr>
             <td colspan="2"><img src="images/spacer.gif" width="1" height="10"/></td>

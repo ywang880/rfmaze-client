@@ -102,14 +102,14 @@ function editUser(e, t, n) {
     document.getElementById("user_passwd").value = i;
 }
 
-function assignMatrix(e, t, n) {
+function assignMatrix(e, t) {
     var r = e.parentNode.parentNode.cells[0].innerHTML;
     getListAssignedHardwares(r);
     var i = e.parentNode.parentNode.cells[1].innerHTML;
     enableInput(t);
 
+    document.getElementById('current_user').innerHTML = 'Assign Hardwares to ' + r;
     document.getElementById('_user_data').style.display = "none"
-
     document.getElementById("users_id").value = r;
     document.getElementById("user_passwd").value = i;
 }
@@ -193,7 +193,7 @@ $(document).ready(function() {
         <tr>
          <td align="center" style="border: 1px solid #A8A8A8;"><s:property value="%{id}"/></td>
          <td align="center" style="border: 1px solid #A8A8A8;">********</td>
-         <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" style="width: 100px;" value=" Assign Matrix " onclick="assignMatrix(this, '_user_assignment', '<s:property value="#usersStatus.count"/>');"/></td>
+         <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" style="width: 100px;" value=" Assign Matrix " onclick="assignMatrix(this, '_user_assignment');"/></td>
          <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" value=" Edit " onclick="editUser(this, '_user_data', '<s:property value="#usersStatus.count"/>');"/></td>
          <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" value=" Delete " onclick="deleteUser('<s:property value="%{id}"/>');"/></td>
       </tr>
@@ -225,7 +225,7 @@ $(document).ready(function() {
             <tr>
             <td style=" color: white; font-size: 12 px; font-weight: bold; text-align: center">Available Hardwares</td>
                 <td><img src="images/spacer.gif"></td>
-            <td style=" color: white; font-size: 12 px; font-weight: bold; text-align: center">Assigned Hardwares</td>
+            <td id="current_user" style=" color: white; font-size: 12 px; font-weight: bold; text-align: center; white-space: nowrap;"></td>
           </tr>
           <tr>
             <td align="right" valign="top" nowrap>

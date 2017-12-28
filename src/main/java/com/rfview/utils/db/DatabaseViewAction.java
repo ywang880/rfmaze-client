@@ -8,7 +8,6 @@ import com.rfview.BaseActionSupport;
 import com.rfview.conf.Assignment;
 import com.rfview.maze.Server;
 import com.rfview.maze.User;
-import com.rfview.utils.DbAccess;
 import com.rfview.utils.Util;
 
 public class DatabaseViewAction extends BaseActionSupport {

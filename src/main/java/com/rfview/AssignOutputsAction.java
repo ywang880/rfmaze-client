@@ -21,8 +21,8 @@ import com.rfview.conf.MatrixConfig;
 import com.rfview.maze.User;
 import com.rfview.utils.CommandBuilder;
 import com.rfview.utils.Constants;
-import com.rfview.utils.DbAccess;
 import com.rfview.utils.Util;
+import com.rfview.utils.db.DbAccess;
 
 public class AssignOutputsAction extends BaseActionSupport {
 

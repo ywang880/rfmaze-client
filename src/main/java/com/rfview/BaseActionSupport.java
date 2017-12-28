@@ -16,7 +16,7 @@ import com.rfview.conf.MatrixConfig;
 import com.rfview.exceptions.InvalidConfigurationException;
 import com.rfview.management.MazeserverManagement;
 import com.rfview.utils.Constants;
-import com.rfview.utils.DbAccess;
+import com.rfview.utils.db.DbAccess;
 
 public class BaseActionSupport extends ActionSupport implements SessionAware, ServletRequestAware {
 

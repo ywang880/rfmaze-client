@@ -23,8 +23,8 @@ import com.rfview.conf.MatrixConfig;
 import com.rfview.management.MazeserverManagement;
 import com.rfview.maze.Datagrid;
 import com.rfview.utils.Constants;
-import com.rfview.utils.DbAccess;
 import com.rfview.utils.ImportExport;
+import com.rfview.utils.db.DbAccess;
 
 public class AssignLabelAction extends BaseActionSupport implements ServletRequestAware {
 

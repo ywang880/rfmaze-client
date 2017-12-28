@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.rfview.conf.BroadcastConf;
 import com.rfview.maze.User;
 import com.rfview.utils.Constants;
-import com.rfview.utils.DbAccess;
+import com.rfview.utils.db.DbAccess;
 
 public class AssignMatrixAction extends BaseActionSupport {
 

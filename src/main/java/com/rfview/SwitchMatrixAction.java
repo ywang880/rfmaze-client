@@ -8,7 +8,7 @@ import com.rfview.comm.ProcessInfo;
 import com.rfview.conf.Assignment;
 import com.rfview.conf.BroadcastConf;
 import com.rfview.utils.Constants;
-import com.rfview.utils.DbAccess;
+import com.rfview.utils.db.DbAccess;
 
 public class SwitchMatrixAction extends BaseActionSupport {
 

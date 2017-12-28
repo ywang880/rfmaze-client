@@ -22,8 +22,8 @@ import com.rfview.conf.BroadcastConf;
 import com.rfview.conf.MatrixConfig;
 import com.rfview.utils.CommandBuilder;
 import com.rfview.utils.Constants;
-import com.rfview.utils.DbAccess;
 import com.rfview.utils.Util;
+import com.rfview.utils.db.DbAccess;
 
 public class AssignInputsAction extends BaseActionSupport {
 

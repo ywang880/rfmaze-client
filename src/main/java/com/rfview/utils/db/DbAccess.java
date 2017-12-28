@@ -1,4 +1,4 @@
-package com.rfview.utils;
+package com.rfview.utils.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +22,7 @@ import com.rfview.MatrixLabel;
 import com.rfview.conf.Assignment;
 import com.rfview.maze.Server;
 import com.rfview.maze.User;
+import com.rfview.utils.Constants;
 
 public class DbAccess {
 
@@ -628,6 +629,26 @@ public class DbAccess {
         }
     }
 
+    public void deleteAssignment(String hardware) {
+        Connection conn = null;
+        PreparedStatement stat = null;
+        String SQL = "DELETE FROM assignments WHERE hardware=?";
+
+        try {
+            conn = connect();
+            stat = conn.prepareStatement(SQL);
+            stat.setString(1, hardware);
+            stat.execute();
+        } catch (NamingException e) {
+            LOGGER.error(e);
+        } catch (SQLException e) {
+            LOGGER.error(e);
+        } finally {
+            closeStatement(stat);
+            closeConnection(conn);
+        }
+    }
+
     public void deleteAssignment(String user, String hardware) {
         Connection conn = null;
         PreparedStatement stat = null;
@@ -944,12 +965,12 @@ public class DbAccess {
         Statement stat = null;
         
         StringBuilder all_rows = new StringBuilder("1");
-        for ( int i = 1; i <= rowNumber; i++ ) {
+        for ( int i = 2; i <= rowNumber; i++ ) {
             all_rows.append(",").append(i);
         }
         
         StringBuilder all_cols = new StringBuilder("1");
-        for ( int i = 1; i <= colNumber; i++ ) {
+        for ( int i = 2; i <= colNumber; i++ ) {
             all_cols.append(",").append(i);
         }
 

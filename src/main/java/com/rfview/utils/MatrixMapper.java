@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.rfview.conf.Assignment;
+import com.rfview.utils.db.DbAccess;
 
 public class MatrixMapper {
 

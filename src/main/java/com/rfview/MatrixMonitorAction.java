@@ -15,7 +15,7 @@ import com.rfview.conf.BroadcastConf;
 import com.rfview.conf.MatrixConfig;
 import com.rfview.maze.Datagrid;
 import com.rfview.maze.Entry;
-import com.rfview.utils.DbAccess;
+import com.rfview.utils.db.DbAccess;
 
 public class MatrixMonitorAction extends BaseActionSupport {
 

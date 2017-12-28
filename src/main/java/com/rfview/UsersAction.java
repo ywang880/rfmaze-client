@@ -25,8 +25,8 @@ import com.rfview.maze.MatrixSize;
 import com.rfview.maze.User;
 import com.rfview.utils.CommandBuilder;
 import com.rfview.utils.Constants;
-import com.rfview.utils.DbAccess;
 import com.rfview.utils.Util;
+import com.rfview.utils.db.DbAccess;
 
 public class UsersAction extends BaseActionSupport {
 
@@ -126,7 +126,7 @@ public class UsersAction extends BaseActionSupport {
             return SUCCESS;
         } else if (user != null) {
             String[] listOfHardwares = getAssignedHardwares(action);
-            updateAssignment(username, listOfHardwares);
+            updateAssignment(listOfHardwares);
 
             try {
 
@@ -316,7 +316,7 @@ public class UsersAction extends BaseActionSupport {
         return params.replaceAll("commit\\?hardwares=", "").split(",");
     }
 
-    private void updateAssignment(String userName, String[] selectedHardwares) {
+    private void updateAssignment(String[] selectedHardwares) {
 
         Set<String> currentList = getAssigned(user.getId());
         Map<String, MatrixSize> insertList = new HashMap<>();
@@ -353,7 +353,10 @@ public class UsersAction extends BaseActionSupport {
         }
 
         for ( Map.Entry<String, MatrixSize> e : insertList.entrySet() ) {
-            logger.info("Assign matrix " + e.getKey() + ", " +  e.getValue().getNumInputs() +  " X " + e.getValue().getNumOuputs() + " to user " + user.getId());
+            
+            logger.info("Delete existing assignment and assign matrix " + e.getKey() + ", " +  e.getValue().getNumInputs() +  " X " + e.getValue().getNumOuputs() + " to user " + user.getId());
+            DbAccess.getInstance().deleteAssignment( e.getKey() );            
+            
             DbAccess.getInstance().assignAlltoUser(user.getId(),  e.getKey(), e.getValue().getNumInputs(), e.getValue().getNumOuputs());
         }
     }

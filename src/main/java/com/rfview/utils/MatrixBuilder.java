@@ -14,6 +14,7 @@ import com.rfview.conf.MatrixConfig;
 import com.rfview.exceptions.InvalidConfigurationException;
 import com.rfview.maze.Datagrid;
 import com.rfview.maze.Entry;
+import com.rfview.utils.db.DbAccess;
 
 final public class MatrixBuilder {
 

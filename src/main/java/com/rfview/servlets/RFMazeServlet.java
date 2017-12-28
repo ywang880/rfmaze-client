@@ -33,10 +33,10 @@ import com.rfview.maze.AssignMapper;
 import com.rfview.maze.Datagrid;
 import com.rfview.maze.MappingCompositeKey;
 import com.rfview.utils.Constants;
-import com.rfview.utils.DbAccess;
 import com.rfview.utils.MatrixBuilder;
 import com.rfview.utils.MatrixMapper;
 import com.rfview.utils.Util;
+import com.rfview.utils.db.DbAccess;
 
 public class RFMazeServlet extends HttpServlet {
 

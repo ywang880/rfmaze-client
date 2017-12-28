@@ -16,7 +16,7 @@ import com.rfview.conf.Assignment;
 import com.rfview.conf.BroadcastConf;
 import com.rfview.maze.Datagrid;
 import com.rfview.utils.Constants;
-import com.rfview.utils.DbAccess;
+import com.rfview.utils.db.DbAccess;
 
 public class SelectHardwareAction extends BaseActionSupport {
 
