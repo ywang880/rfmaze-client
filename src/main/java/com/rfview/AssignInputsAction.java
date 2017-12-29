@@ -1,7 +1,5 @@
 package com.rfview;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -166,14 +164,7 @@ public class AssignInputsAction extends BaseActionSupport {
             return SUCCESS;
         }
 
-        Properties props = null;
-        try {
-            props = mConfg.loadConfigureFile(hardware);
-        } catch (FileNotFoundException e) {
-            setErrorMessage("File " + hardware + ".cfg not found!");
-        } catch (IOException e) {
-            setErrorMessage("Failed to read configure file.");
-        }
+        Properties props = mConfg.loadConfigureFile(hardware);
         if (props == null) {
             setErrorMessage("ERROR: Cannot find configuration file for selected hardware!");
             return SUCCESS;
@@ -209,7 +200,7 @@ public class AssignInputsAction extends BaseActionSupport {
             setWarningMessage("WARN: The outputs has not yet assigned please assign output first!");
             return SUCCESS;
         }
-                
+
         int numAssignedCols = assignedColumns.size();
         Cell[][] viewmatrix = new Cell[numRows][numAssignedCols];
         for (int i = 0; i < numRows; i++) {
@@ -260,7 +251,7 @@ public class AssignInputsAction extends BaseActionSupport {
             String toUser = params.get(2);
             logger.debug("Share column " + rowToShare + " with user " + toUser);
             dbAccess.share(rowToShare, getHardware(), toUser);
-            
+
             if (toUser != null) {
                 forceReload(toUser);
             } else {

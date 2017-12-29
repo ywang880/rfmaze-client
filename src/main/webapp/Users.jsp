@@ -94,9 +94,9 @@ function deleteUser(e) {
 function editUser(e, t, n) {
     var r = e.parentNode.parentNode.cells[0].innerHTML;
     var i = e.parentNode.parentNode.cells[1].innerHTML;
-    
+
     document.getElementById('_user_assignment').style.display = "none"
-    
+
     enableInput(t);
     document.getElementById("users_id").value = r;
     document.getElementById("user_passwd").value = i;
@@ -146,11 +146,27 @@ function getListAssignedHardwares(user) {
         for(i = selectbox.options.length - 1 ; i >= 0 ; i--) {
             selectbox.remove(i);
         }
-    
-        if ( responseData && responseData.length > 0 ) {
+
+        if ( !isBlank( responseData ) ) {
             var res = responseData.split(",");
             for (a=0; a<res.length;a++) {
-                $("#id_assigned").append('<option value=' + res[a] + '>' + res[a] + '</option>');
+                $("#id_assigned").append('<option style="background: #FFFFFF" value=' + res[a] + '>' + res[a] + '</option>');
+            }
+        }
+    });
+
+    var jqxhr = $.get( "/rfmaze/mazeServlet?command=gethardwaresfullassignment&user=" + user, function(responseData) {
+        if ( !isBlank( responseData ) ) {
+            var res = responseData.split(",");
+            var selectStatus = document.getElementById("id_assigned");
+            for (var option in selectStatus.options){
+                var v1 = selectStatus.options[option].value;
+                for (a=0; a < res.length; a++) {
+                    var v2 = res[a].replace(/(\r\n|\n|\r)/gm, "");
+                    if ( v1 == v2 ) {
+                        selectStatus.options[option].style.background = "#3c78b5";
+                    }
+                }
             }
         }
     });
@@ -158,7 +174,7 @@ function getListAssignedHardwares(user) {
 
 var selectedHardwares = new Array();
 $(document).ready(function() {
-    
+
     $("#addselected").click(function() {
         $('#id_hardwarelist :selected').each(function(i, selectedElement) {
             var a = $(selectedElement).val();
@@ -218,7 +234,12 @@ $(document).ready(function() {
     </tr>
     </table>
     <table align="center" id="_user_assignment" style="display: none;">
-    <tr><td style="color: #ffe680; font-size: 12 px; font-weight: bold; text-align: left">Note: This assignment assigns entire matrix inputs and outputs to a user! Use assign input and output page for selected assignment.</td></tr>
+    <tr>
+      <td style="color: #ffe680; font-size: 12 px; font-weight: bold; text-align: left">
+         Note: This assignment assigns entire matrix to selected user! Using assign input and output menu for selected assignment.&nbsp;&nbsp;</br>
+         The highlighted matrix is the one its all inputs and outputs are assigned to the selected user.
+      </td>
+    </tr>
     <tr>
       <td align="center">
         <table align="center">

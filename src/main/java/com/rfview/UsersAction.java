@@ -86,7 +86,6 @@ public class UsersAction extends BaseActionSupport {
     }
 
     public List<String> getAssignedHardwares() {
-        System.out.println("getAssignedHardwares() ");
         return new ArrayList<>();
     }
 
@@ -353,10 +352,8 @@ public class UsersAction extends BaseActionSupport {
         }
 
         for ( Map.Entry<String, MatrixSize> e : insertList.entrySet() ) {
-            
             logger.info("Delete existing assignment and assign matrix " + e.getKey() + ", " +  e.getValue().getNumInputs() +  " X " + e.getValue().getNumOuputs() + " to user " + user.getId());
-            DbAccess.getInstance().deleteAssignment( e.getKey() );            
-            
+            DbAccess.getInstance().deleteAssignment( e.getKey() );
             DbAccess.getInstance().assignAlltoUser(user.getId(),  e.getKey(), e.getValue().getNumInputs(), e.getValue().getNumOuputs());
         }
     }

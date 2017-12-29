@@ -9,8 +9,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.rfview.exceptions.InvalidConfigurationException;
 import com.rfview.management.MazeserverManagement;
@@ -21,7 +21,7 @@ public class MatrixConfig {
     private static final String COMMENTS = "This is an RFMAZE configuration file. Format should not be changed";
     private static final String NEW_LINE = "\n";
     private static final String CONF_DIR= MazeserverManagement.getInstance().getConfigureDir();
-    
+
     private String matrixName;
     private String matrixType;
     private int serverSocketPort;
@@ -40,24 +40,24 @@ public class MatrixConfig {
     private int stepDb;
     private boolean invertInputOutput=false;
     private final Map<String, String> types = new HashMap<String, String>();
-    
+
     private static final MatrixConfig instance = new MatrixConfig();
     private Logger logger = Logger.getLogger(MatrixConfig.class.getName());
-    
+
     private MatrixConfig() {
     }
-     
+
     public enum TYPE {
        ROW,
        COL,
        ROW_LABEL,
        COL_LABEL
     }
-    
+
     public static MatrixConfig getInstance() {
         return instance;
     }
-        
+
     public String getMatrixName() {
         return matrixName;
     }
@@ -190,109 +190,99 @@ public class MatrixConfig {
 	public void setQuintechType(String quintechType) {
 		this.quintechType = quintechType;
 	}
-	
+
     public Server getServerInfo(String hardware) throws InvalidConfigurationException {
-        try {
-            final Properties props = loadConfigureFile(hardware);
-            final String ip = props.getProperty(Constants.MATRIX_IP);
-            final String port = props.getProperty(Constants.MATRIX_SOCKET_PORT);
-            final String type = props.getProperty(Constants.MATRIX_TYPE);
-            return new Server(hardware, type, ip, Integer.valueOf(port));
-        } catch (FileNotFoundException e) {
-            logger.log(Level.SEVERE, "", e);
-            throw new InvalidConfigurationException("Configuration file not found");
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "", e);
-            throw new InvalidConfigurationException("Configuration file not accessible");
-        }
+        final Properties props = loadConfigureFile(hardware);
+        final String ip = props.getProperty(Constants.MATRIX_IP);
+        final String port = props.getProperty(Constants.MATRIX_SOCKET_PORT);
+        final String type = props.getProperty(Constants.MATRIX_TYPE);
+        return new Server(hardware, type, ip, Integer.valueOf(port));
     }
-    
+
     public Properties getConfiguration(String hardware) throws InvalidConfigurationException {
-        try {
-            return loadConfigureFile(hardware);
-        } catch (FileNotFoundException e) {
-            logger.log(Level.SEVERE, "", e);
-            throw new InvalidConfigurationException("Configuration file not found");
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "", e);
-            throw new InvalidConfigurationException("Configuration file not accessible");
-        }
+        return loadConfigureFile(hardware);
     }
-    
+
     public void generate() {
         StringBuilder sb = new StringBuilder("## " + COMMENTS + " ##").append(NEW_LINE);
         sb.append("MATRIX_NAME").append("=").append(matrixName).append(NEW_LINE);
         sb.append("matrix_type").append("=").append(getMatrixType()).append(NEW_LINE);
         sb.append("server_socket_port").append("=").append(matrixControlPort).append(NEW_LINE);
-        
+
         if ( isTurnTable() ) {
         	sb.append("matrix_inputs").append("=").append(1).append(NEW_LINE);
         } else {
         	sb.append("matrix_inputs").append("=").append(matrixInputs).append(NEW_LINE);
         }
-        
+
         sb.append("matrix_outputs").append("=").append(matrixOutputs).append(NEW_LINE);
         sb.append("server_ip").append("=").append(getServerIp()).append(NEW_LINE);
         sb.append("matrix_ip").append("=").append(matrixIp).append(NEW_LINE);
         sb.append("matrix_socket_port").append("=").append(getHwPort()).append(NEW_LINE);
-      
+
         if ( isTurnTable() ) {
         	sb.append("max_angle").append("=").append(maxAttn).append(NEW_LINE);
         } else {
         	sb.append("max_attn").append("=").append(maxAttn).append(NEW_LINE);
         	sb.append("min_attn").append("=").append(minAttn).append(NEW_LINE);
         	sb.append("step_db").append("=").append(stepDb).append(NEW_LINE);
-    
+
         	sb.append("invert_input_output").append("=").append(invertInputOutput? "yes":"no").append(NEW_LINE);
         	sb.append("debug").append("=").append("yes").append(NEW_LINE);
         	sb.append("debug2").append("=").append("yes").append(NEW_LINE);
         }
-        
+
         if ( "K".equals(getMatrixType()) && "C".equals(getQuintechType()) ) {
 	        sb.append("matrix_ip2").append("=").append(getMatrixIp2()).append(NEW_LINE);
 	        sb.append("matrix_socket_port2").append("=").append(getHwPort2()).append(NEW_LINE);
 	        sb.append("quintech_type").append("=").append(getQuintechType()).append(NEW_LINE);
         }
-        
+
         if ( "K".equals(getMatrixType()) && "N".equals(getQuintechType()) ) {
             sb.append("quintech_type").append("=").append(getQuintechType()).append(NEW_LINE);
         }
         sb.append("EOF = Mandatory").append(NEW_LINE);
-        
+
         PrintWriter writer;
         try {
-            writer = new PrintWriter(new File(CONF_DIR+File.separator+matrixName+".cfg"));      
+            writer = new PrintWriter(new File(CONF_DIR+File.separator+matrixName+".cfg"));
             writer.write(sb.toString());
             writer.flush();
             writer.close();
         } catch (FileNotFoundException e) {
+            logger.error("Failed to write configure message");
         }
     }
-    
-    public Properties loadConfigureFile(String hardware) throws FileNotFoundException, IOException {
+
+    public Properties loadConfigureFile(String hardware) {
         Properties props = new Properties();
-        InputStream is = new FileInputStream(new File(CONF_DIR + File.separator + hardware + ".cfg"));
-        props.load(is);
+        InputStream is = null;
+        try {
+            is = new FileInputStream(new File(CONF_DIR + File.separator + hardware + ".cfg"));
+            props.load(is);
+        } catch (IOException e) {
+            logger.error("Failed to open configure file " + (CONF_DIR + File.separator + hardware + ".cfg") );
+        }
+
         if (is!=null) {
-            is.close();
-        }        
+            try {
+                is.close();
+            } catch (IOException e) {
+            }
+        }
         return props;
     }
-   
+
     public String getType(final String hardware) {
         String type = types.get(hardware);
         if (type == null) {
-            try {
-                Properties props = loadConfigureFile(hardware);
-                type = props.getProperty(Constants.MATRIX_TYPE);
-                types.put(hardware, type);
-            } catch (FileNotFoundException e) {
-            } catch (IOException e) {
-            }          
+            Properties props = loadConfigureFile(hardware);
+            type = props.getProperty(Constants.MATRIX_TYPE);
+            types.put(hardware, type);
         }
         return type;
     }
-    
+
     private boolean isTurnTable() {
     	return "T".equals(matrixType);
     }

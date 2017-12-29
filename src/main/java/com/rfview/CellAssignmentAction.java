@@ -1,7 +1,5 @@
 package com.rfview;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,7 @@ public class CellAssignmentAction extends BaseActionSupport {
     private static final long serialVersionUID = -6798445163576134855L;
     BroadcastConf bConf = BroadcastConf.getInstance();
     MatrixConfig mConfg = MatrixConfig.getInstance();
-    
+
     private String action;
     private List<String> assignedusers;
     private String assigntouser;
@@ -42,7 +40,7 @@ public class CellAssignmentAction extends BaseActionSupport {
     public void setAction(String action) {
         this.action = action;
     }
-    
+
     public int numberOfRows() {
         return numRows;
     }
@@ -55,7 +53,7 @@ public class CellAssignmentAction extends BaseActionSupport {
         this.hardware = hardware;
         sessionMap.put("hardware", hardware);
     }
-    
+
     public List<String> getTableHeader() {
         List<String> result = new ArrayList<String>();
         for (int i = 0; i < numCols; i++) {
@@ -71,7 +69,7 @@ public class CellAssignmentAction extends BaseActionSupport {
     public void setAssigntouser(String assigntouser) {
         logger.info("assign rows and columns to user " + assigntouser);
         this.assigntouser = assigntouser;
-        sessionMap.put("assigntouser", assigntouser);        
+        sessionMap.put("assigntouser", assigntouser);
     }
 
     public int numberOfCols() {
@@ -93,7 +91,7 @@ public class CellAssignmentAction extends BaseActionSupport {
                 return "login";
             }
             this.username = uid;
-            
+
             hardware = (String)sessionMap.get("hardware");
             assigntouser = (String)sessionMap.get("assigntouser");
         }
@@ -124,7 +122,7 @@ public class CellAssignmentAction extends BaseActionSupport {
                 logger.error(e);
             }
         }
-        assignedusers = new ArrayList<String>();        
+        assignedusers = new ArrayList<String>();
         try {
             for (User u : dbAccess.queryUsers()) {
                 assignedusers.add(u.getId());
@@ -132,36 +130,29 @@ public class CellAssignmentAction extends BaseActionSupport {
         } catch (SQLException e) {
             logger.error(e);
         }
-        
+
         if ((hardware == null) || hardware.trim().isEmpty()) {
             setWarningMessage("NOTE: Select hardware, user and input rows and columns.");
         } else {
-            Properties props;
-            try {
-                props = mConfg.loadConfigureFile(hardware);
-                numRows = Integer.parseInt(props.getProperty("matrix_inputs"));
-                numCols = Integer.parseInt(props.getProperty("matrix_outputs"));
+            Properties props = mConfg.loadConfigureFile(hardware);
+            numRows = Integer.parseInt(props.getProperty("matrix_inputs"));
+            numCols = Integer.parseInt(props.getProperty("matrix_outputs"));
 
-                matrix = new Cell[numRows][numCols];
-                for (int i =0 ; i < numRows; i++) {
-                    for (int j =0 ; j < numCols; j++) {
-                        matrix[i][j] = new Cell("-");
-                    }
+            matrix = new Cell[numRows][numCols];
+            for (int i =0 ; i < numRows; i++) {
+                for (int j =0 ; j < numCols; j++) {
+                    matrix[i][j] = new Cell("-");
                 }
-            } catch (FileNotFoundException e) {
-                setErrorMessage("File " +hardware + ".cfg not found!");
-            } catch (IOException e) {
-                setErrorMessage("Failed to read configure file.");
-            } 
+            }
         }
-        
+
         return "success";
     }
 
     public List<String> getHardwarelist() {
         return bConf.getHardwareList();
     }
-    
+
     public List<String> getAssignedusers() {
         return assignedusers;
     }
@@ -184,5 +175,5 @@ public class CellAssignmentAction extends BaseActionSupport {
 
     public void setSelectedcols(String selectedcols) {
         this.selectedcols = selectedcols;
-    }  
+    }
 }

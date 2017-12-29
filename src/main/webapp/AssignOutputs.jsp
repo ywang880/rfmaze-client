@@ -40,7 +40,7 @@ function getPdata(e){var t=document.getElementById("pForm");var n;var r=document
             <td colspan="2" align="center"><img src="images/spacer.gif" width="1" height="10"></td>
          </tr>
          <tr>
-            <td colspan="2" align="center">Assign entire matrix to a user go to user management page. </td>
+            <td colspan="2" align="center">Please use user management menu to assign entire matrix to a user.</td>
          </tr>
          <tr>
             <td colspan="2"><img src="images/spacer.gif" width="1" height="10"/></td>

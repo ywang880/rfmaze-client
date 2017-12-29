@@ -81,8 +81,8 @@ public class RFMazeServlet extends HttpServlet {
             user = (String) request.getSession().getAttribute("loginId");
             hardware = (String) request.getSession().getAttribute("hardware");
             String command = request.getParameter("command");
-            
-            if ( (user == null || hardware == null) && !"gethardwares".equals(command) && !"getassignedusers".equals(command) ) {
+
+            if ( (user == null || hardware == null) && !"gethardwares".equals(command) && !"getassignedusers".equals(command)  && !"gethardwaresfullassignment".equals(command) ) {
                 out.println("ERROR: invalid user session parameters.");
                 return;
             }
@@ -96,7 +96,6 @@ public class RFMazeServlet extends HttpServlet {
                 return;
             }
             response.addHeader("Cache-Control","no-cache,no-store");
-
             debugLogger.debug("Client command = " + command);
             if ("handoff_start".equalsIgnoreCase(command)) {
                 onHandoverStart(request, out);
@@ -133,7 +132,22 @@ public class RFMazeServlet extends HttpServlet {
                 	 debugLogger.warn(e2.getMessage());
                  }
             	 out.println(StringUtils.join(hardwares, ","));
-            } else {
+            } else if ("gethardwaresfullassignment".equalsIgnoreCase(command)) {
+                String user = request.getParameter("user");
+                List<String> hwAssigned = null;
+                try {
+                    Assignment userAssignment = dbAccess.getAssignment(user);
+                    hwAssigned = userAssignment.getFullAssignmentHardwares(user);
+                } catch (SQLException e2) {
+                    debugLogger.warn(e2.getMessage());
+                }
+
+                if ( hwAssigned!=null && !hwAssigned.isEmpty() ) {
+                    out.println(StringUtils.join(hwAssigned, ","));
+                } else {
+                    out.println("");
+                }
+           } else {
                 debugLogger.warn("Unknown command [" + command + "]");
             }
         } catch (Exception e) {

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -235,22 +234,17 @@ public class AssignLabelAction extends BaseActionSupport implements ServletReque
             setHardware(param);
             return SUCCESS;
         } else if (command.equals("insert_default")) {
-            try {
-                Properties props = MatrixConfig.getInstance().loadConfigureFile(hardware);
-                String str_matrix_inputs = props.getProperty(Constants.MATRIX_INPUTS, "0");
-                String str_matrix_outputs = props.getProperty(Constants.MATRIX_OUTPUTS, "0");
+            Properties props = MatrixConfig.getInstance().loadConfigureFile(hardware);
+            String str_matrix_inputs = props.getProperty(Constants.MATRIX_INPUTS, "0");
+            String str_matrix_outputs = props.getProperty(Constants.MATRIX_OUTPUTS, "0");
 
-                int matrix_inputs = Integer.parseInt(str_matrix_inputs.trim());
-                int matrix_outputs = Integer.parseInt(str_matrix_outputs.trim());
+            int matrix_inputs = Integer.parseInt(str_matrix_inputs.trim());
+            int matrix_outputs = Integer.parseInt(str_matrix_outputs.trim());
 
-                if ((matrix_inputs>0) && (matrix_outputs>0)) {
-                    dbAccess.insertDefaultLabels(param, matrix_inputs, matrix_outputs);
-                }
-            } catch (FileNotFoundException e) {
-                logger.warn("File not found exception," + e.getMessage());
-            } catch (IOException e) {
-                logger.warn("IO exception, " + e.getMessage());
+            if ((matrix_inputs>0) && (matrix_outputs>0)) {
+                dbAccess.insertDefaultLabels(param, matrix_inputs, matrix_outputs);
             }
+
             return SUCCESS;
         } else if (command.equals("import")) {
             setHardware(param);

@@ -1,7 +1,5 @@
 package com.rfview;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -260,62 +258,54 @@ public class AssignOutputsAction extends BaseActionSupport {
         if ((hardware == null) || hardware.trim().isEmpty()) {
             setWarningMessage("NOTE: Select hardware and user.");
         } else {
-            Properties props;
+            Properties props = mConfg.loadConfigureFile(hardware);
+            numRows = Integer.parseInt(props.getProperty("matrix_inputs"));
+            numCols = Integer.parseInt(props.getProperty("matrix_outputs"));
             try {
-                props = mConfg.loadConfigureFile(hardware);
-                numRows = Integer.parseInt(props.getProperty("matrix_inputs"));
-                numCols = Integer.parseInt(props.getProperty("matrix_outputs"));
-                try {
-                    assignment = dbAccess.getAssignment(getHardware(), null);
-                    logger.debug(assignment.toString());
-                } catch (SQLException e) {
-                    logger.error(e);
+                assignment = dbAccess.getAssignment(getHardware(), null);
+                logger.debug(assignment.toString());
+            } catch (SQLException e) {
+                logger.error(e);
+            }
+            matrix = new Cell[numCols];
+            tableHeader = new ArrayList<THeader>();
+
+            logger.debug("Get labels for hardware " + getHardware());
+            List<MatrixLabel> inputLabels = dbAccess.queryInputLabels(getHardware());
+            List<MatrixLabel> outputLabels = dbAccess.queryOutputLabels(getHardware());
+
+            boolean useDefault = false;
+            if ((inputLabels.size() < numRows) || (outputLabels.size() < numCols)) {
+                useDefault = true;
+            }
+
+            if (useDefault) {
+                for (int k = 0 ; k < numCols; k++) {
+                    tableHeader.add(new THeader(null, "[" + (k+1) + "] Output" + (k+1), "Output" + (k+1)));
                 }
-                matrix = new Cell[numCols];
-                tableHeader = new ArrayList<THeader>();
-
-                logger.debug("Get labels for hardware " + getHardware());
-                List<MatrixLabel> inputLabels = dbAccess.queryInputLabels(getHardware());
-                List<MatrixLabel> outputLabels = dbAccess.queryOutputLabels(getHardware());
-
-                boolean useDefault = false;
-                if ((inputLabels.size() < numRows) || (outputLabels.size() < numCols)) {
-                    useDefault = true;
+            } else {
+                int k = 1;
+                for (MatrixLabel l : outputLabels) {
+                    tableHeader.add(new THeader(assignment.getUserByReservedCol(k), "[" + k + "] " + l.getLabel(), l.getDescription()));
+                    k++;
                 }
+            }
 
-                if (useDefault) {
-                    for (int k = 0 ; k < numCols; k++) {
-                        tableHeader.add(new THeader(null, "[" + (k+1) + "] Output" + (k+1), "Output" + (k+1)));
-                    }
+            for (int j = 0; j < numCols; j++) {
+                String cUser = assignment.getUserByReservedCol(j+1);
+                if (cUser!=null) {
+                    matrix[j] = new Cell(cUser);
                 } else {
-                    int k = 1;
-                    for (MatrixLabel l : outputLabels) {
-                        tableHeader.add(new THeader(assignment.getUserByReservedCol(k), "[" + k + "] " + l.getLabel(), l.getDescription()));
-                        k++;
-                    }
+                    matrix[j] = new Cell("-");
                 }
+            }
 
-                for (int j = 0; j < numCols; j++) {
-                    String cUser = assignment.getUserByReservedCol(j+1);
-                    if (cUser!=null) {
-                        matrix[j] = new Cell(cUser);
-                    } else {
-                        matrix[j] = new Cell("-");
-                    }
-                }
-
-                if (useDefault) {
-                    setMatrixRowLabel("Input");
-                    setMatrixRowDescripton("Input 1");
-                } else {
-                    setMatrixRowLabel(inputLabels.get(0).getLabel());
-                    setMatrixRowDescripton(inputLabels.get(0).getDescription());
-                }
-
-            } catch (FileNotFoundException e) {
-                setErrorMessage("File " +hardware + ".cfg not found!");
-            } catch (IOException e) {
-                setErrorMessage("Failed to read configure file.");
+            if (useDefault) {
+                setMatrixRowLabel("Input");
+                setMatrixRowDescripton("Input 1");
+            } else {
+                setMatrixRowLabel(inputLabels.get(0).getLabel());
+                setMatrixRowDescripton(inputLabels.get(0).getDescription());
             }
         }
         return SUCCESS;
