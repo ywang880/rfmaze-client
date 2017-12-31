@@ -108,7 +108,7 @@ function assignMatrix(e, t) {
     var i = e.parentNode.parentNode.cells[1].innerHTML;
     enableInput(t);
 
-    document.getElementById('current_user').innerHTML = 'Assign Hardwares to ' + r;
+    document.getElementById('current_user').innerHTML = 'Hardware Assigned to ' + r;
     document.getElementById('_user_data').style.display = "none"
     document.getElementById("users_id").value = r;
     document.getElementById("user_passwd").value = i;
@@ -129,7 +129,7 @@ function isAlreadyAssigned(a, b) {
             selectedHardwares.push( b );
             $("#id_assigned").append('<option value=' + a + '>' + b + '</option>');
         } else {
-            var anwser = confirm("Matrix, " + b + ", is already assiged to the users (" + responseData + "). Do you want to assign it to another user?");
+            var anwser = confirm("Hardware " + responseData.replace(/(\r\n|\n|\r)/gm, "") + " is assigned to " + b + ".\nAssign to a new user causes hardware is unassigned from previous assigned user.\nDo you want to proceed?");
             if ( anwser ) {
                 selectedHardwares.push( b );
                 $("#id_assigned").append('<option value=' + a + '>' + b + '</option>');
@@ -236,40 +236,44 @@ $(document).ready(function() {
     <table align="center" id="_user_assignment" style="display: none;">
     <tr>
       <td style="color: #ffe680; font-size: 12 px; font-weight: bold; text-align: left">
-         Note: This assignment assigns entire matrix to selected user! Using assign input and output menu for selected assignment.&nbsp;&nbsp;</br>
-         The highlighted matrix is the one its all inputs and outputs are assigned to the selected user.
+        <strong>Note:</strong>
+        <ul>
+          <li>All inputs and outputs of the selected matrix will be assigned to the selected user.</li>
+          <li>To unassign a matrix from the selected user move it from right to left.</li>
+          <li>The highlighted matrix is the one its all inputs and outputs are assigned to the selected user.</li>
+        </ul>
       </td>
     </tr>
     <tr>
       <td align="center">
         <table align="center">
             <tr>
-            <td style=" color: white; font-size: 12 px; font-weight: bold; text-align: center">Available Hardwares</td>
+                <td style=" color: white; font-size: 12 px; font-weight: bold; text-align: center">Available Hardware</td>
                 <td><img src="images/spacer.gif"></td>
-            <td id="current_user" style=" color: white; font-size: 12 px; font-weight: bold; text-align: center; white-space: nowrap;"></td>
-          </tr>
-          <tr>
-            <td align="right" valign="top" nowrap>
-              <s:select cssStyle="width:260px;" id="id_hardwarelist" label="AvailableHardware" multiple="true" size="5" headerKey="-1" list="hardwarelist" name="hardware"/>
-            </td>
-            <td  valign="middle" >
-              <table>
-                <tr>
-                  <td>
-                    <input type="button" value=" >> " class="button" id="addselected">
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="button" value=" << " class="button" id="removeselected">
-                  </td>
-                </tr>
-              </table>
-            </td>
-            <td align="right" valign="top" nowrap>
-              <s:select cssStyle="width:260px;" id="id_assigned" label="Assigned" multiple="true" size="5" list="assignedHardwares" name="assignTo"/>
-            </td>
-          </tr>
+                <td id="current_user" style=" color: white; font-size: 12 px; font-weight: bold; text-align: center; white-space: nowrap;"></td>
+            </tr>
+            <tr>
+                <td align="right" valign="top" nowrap>
+                   <s:select cssStyle="width:260px;" id="id_hardwarelist" label="AvailableHardware" multiple="true" size="5" headerKey="-1" list="hardwarelist" name="hardware"/>
+                </td>
+                <td  valign="middle" >
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="button" value=" >> " class="button" id="addselected">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="button" value=" << " class="button" id="removeselected">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td align="right" valign="top" nowrap>
+                    <s:select cssStyle="width:260px;" id="id_assigned" label="Assigned" multiple="true" size="5" list="assignedHardwares" name="assignTo"/>
+                </td>
+            </tr>
         </table>
       </td>
     </tr>
