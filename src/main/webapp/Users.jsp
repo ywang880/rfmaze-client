@@ -240,7 +240,6 @@ $(document).ready(function() {
         <ul>
           <li>All inputs and outputs of the selected matrix will be assigned to the selected user.</li>
           <li>To unassign a matrix from the selected user move it from right to left.</li>
-          <li>The highlighted matrix is the one its all inputs and outputs are assigned to the selected user.</li>
         </ul>
       </td>
     </tr>
