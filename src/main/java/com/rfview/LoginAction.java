@@ -70,7 +70,7 @@ public class LoginAction extends BaseActionSupport {
 
             Assignment assignment = dbAccess.getAssignment(userName);
             List<String> hwAssigned = assignment.getHardwares();
-            List<String> availableServers = BroadcastConf.getInstance().getNonSwitchHardwareList();
+            List<String> availableServers = BroadcastConf.getInstance().getAllAssignedServers(); //getNonSwitchHardwareList();
             logger.info("availableServers=" + StringUtils.join(availableServers, ", "));
             List<ProcessInfo> pinfo = mgmt.getProcesses();
             for (String ss : availableServers) {

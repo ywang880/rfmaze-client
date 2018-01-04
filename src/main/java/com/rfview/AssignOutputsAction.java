@@ -253,7 +253,6 @@ public class AssignOutputsAction extends BaseActionSupport {
         } catch (SQLException e) {
             logger.error(e);
         }
-
         // build matrix and return
         if ((hardware == null) || hardware.trim().isEmpty()) {
             setWarningMessage("NOTE: Select hardware and user.");
@@ -312,7 +311,7 @@ public class AssignOutputsAction extends BaseActionSupport {
     }
 
     public List<String> getHardwarelist() {
-    	return bConf.getNonSwitchHardwareList();
+    	return bConf.getAllAssignedServers();  //getNonSwitchHardwareList();
     }
 
     public List<String> getAssignedusers() {

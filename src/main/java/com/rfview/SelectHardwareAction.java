@@ -61,7 +61,7 @@ public class SelectHardwareAction extends BaseActionSupport {
 
 		List<String> hwAssigned = assignment.getHardwares();
 		logger.info("assigned hardwares " + StringUtils.join(hwAssigned, ", "));
-		List<String> availableServers = BroadcastConf.getInstance().getNonSwitchHardwareList();
+		List<String> availableServers = BroadcastConf.getInstance().getAllAssignedServers(); // getNonSwitchHardwareList();
 		logger.info("availableServers=" + StringUtils.join(availableServers, ", "));
 		List<ProcessInfo> pinfo = mgmt.getProcesses();
 		for (String ss : availableServers) {

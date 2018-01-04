@@ -373,7 +373,7 @@ public class AssignInputsAction extends BaseActionSupport {
     }
 
     public List<String> getHardwarelist() {
-        return bConf.getNonSwitchHardwareList();
+        return bConf.getAllAssignedServers();
     }
 
     public String getSelectedrows() {

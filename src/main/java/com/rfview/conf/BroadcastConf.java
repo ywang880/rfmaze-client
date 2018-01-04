@@ -17,21 +17,21 @@ import com.rfview.management.MazeserverManagement;
 
 public class BroadcastConf {
 
-    private static final int DEFAULT_BROADCAST_PORT = 29000;    
+    private static final int DEFAULT_BROADCAST_PORT = 29000;
     private final String name = "RFMAZE_LIST_BROADCAST";
     private String bsIp;
     private int bsPort = DEFAULT_BROADCAST_PORT;
     private Logger logger = Logger.getLogger(BroadcastConf.class.getName());
     private static final String CONF_FILENAME = MazeserverManagement.getInstance().getConfigureDir() + File.separator + "rfmaze_broadcast.cfg";
     private static BroadcastConf instance = new BroadcastConf();
-    
+
     public static BroadcastConf getInstance() {
         return instance;
     }
-    
-    private BroadcastConf() {        
+
+    private BroadcastConf() {
     }
-    
+
     public String getName() {
         return name;
     }
@@ -51,12 +51,12 @@ public class BroadcastConf {
     public void setBsPort(int bsPort) {
         this.bsPort = bsPort;
     }
-    
+
     public boolean exists() {
         File f = new File(CONF_FILENAME);
         return f.exists();
     }
-    
+
     public List<String> getAllAssignedServers() {
         BufferedReader br=null;
         List<String> result = new ArrayList<String>();
@@ -90,18 +90,18 @@ public class BroadcastConf {
                     logger.error("IOException", e);
                 }
             }
-        }        
+        }
         return result;
     }
-    
+
     public String removeAssignedMazeServer(String name) {
         logger.info("remove RF maze server "+ name);
         BufferedReader br=null;
         StringBuilder buffer = new StringBuilder();
         PrintWriter writer = null;
-        
+
         File f = new File(CONF_FILENAME);
-        try {                
+        try {
             br = new BufferedReader(new FileReader(f));
             String line = br.readLine();
             while (line!=null) {
@@ -117,7 +117,7 @@ public class BroadcastConf {
             writer.write(buffer.toString());
             writer.flush();
             writer.close();
-            
+
             MazeserverManagement.getInstance().deleteLogFiles(name);
             return name + " is deleted";
         } catch (FileNotFoundException e) {
@@ -144,9 +144,9 @@ public class BroadcastConf {
         BufferedReader br=null;
         StringBuilder buffer = new StringBuilder();
         PrintWriter writer = null;
-        
+
         File f = new File(CONF_FILENAME);
-        try {                
+        try {
             br = new BufferedReader(new FileReader(f));
             String line = br.readLine();
             while (line!=null) {
@@ -154,18 +154,18 @@ public class BroadcastConf {
                 buffer.append(data).append("\n");
                 line = br.readLine();
             }
-            
+
             if (buffer.indexOf(name) != -1) {
                 return name + " is already exits";
             }
             logger.info(buffer.toString());
-            
+
             int insertPostion = buffer.indexOf("### End of regular maze sever ###");
             buffer.insert(insertPostion, "RFMAZE = " + name + " " + ip + " " + port + "\n");
             writer = new PrintWriter(f);
             writer.write(buffer.toString());
             writer.flush();
-            writer.close();            
+            writer.close();
             return name + " is created successfully.";
         } catch (FileNotFoundException e) {
             logger.error("File not found", e);
@@ -183,10 +183,10 @@ public class BroadcastConf {
                 writer.close();
             }
         }
-        
+
         return null;
     }
-    
+
     public void writeToFile() {
         File f = new File(CONF_FILENAME);
         if (!f.exists()) {
@@ -204,13 +204,13 @@ public class BroadcastConf {
                 writer.write("server_socket_port = " + bsPort +"\n");
                 writer.write("EOF = Mandatory\n");
                 writer.flush();
-                writer.close();            
+                writer.close();
             } catch (FileNotFoundException e) {
                 logger.error("File not found", e);
             }
         } else {
             BufferedReader br=null;
-            try {                
+            try {
                 br = new BufferedReader(new FileReader(f));
                 String line = br.readLine();
                 while (line!=null) {
@@ -219,7 +219,7 @@ public class BroadcastConf {
                         line = br.readLine();
                         continue;
                     }
-                    
+
                     if (data.startsWith("RFMAZE")) {
                         String value = data.split("=")[1].trim();
                         if (value.startsWith("RFMAZE_LIST")) {
@@ -245,9 +245,9 @@ public class BroadcastConf {
             }
         }
     }
-    
+
     public void changePort(int newport) throws FileNotFoundException, IOException {
-        StringBuilder buffer = new StringBuilder();        
+        StringBuilder buffer = new StringBuilder();
         File f = new File(CONF_FILENAME);
         BufferedReader br = new BufferedReader(new FileReader(f));
         String line = br.readLine();
@@ -265,7 +265,7 @@ public class BroadcastConf {
         writeToFile(buffer);
         br.close();
     }
-    
+
     public List<String> getHardwareList() {
         return getAllAssignedServers();
     }
@@ -275,7 +275,7 @@ public class BroadcastConf {
         if (all == null) {
             return new ArrayList<String>();
         }
-        
+
         List<String> theList = new ArrayList<String>();
         MatrixConfig mc = MatrixConfig.getInstance();
         for (String s : all) {
@@ -288,7 +288,7 @@ public class BroadcastConf {
         }
         return theList;
     }
-    
+
     private void writeToFile(StringBuilder data) throws FileNotFoundException {
         File f = new File(CONF_FILENAME);
         PrintWriter writer = new PrintWriter(f);
@@ -296,8 +296,7 @@ public class BroadcastConf {
         writer.flush();
         writer.close();
     }
-    
-    
+
     public String getLocalHost() {
         try {
             return InetAddress.getLocalHost().getHostAddress();

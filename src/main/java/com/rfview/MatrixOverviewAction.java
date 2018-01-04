@@ -55,7 +55,7 @@ public class MatrixOverviewAction extends BaseActionSupport {
     private String status;
     private List<String> assignedUsers;
     private boolean isQRB = true;
-        
+
     private final RfMazeServerConnectionInfo serverConntionInfo = RfMazeServerConnectionInfo.getInstance();
 
     public String getShowDialog() {
@@ -227,7 +227,7 @@ public class MatrixOverviewAction extends BaseActionSupport {
             	agent.start();
             }
         }
-        
+
         inputLabels = dbAccess.queryInputLabels(getHardware());
         outputLabels = dbAccess.queryOutputLabels(getHardware());
 
@@ -243,9 +243,11 @@ public class MatrixOverviewAction extends BaseActionSupport {
 	        String[] atten = cache.getAttenuation(hardware);
 	        if (atten!=null) {
 	            for (int i = 0; i < numCols; i++) {
+	                try {
 	                Cell tCell = new Cell(atten[i]);
 	                tCell.setBgcolor(ColorMapping.mapping(username, Integer.parseInt(atten[i])));
 	                outputAttenuation.add(tCell);
+	                } catch (Exception e) {}
 	            }
 	        }
         }
@@ -314,6 +316,7 @@ public class MatrixOverviewAction extends BaseActionSupport {
         }
         for (int i = 0; i < numrows; i++) {
             for (int j = 1; j <= numcols; j++) {
+                try {
                 int value = matrix_data[i][j-1].getValue();
                 Cell tCell = new Cell(Integer.toString(value));
                 if (j == 1) {
@@ -321,6 +324,7 @@ public class MatrixOverviewAction extends BaseActionSupport {
                     tCell.setDescription(inputLabels.get(i).getDescription());
                 }
                 matrix[i][j-1] = tCell;
+                } catch (Exception e) {}
             }
         }
         if (username==null) {
@@ -393,7 +397,7 @@ public class MatrixOverviewAction extends BaseActionSupport {
             }
         }
     }
-    
+
     private boolean isLTE() {
     	try {
 			return MatrixConfig.getInstance().getServerInfo(hardware).isLTE();

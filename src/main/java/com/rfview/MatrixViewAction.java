@@ -423,7 +423,7 @@ public class MatrixViewAction extends BaseActionSupport {
         try {
         	Assignment userAssignment = dbAccess.getAssignment(username);
             List<String> hwAssigned = userAssignment.getHardwares();
-            List<String> availableServers = BroadcastConf.getInstance().getNonSwitchHardwareList();
+            List<String> availableServers = BroadcastConf.getInstance().getAllAssignedServers(); //getNonSwitchHardwareList();
             List<ProcessInfo> pinfo = mgmt.getProcesses();
             for (String ss : availableServers) {
                 for (String sss : hwAssigned) {
@@ -690,6 +690,7 @@ public class MatrixViewAction extends BaseActionSupport {
 
     public boolean isRunning(List<ProcessInfo> pinfo, String pname) {
         for (ProcessInfo info : pinfo) {
+            logger.info(">>> pname " + pname + "  status " + info.getStatus());
             if (info.getConfigFile().endsWith(pname) && info.getStatus().contains("running")) {
                 return true;
             }
