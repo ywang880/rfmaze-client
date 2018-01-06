@@ -62,10 +62,14 @@ final public class MatrixBuilder {
             if (!isQRB) {
                 resp.append("<thead>");
                 String [] attens = cache.getAttenuation(hardware);
-                for (int i = 0; i < assignedColumns.length; i++) {
+                for (String c : assignedColumns) {
                     resp.append("<th>");
                     if (attens != null && attens.length > 0) {
-                    	resp.append("<v>").append(attens[i]).append("</v>");
+                        int cc = Integer.parseInt(c);
+                        int attenVal = Integer.parseInt(attens[cc-1]);
+                    	resp.append("<v>").append(attens[cc-1]).append("</v>");
+                        String color = ColorMapping.mapping(user, attenVal);
+                        resp.append("<c>").append(color).append("</c>");
                     }
                     resp.append("</th>");
                 }

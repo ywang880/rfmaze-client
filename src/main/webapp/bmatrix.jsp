@@ -164,27 +164,13 @@ function updateMatrixAttenuation(e, t) {
     try {
         for (ths = e[0].getElementsByTagName("th"), i = 0; i < ths.length; i++) {
             d = ths[i].getElementsByTagName("v");
+            c = ths[i].getElementsByTagName("c");
             l.rows[1].cells[i+1].innerHTML = d[0].firstChild.nodeValue;
+            l.rows[1].cells[i+1].style.backgroundColor = c[0].firstChild.nodeValue;
         }
     } catch (o) {
         alert(count+ "  " + i + "  " + o);
     }
-}
-
-function updateMatrixOffset(e) {
-    return;
-    
-    for (var t, n, i = document.getElementById("matrix_view"), d = i.rows.length, a = 0; a < e.length; a++) try {
-        t = e[a].getElementsByTagName("td"), n = t[0].getElementsByTagName("v"), d > a + 1 && (i.rows[a + 1].cells[1].innerHTML = n[0].firstChild.nodeValue)
-    } catch (l) {
-        alert(l)
-    }
-}
-
-function mimo_selected(e) {
-    var t = e.selectedIndex,
-        n = e.options[t].value;
-    "NO" == n ? ($("#id_row_2").hide(), $("#id_row_3").hide(), $("#id_row_4").hide()) : "2X2" == n ? ($("#id_row_2").show(), $("#id_row_3").hide(), $("#id_row_4").hide()) : "4X4" == n && ($("#id_row_2").show(), $("#id_row_3").show(), $("#id_row_4").show(), $(".cont").css("height", "250px"))
 }
 
 function timedRefresh() {
@@ -238,8 +224,6 @@ function checkConnection() {
             var i = e.responseXML.documentElement.getElementsByTagName("state"),
                 d = i[0].firstChild.nodeValue;
             document.getElementById("connection_state").innerHTML = '<img src="images/' + d + '">', -1 == d.indexOf("disconnected") && $("#progressbar").hide();
-            var a = e.responseXML.documentElement.getElementsByTagName("tr");
-            updateMatrixOffset(a)
         }
     }, e.open("POST", "/rfmaze/mazeServlet?command=isconnected", !0), e.send()
 }
@@ -282,20 +266,6 @@ $(document).ready(function() {
         $("#dlg2").hide("500", "swing", function() {
             $("#bkg2").fadeOut("300")
         })
-    }), $("#handoff").click(function() {
-        "hidden" == document.getElementById("bkg2").style.visibility && (document.getElementById("bkg2").style.visibility = "", $("#bkg2").hide()), "hidden" == document.getElementById("dlg2").style.visibility && (document.getElementById("dlg2").style.visibility = "", $("#dlg2").hide()), $("#bkg2").fadeIn(300, "linear", function() {
-            $("#dlg2").show(500, "swing"), $("#dlg2").draggable()
-        })
-    }), $("#tierroam").click(function() {
-        "hidden" == document.getElementById("tr_bkg").style.visibility && (document.getElementById("tr_bkg").style.visibility = "", 
-        $("#tr_bkg").hide()), "hidden" == document.getElementById("tr_dlg").style.visibility && (document.getElementById("tr_dlg").style.visibility = "", 
-        $("#tr_dlg").hide()), $("#tr_bkg").fadeIn(300, "linear", function() {
-            $("#tr_dlg").show(500, "swing"), $("#tr_dlg").draggable();
-        });
-    }), $("#tier_roam_closebtn").click(function() {
-        $("#tr_dlg").hide("500", "swing", function() {
-            $("#tr_bkg").fadeOut("300");
-        });
     }), $("#closebtn_cp").click(function() {
         $("#dlg_cp").hide("500", "swing", function() {
             $("#bkg_cp").fadeOut("300")
@@ -332,36 +302,6 @@ $(document).ready(function() {
 var timerId, timer_is_on = 0,
     refreshInterval = 1e3,
     connection_mon_timer;
-        
-function tier_roam() {
-    var a = document.getElementById("tierroam_out").value;
-    if (isBlank(a)) return void alert("Output is invalid!");
-    var b = document.getElementById("tierroam_in").value;    
-    if (isBlank(b)) return void alert("Input is invalid!");
-    var c = document.getElementById("tierroam_step").value;
-    if (isBlank(c)) return void alert("step value is invalid!");
-    var d = document.getElementById("tierroam_start").value;
-    if (isBlank(d)) return void alert("start value is invalid!");
-    var e = document.getElementById("tierroam_speed").value; 
-    if (isBlank(e)) return void alert("speed value is invalid!");    
-    var f = document.getElementById("tierroam_end").value;
-    if (isBlank(f)) return void alert("end value is invalid!");    
-    var g = document.getElementById("mm_pause").value;
-    if (isBlank(g)) return void alert("minimum/maximum pause value is invalid!");
-
-    var cmd = "command=tierroam&tierroam_out=" + a + "&tierroam_in=" + b + 
-            "&tierroam_step=" + c + "&tierroam_start=" + d + "&tierroam_speed=" + e + 
-            "&tierroam_end=" + f + "&mm_pause=" + g;
-    sendTierRoamCommand(cmd);
-}
-
-function sendTierRoamCommand(cmd) {
-    var b;
-    b = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP"), 
-    b.onreadystatechange = function() {
-        4 == b.readyState && 200 == b.status && (document.getElementById("server_response").innerHTML = b.responseText);
-    }, b.open("GET", "/rfmaze/mazeServlet?" + cmd, !0), b.send(null);
-}
 
 function increment_and_send(a) {
     if (!in_progress1) if (in_progress1 = !0, setTimeout(function() {
@@ -461,11 +401,11 @@ function decrment_and_send(a) {
        
        <tr>
            <td align="center" style="background: #005566; white-space:nowrap"></td>
-             <s:iterator value="outputAttenuation" status="attenrow">
-           <td align="center" style="background: #B0C0D0;" onclick="changeOutputAttn(this);"><s:property/></td>
+           <s:iterator value="outputAttenuation" status="attenrow">
+           <td align="center" style="background: <s:property value="%{bgcolor}"/>" onclick="changeOutputAttn(this);"><s:property value="%{name}"/></td>
            </s:iterator>
        </tr>
-              
+       
        <s:iterator value="matrix" status="rowsStatus" var="row">
        <tr>
            <td align="center" style="background: #005566; white-space:nowrap">

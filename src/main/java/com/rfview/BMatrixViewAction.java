@@ -29,33 +29,33 @@ public class BMatrixViewAction extends BaseActionSupport {
     private Cell[][] matrix;
     private List<THeader> tableHeader;
     private String hardware;
- 
+
     private Datagrid cache;
     private String action;
     private List<MatrixLabel> inputLabels;
     private List<MatrixLabel> outputLabels;
     private int nummatrix;
     private int numCols;
-    
-    private List<String> outputAttenuation;
-    
+
+    private List<Cell> outputAttenuation;
+
     private String showDialog="no";
     private String input;
     private String output;
-    private String value;    
+    private String value;
     private String status;
-    
+
     private String range1="0-10";
     private String range2="11-62";
     private String range3="63";
     private String color1="008800";
     private String color2="EE9933";
     private String color3="DD0000";
-    
+
     private final List<String> hardwares = new ArrayList<String>();
-    
+
     private final RfMazeServerConnectionInfo serverConntionInfo = RfMazeServerConnectionInfo.getInstance();
-        
+
     public String getShowDialog() {
         return showDialog;
     }
@@ -67,7 +67,7 @@ public class BMatrixViewAction extends BaseActionSupport {
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
     public void setShowDialog(String showDialog) {
         this.showDialog = showDialog;
     }
@@ -95,15 +95,15 @@ public class BMatrixViewAction extends BaseActionSupport {
     public void setValue(String value) {
         this.value = value;
     }
-    
+
     public int numberOfmatrix() {
         return nummatrix;
     }
 
-    public List<THeader> getTableHeader() {      
+    public List<THeader> getTableHeader() {
         return tableHeader;
     }
-    
+
     public int numberOfCols() {
         return numCols;
     }
@@ -163,11 +163,11 @@ public class BMatrixViewAction extends BaseActionSupport {
     public void setColor3(String color3) {
         this.color3 = color3;
     }
-     
-    public List<String> getOutputAttenuation() {
+
+    public List<Cell> getOutputAttenuation() {
         return outputAttenuation;
     }
-    
+
     public String getServer() {
         try {
             MazeServer theServer = serverConntionInfo.getServer(hardware);
@@ -176,7 +176,7 @@ public class BMatrixViewAction extends BaseActionSupport {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-        return "127.0.0.1:29020";        
+        return "127.0.0.1:29020";
     }
 
     public String execute() {
@@ -193,13 +193,13 @@ public class BMatrixViewAction extends BaseActionSupport {
                 cache = Datagrid.getInstance();
                 sessionMap.put(Constants.KEY_DATAGRID, cache);
             }
-            
+
             String cachedHardware = (String)sessionMap.get(Constants.KEY_HARDWARE);
             if ((cachedHardware != null) && !cachedHardware.isEmpty()) {
                 hardware = cachedHardware;
             }
         }
-                
+
         try {
             Assignment userAssignment = dbAccess.getAssignment(username);
             List<String> hwAssigned = userAssignment.getHardwares();
@@ -213,32 +213,32 @@ public class BMatrixViewAction extends BaseActionSupport {
                 }
             }
         } catch (SQLException e2) {
-            logger.warn(e2); 
+            logger.warn(e2);
         }
 
         if (hardwares.isEmpty()) {
             setWarningMessage("There are apparently no running rfmaze processes. Please start process first!");
         }
-        
+
         if (username.equals("admin")) {
             setErrorMessage("invalid user name. please login as non-admin user!");
             return SUCCESS;
         }
-        
+
         logger.info("Action = [" + action + "], hardware="+hardware);
         RFmazeInfo rfmazeInfo = new RFmazeInfo();
-        
+
         if ("color_scheme".equals(action)) {
             updateColorScheme();
         }
-        
+
         if (!hasCachedData(hardware)) {
             logger.info("no cached data, fetch the data from maze server");
             String args[] = new String[2];
             try {
                 MazeServer theServer = serverConntionInfo.getServer(hardware);
                 rfmazeInfo.initQuery(hardware, username, theServer.getIp(), theServer.getPort());
-                
+
                 Timer timer = new Timer();
                 sessionMap.put("heartbeat_timer", timer);
                 HeartBeatTask heartbeatTask = new HeartBeatTask(hardware, theServer.getIp(), theServer.getPort());
@@ -253,7 +253,7 @@ public class BMatrixViewAction extends BaseActionSupport {
                 setWarningMessage("WARN: Connection cannot be established. Please go to matrix control page to check server status!");
                 return SUCCESS;
             }
-            
+
             RFMazeServerAgent agent = Datagrid.getInstance().getAgent(hardware);
             if (agent == null) {
             	logger.info("Create agent for " + hardware);
@@ -279,7 +279,7 @@ public class BMatrixViewAction extends BaseActionSupport {
             setErrorMessage("There is no inputs and output assigned for user " + username + ".");
             return SUCCESS;
         }
-        
+
         if (!validateAssignment(assignment.getRows())) {
             logger.debug("There is no inputs assigned for user " + username + ".");
             setErrorMessage("There is no inputs assigned for user " + username + ".");
@@ -289,7 +289,7 @@ public class BMatrixViewAction extends BaseActionSupport {
         if (!validateAssignment(assignment.getCols())) {
             logger.debug("There is no output assigned for user " + username + ".");
             setErrorMessage("There is no output assigned for user " + username + ".");
-            return SUCCESS;            
+            return SUCCESS;
         }
 
         String rowTokens[] = assignment.getRows().split(",");
@@ -307,7 +307,7 @@ public class BMatrixViewAction extends BaseActionSupport {
 
         Arrays.sort(assignedRows);
         Arrays.sort(assignedCols);
-        
+
         nummatrix = assignedRows.length;
         numCols = assignedCols.length;
 
@@ -321,7 +321,7 @@ public class BMatrixViewAction extends BaseActionSupport {
         if ((matrix == null) || cache.isLabelsChanged(hardware)) {
             inputLabels = dbAccess.queryInputLabels(getHardware());
             outputLabels = dbAccess.queryOutputLabels(getHardware());
-            
+
             cache.setInputLabels(hardware, inputLabels);
             cache.setOutputLabels(hardware, outputLabels);
             cache.setLabelsChanged(hardware, false);
@@ -333,14 +333,14 @@ public class BMatrixViewAction extends BaseActionSupport {
         tableHeader = new ArrayList<THeader>();
         tableHeader.add(new THeader(null, "Power", "Power"));
         boolean useDefault = false;
-        
-        
+
+
         inputLabels = cache.getInputLabels(getHardware());
         outputLabels = cache.getOutputLabels(getHardware());
         if ((inputLabels.size() < nummatrix) || (outputLabels.size() < numCols)) {
             useDefault = true;
         }
-        
+
         if (useDefault) {
             for (int k = 0 ; k < numCols; k++) {
                 tableHeader.add(new THeader(null, "["+(k+1) +"] Output" + (k+1), "Output" + (k+1)));
@@ -352,28 +352,29 @@ public class BMatrixViewAction extends BaseActionSupport {
                 tableHeader.add(new THeader(assignment.getUserByReservedCol(cIdx), "[" + labelIndex++ + "] "+ outputLabels.get(cIdx).getLabel(), outputLabels.get(cIdx).getDescription()));
             }
         }
-        
+
         this.input = cache.getInput();
         this.output = cache.getOutput();
         this.value = cache.getValue();
 
-        outputAttenuation = new ArrayList<String>();
+        outputAttenuation = new ArrayList<>();
         String[] atten = cache.getAttenuation(hardware);
-        if (atten!=null) {
+        if ( atten != null ) {
             for (int i = 0; i < numCols; i++) {
-                outputAttenuation.add(atten[i]);
+                Cell tCell = new Cell(atten[i]);
+                tCell.setBgcolor(ColorMapping.mapping(username, Integer.parseInt(atten[i])));
+                outputAttenuation.add( tCell );
             }
         } else {
-            logger.warn("no outout attenuation data" );
+            logger.warn("no output attenuation data" );
         }
-        
         return SUCCESS;
     }
 
     private boolean validateAssignment(String data) {
         return ((data!=null) && !data.trim().isEmpty() && !data.equalsIgnoreCase("null"));
     }
-    
+
     public List<String> getHardwares() {
         return hardwares;
     }
@@ -388,9 +389,9 @@ public class BMatrixViewAction extends BaseActionSupport {
             sessionMap.put("hardware", hardware);
         }
     }
-    
+
     private void getData(int[] assignedRows, int[] assignedCols) {
-        
+
         Entry[][] matrix_data = cache.getMatrix(getHardware());
         Entry[] offset_data = cache.getOffsetData(getHardware());
 
@@ -403,15 +404,15 @@ public class BMatrixViewAction extends BaseActionSupport {
             for (int j = 0; j < assignedCols.length; j++) {
                 int cIndex = assignedCols[j];
                 int value = matrix_data[rIndex-1][cIndex-1].getValue();
-                Cell tCell = new Cell(Integer.toString(matrix_data[rIndex-1][cIndex-1].getValue()));                
+                Cell tCell = new Cell(Integer.toString(matrix_data[rIndex-1][cIndex-1].getValue()));
                 tCell.setBgcolor(ColorMapping.mapping(username, value));
                 matrix[i][j+1] = tCell;
             }
         }
         CompositeKey mKey = CompositeKey.key(username, hardware);
-        cache.putMatrixCache(mKey, matrix);      
+        cache.putMatrixCache(mKey, matrix);
     }
-    
+
     private void updateColorScheme() {
         ColorMapping.update(username, getRange1(), getRange2(), getRange3(), getColor1(), getColor2(), getColor3());
         matrix = cache.getMatrixCache(CompositeKey.key(username, hardware));
@@ -424,7 +425,7 @@ public class BMatrixViewAction extends BaseActionSupport {
             }
         }
     }
-    
+
     public String getAction() {
         return action;
     }
@@ -438,12 +439,12 @@ public class BMatrixViewAction extends BaseActionSupport {
         Entry[] offset_data = cache.getOffsetData(getHardware());
         return ((matrix_data!=null) && (offset_data!=null));
     }
-    
+
     public boolean isRunning(List<ProcessInfo> pinfo, String pname) {
         for (ProcessInfo info : pinfo) {
             if (info.getConfigFile().endsWith(pname) && info.getStatus().contains("running")) {
                 return true;
-            }            
+            }
         }
         return false;
     }

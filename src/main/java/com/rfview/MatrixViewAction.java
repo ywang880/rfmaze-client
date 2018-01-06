@@ -36,6 +36,7 @@ public class MatrixViewAction extends BaseActionSupport {
     private String action;
     private List<MatrixLabel> inputLabels;
     private List<MatrixLabel> outputLabels;
+    private List<Cell> outputAttenuation;
     private int nummatrix;
     private int numCols;
     private String showDialog = "no";
@@ -51,7 +52,6 @@ public class MatrixViewAction extends BaseActionSupport {
     private String color3 = "DD0000";
     private int maxAtten = 120;
 
-	private List<String> outputAttenuation;
     private final List<String> hardwares = new ArrayList<String>();
     private final RfMazeServerConnectionInfo serverConntionInfo = RfMazeServerConnectionInfo.getInstance();
     private final Logger logger = LoggerFactory.getLogger(MatrixViewAction.class.getName());
@@ -385,6 +385,10 @@ public class MatrixViewAction extends BaseActionSupport {
         this.color3 = color3;
     }
 
+    public List<Cell> getOutputAttenuation() {
+        return outputAttenuation;
+    }
+
     public String getServer() {
         try {
             MazeServer theServer = serverConntionInfo.getServer(hardware);
@@ -394,10 +398,6 @@ public class MatrixViewAction extends BaseActionSupport {
             logger.error(e.getMessage());
         }
         return "127.0.0.1:29020";
-    }
-
-    public List<String> getOutputAttenuation() {
-        return outputAttenuation;
     }
 
     public String execute() {
@@ -601,20 +601,18 @@ public class MatrixViewAction extends BaseActionSupport {
         this.output = cache.getOutput();
         this.value = cache.getValue();
 
-        outputAttenuation = new ArrayList<String>();
+        outputAttenuation = new ArrayList<>();
         String[] atten = cache.getAttenuation(hardware);
         if ( atten != null ) {
             for (int i = 0; i < numCols; i++) {
-
-                if ( i < atten.length ) {
-                	outputAttenuation.add(atten[i]);
-                } else {
-                	outputAttenuation.add("N/A");
-                }
+                Cell tCell = new Cell(atten[i]);
+                tCell.setBgcolor(ColorMapping.mapping(username, Integer.parseInt(atten[i])));
+                outputAttenuation.add( tCell );
             }
         } else {
-            logger.warn("no outout attenuation data" );
+            logger.warn("no output attenuation data" );
         }
+        
         return returnCode;
     }
 
@@ -690,7 +688,6 @@ public class MatrixViewAction extends BaseActionSupport {
 
     public boolean isRunning(List<ProcessInfo> pinfo, String pname) {
         for (ProcessInfo info : pinfo) {
-            logger.info(">>> pname " + pname + "  status " + info.getStatus());
             if (info.getConfigFile().endsWith(pname) && info.getStatus().contains("running")) {
                 return true;
             }
