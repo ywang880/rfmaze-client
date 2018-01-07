@@ -61,7 +61,6 @@ function changeAttn(e) {
     headerText = i.childNodes[0].nodeValue, i = n.childNodes[1], labelText = i.childNodes[0].nodeValue;
     var d = e.parentNode.rowIndex,
         a = e.cellIndex;
-        //if (isSetAttenuationActive) return void changeAttn2(e);
         document.getElementById("attenuation").value = e.innerHTML,
         $("#slider").slider("value", e.innerHTML),
         "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "",
