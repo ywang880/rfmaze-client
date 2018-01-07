@@ -4,20 +4,18 @@
 <link rel="stylesheet" href="css/jquery_style.css">
 <link rel="stylesheet" href="css/jquery-ui.css">
 <link rel="stylesheet" href="css/matrix.css">
-<link href="css/960.css" rel="stylesheet" media="screen" />
-<link href="css/defaultTheme.css" rel="stylesheet" media="screen" />
 
 <style>
-.divider{margin-top:20px}.height380{height:480px;overflow-x:auto;overflow-y:auto}.matrixscrollabe{font-size:12px;color:#000;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}.matrixscrollabe td,.matrixscrollabe th{border:1px solid #789;padding:5px}.matrixscrollabe tbody tr td{background-color:#eef2f9;background-image:-moz-linear-gradient(top,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.0) 100%);background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,0.4)),color-stop(100%,rgba(255,255,255,0.0)))}.matrixscrollabe tbody tr.odd td{background-color:#d6e0ef;background-image:-moz-linear-gradient(top,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.0) 100%);background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,0.4)),color-stop(100%,rgba(255,255,255,0.0)))}.matrixscrollabe thead tr th,.matrixscrollabe thead tr td,.matrixscrollabe tfoot tr th,.matrixscrollabe tfoot tr td{background-color:#8ca9cf;background-image:-moz-linear-gradient(top,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.0) 100%);background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,0.4)),color-stop(100%,rgba(255,255,255,0.0)));font-weight:700}
+#block_container{text-align:center}#connection_state,#hardware_name{display:inline}.spinner{position:fixed;top:50%;left:50%;margin-left:-50px;margin-top:-50px;text-align:center;z-index:1234;overflow:auto;width:100px;height:102px}
 </style>
 
 <SCRIPT type="text/javascript" language="javascript" src="js/rfmaze.js"></SCRIPT>
 <SCRIPT type="text/javascript" src="js/jscolor.js"></SCRIPT>
+
 <SCRIPT language="javascript">
 function viewmatrix(){if(document.getElementById("rfmaze_hardware").selectedIndex==0){alert("Invalid selection!");return}stopRefresh();document.getElementById("rfmaze").submit()}function onInit(){$("#spinner").bind("ajaxSend",function(){$(this).show()}).bind("ajaxStop",function(){$(this).hide()}).bind("ajaxError",function(){$(this).hide()});ping()}function ping(){pingConnection();setTimeout(function(){ping()},5e3)}function pingConnection(){var e=$.get("/rfmaze/mazeServlet?command=hello",function(e){document.getElementById("connection_state").innerHTML="<img src='images/connected.png'>";$("#spinner").hide();if(processid=="PID"){processid=e}else if(processid!=e){$("#dialog_alert").dialog()}}).fail(function(){document.getElementById("connection_state").innerHTML="<img src='images/disconnected.png'>";$("#spinner").show()})}var processid="PID"
 </SCRIPT>
 
-<SCRIPT type="text/javascript" language="javascript" src="js/fix_table.js"></SCRIPT>
 <SCRIPT language="javascript">
 function changeAttn(e) {
     var currentValue = e.innerHTML;
@@ -249,41 +247,42 @@ var timerId, timer_is_on = 0,
         </tbody>
     </table>
     
-    <div class="container_12 divider">
-     <div class="grid_12 height380">
-        <table class="matrixscrollabe" id="matrix_view" cellpadding="0" cellspacing="0">
-           <thead>
-              <tr>
-                 <th style="width:120px; max-width:120px;"><img src="images/label_admin.png"/></th>
-                 <s:iterator value="tableHeader" status="tableHeaderStatus">
-                 <th align="center">
-                    <div title='<s:property value="%{description}"/>'><s:property value="%{label}"/></div>
-                 </th>
-                 </s:iterator>
-              </tr>
-           </thead>
+    <table class="matrix" id="matrix_view" align="center">
+        <thead>
+            <tr>
+                <th><img src="images/label.png"/></th>
+                <s:iterator value="tableHeader" status="tableHeaderStatus">
+                <s:if test="%{label=='Power'}">
+                </s:if>
+                <s:else>
+                <th align="center">
+                    <a class="tooltip" href="#" style="cursor:default"><s:property value="%{label}"/><span class="info"><s:property value="%{description}"/></span></a>
+                </th>
+                </s:else>
+                </s:iterator>
+            </tr>
+        </thead>
 
-           <s:iterator value="matrix" status="rowsStatus" var="row">
-           <tr>
-              <td align="center" style="style="width:120px; max-width:120px; background: #8ca9cf; white-space:nowrap; overflow: hidden; text-overflow: ellipsis;">
-                 <div title='<s:property value="%{#row[0].description}"/>'><s:property value="%{#row[0].label}"/></div>
-              </td>
-              <s:iterator value="#row" status="colStatus">
-              <s:if test="%{#colStatus.index>0}">
-                    <s:if test="%{name==1}">
-                        <td align="center" style='background: green; cursor: default;' onclick="changeAttn(this);">ON</td>
-                    </s:if>
-                    <s:else>
-                        <td align="center" style='background: #C0C0C0; cursor: pointer;' onclick="changeAttn(this);">OFF</td>
-                    </s:else>
-              </s:if>
-              </s:iterator>
-           </tr>
-           </s:iterator>
-        </table>
-      </div>
-   </div>
-   </s:else>
+        <s:iterator value="matrix" status="rowsStatus" var="row">
+        <tr>
+            <td align="center" style="style="width:120px; max-width:120px; background: #8ca9cf; white-space:nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <div title='<s:property value="%{#row[0].description}"/>'><s:property value="%{#row[0].label}"/></div>
+            </td>
+            <s:iterator value="#row" status="colStatus">
+            <s:if test="%{#colStatus.index>0}">
+                <s:if test="%{name==1}">
+                <td align="center" style='background: green; cursor: default;' onclick="changeAttn(this);">ON</td>
+                </s:if>
+            <s:else>
+                <td align="center" style='background: #C0C0C0; cursor: pointer;' onclick="changeAttn(this);">OFF</td>
+            </s:else>
+            </s:if>
+        </s:iterator>
+        </tr>
+        </s:iterator>
+    </table>
+
+    </s:else>
    <s:hidden name="action" value=""/>
    <s:textfield style="visibility: hidden;" id="connected_server_name" name="server"></s:textfield>
    <div id="spinner" class="spinner" style="display:none;">

@@ -65,11 +65,13 @@ final public class MatrixBuilder {
                 for (String c : assignedColumns) {
                     resp.append("<th>");
                     if (attens != null && attens.length > 0) {
-                        int cc = Integer.parseInt(c);
-                        int attenVal = Integer.parseInt(attens[cc-1]);
-                    	resp.append("<v>").append(attens[cc-1]).append("</v>");
-                        String color = ColorMapping.mapping(user, attenVal);
-                        resp.append("<c>").append(color).append("</c>");
+                        try {
+                            int cc = Integer.parseInt(c);
+                            int attenVal = Integer.parseInt(attens[cc-1]);
+                            resp.append("<v>").append(attens[cc-1]).append("</v>");
+                            String color = ColorMapping.mapping(user, attenVal);
+                            resp.append("<c>").append(color).append("</c>");
+                        } catch (Exception e) {}
                     }
                     resp.append("</th>");
                 }
@@ -123,19 +125,19 @@ final public class MatrixBuilder {
     }
 
     private static boolean isTopYoungLikeQRB(String hardware) {
-    	
+
     	if ( !isTypeOfQRB(hardware) || trueQRB.contains(hardware) ) {
     		return Boolean.FALSE.booleanValue();
     	}
-    	
+
         if ( !topYoung.contains(hardware) && !trueQRB.contains(hardware) ) {
             try {
-            	Properties props = MatrixConfig.getInstance().getConfiguration(hardware);           
+                Properties props = MatrixConfig.getInstance().getConfiguration(hardware);
             	int inputs = Integer.parseInt(props.getProperty("matrix_inputs", "0"));
             	int outputs = Integer.parseInt(props.getProperty("matrix_outputs", "0"));
             	if  ( inputs == 1 && outputs == 8 ) {
             		topYoung.add(hardware);
-            		
+
             	} else {
             		trueQRB.add(hardware);
             	}
@@ -143,14 +145,14 @@ final public class MatrixBuilder {
                 debugLogger.error("Invalid configuration");
             }
         }
-        
+
         if ( topYoung.contains(hardware) ) {
         	return Boolean.TRUE.booleanValue();
         }
-        
+
         return false;
     }
-    
+
     public static String toFullXml(Entry[][] matrix, String user, String hardware) {
         final StringBuffer resp = new StringBuffer();
         final boolean isQRB = isTypeOfQRB(hardware);

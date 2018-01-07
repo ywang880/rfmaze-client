@@ -606,7 +606,9 @@ public class MatrixViewAction extends BaseActionSupport {
         if ( atten != null ) {
             for (int i = 0; i < numCols; i++) {
                 Cell tCell = new Cell(atten[i]);
-                tCell.setBgcolor(ColorMapping.mapping(username, Integer.parseInt(atten[i])));
+                try {
+                    tCell.setBgcolor(ColorMapping.mapping(username, Integer.parseInt(atten[i])));
+                } catch (Exception e) {}
                 outputAttenuation.add( tCell );
             }
         } else {
