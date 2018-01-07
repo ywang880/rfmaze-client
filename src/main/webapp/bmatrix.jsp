@@ -16,7 +16,7 @@ function viewmatrix(){if(document.getElementById("rfmaze_hardware").selectedInde
 </SCRIPT>
 
 <SCRIPT language="javascript">
-function changeOutputAttn(e) {    
+function changeOutputAttn(e) {
     var t = document.getElementById("matrix_view").rows[0].cells[e.cellIndex],
         n = document.getElementById("matrix_view").rows[e.parentNode.rowIndex].cells[0],
         i = t.childNodes[1];
@@ -26,31 +26,35 @@ function changeOutputAttn(e) {
     var d = e.parentNode.rowIndex,
     a = e.cellIndex;
 
-    $("#slider2").slider("value", e.innerHTML),     
+    $("#slider2").slider("value", e.innerHTML),
     $("#attenuation2").val(e.innerHTML)
-    "hidden" == document.getElementById("bkg_atten").style.visibility && (document.getElementById("bkg_atten").style.visibility = "", 
-    $("#bkg_atten").hide()), 
-    "hidden" == document.getElementById("dlg_atten").style.visibility && (document.getElementById("dlg_atten").style.visibility = "", 
-    $("#dlg_atten").hide()), 
+    "hidden" == document.getElementById("bkg_atten").style.visibility && (document.getElementById("bkg_atten").style.visibility = "",
+    $("#bkg_atten").hide()),
+    "hidden" == document.getElementById("dlg_atten").style.visibility && (document.getElementById("dlg_atten").style.visibility = "",
+    $("#dlg_atten").hide()),
     $("#bkg_atten").fadeIn(500, "linear", function() {
-         isSetAttenuationActive = !0, 
-         $("#dlg_atten").show(500, "swing"), 
+         isSetAttenuationActive = !0,
+         $("#dlg_atten").show(500, "swing"),
          $("#dlg_atten").draggable()
     }),
 
-    document.getElementById("id_outputs2").value = a, 
-    document.getElementById("id_inputs2").disabled = !0, 
-    document.getElementById("id_outputs2").disabled = !0, 
-    document.getElementById("inputs_label2").innerHTML = 'Input', 
+    document.getElementById("id_outputs2").value = a,
+    document.getElementById("id_inputs2").disabled = !0,
+    document.getElementById("id_outputs2").disabled = !0,
+    document.getElementById("inputs_label2").innerHTML = 'Input',
     document.getElementById("outputs_label2").innerHTML = headerText
 }
-    
+
 function changeAttn(e) {
     var currentValue = e.innerHTML;
     if (currentValue == 'ON') {
-        alert("You can only turn on the switch for a selected output!");
-        return;
+        document.getElementById('switch_on').style.display = "none"
+        document.getElementById('switch_off').style.display = ""
+    } else {
+        document.getElementById('switch_on').style.display = ""
+        document.getElementById('switch_off').style.display = "none"
     }
+
     var t = document.getElementById("matrix_view").rows[0].cells[e.cellIndex],
         n = document.getElementById("matrix_view").rows[e.parentNode.rowIndex].cells[0],
         i = t.childNodes[1];
@@ -58,21 +62,21 @@ function changeAttn(e) {
     var d = e.parentNode.rowIndex,
         a = e.cellIndex;
         //if (isSetAttenuationActive) return void changeAttn2(e);
-        document.getElementById("attenuation").value = e.innerHTML, 
-        $("#slider").slider("value", e.innerHTML), 
-        "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "", 
-        $("#bkg").hide()), 
-        "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "", 
+        document.getElementById("attenuation").value = e.innerHTML,
+        $("#slider").slider("value", e.innerHTML),
+        "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "",
+        $("#bkg").hide()),
+        "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "",
         $("#dlg").hide()), $("#bkg").fadeIn(500, "linear", function() {
-            isSetAttenuationActive = !0, 
-            $("#dlg").show(500, "swing"), 
+            isSetAttenuationActive = !0,
+            $("#dlg").show(500, "swing"),
             $("#dlg").draggable()
-        }), 
-        
-        document.getElementById("id_inputs").value = d - 1, document.getElementById("id_outputs").value = a, 
-        document.getElementById("id_inputs").disabled = !0, 
-        document.getElementById("id_outputs").disabled = !0, 
-        document.getElementById("inputs_label").innerHTML = labelText, 
+        }),
+
+        document.getElementById("id_inputs").value = d - 1, document.getElementById("id_outputs").value = a,
+        document.getElementById("id_inputs").disabled = !0,
+        document.getElementById("id_outputs").disabled = !0,
+        document.getElementById("inputs_label").innerHTML = labelText,
         document.getElementById("outputs_label").innerHTML = headerText
 }
 
@@ -149,10 +153,10 @@ function set_attenuation(e, t, n) {
 function updateMatrix(e, t) {
     var e, n, i, d, l = document.getElementById("matrix_view");
     for (n = 0; n < e.length; n++) try {
-        for (tds = e[n].getElementsByTagName("td"), i = 1; i < tds.length; i++)(0 != i || t) && (d = tds[i].getElementsByTagName("v")), 
+        for (tds = e[n].getElementsByTagName("td"), i = 1; i < tds.length; i++)(0 != i || t) && (d = tds[i].getElementsByTagName("v")),
         new_val= (d[0].firstChild.nodeValue=='1')? 'ON' :'OFF',
         new_color = (d[0].firstChild.nodeValue=='1')? 'green' :'#C0C0C0',
-        l.rows[n + 2].cells[i].innerHTML = new_val, 
+        l.rows[n + 2].cells[i].innerHTML = new_val,
         l.rows[n + 2].cells[i].style.backgroundColor = new_color
     } catch (o) {
         alert(count+ "  " + n + "  " + i + "  " + o);
@@ -232,13 +236,13 @@ var isSetAttenuationActive = !1,
     labelText = "",
     in_progress1 = !1,
     in_progress2 = !1;
-    
+
 $(document).ready(function() {
     $("#closebtn_atten").click(function() {
         $("#dlg_atten").hide("500", "swing", function() {
             $("#bkg_atten").fadeOut("300")
         })
-    }),     
+    }),
     $("#closebtn").click(function() {
         isSetAttenuationActive = !1, $("#dlg").hide("500", "swing", function() {
             $("#bkg").fadeOut("300")
@@ -248,19 +252,19 @@ $(document).ready(function() {
             $("#bkg1").fadeOut("300")
         })
     }), $("#setattenuation").click(function() {
-        manual_input = !0, 
-        "hidden" == document.getElementById("bkg_atten").style.visibility && (document.getElementById("bkg_atten").style.visibility = "", 
-        $("#bkg_atten").hide()), 
-        "hidden" == document.getElementById("dlg_atten").style.visibility && (document.getElementById("dlg_atten").style.visibility = "", 
-        $("#dlg_atten").hide()), 
+        manual_input = !0,
+        "hidden" == document.getElementById("bkg_atten").style.visibility && (document.getElementById("bkg_atten").style.visibility = "",
+        $("#bkg_atten").hide()),
+        "hidden" == document.getElementById("dlg_atten").style.visibility && (document.getElementById("dlg_atten").style.visibility = "",
+        $("#dlg_atten").hide()),
         $("#bkg_atten").fadeIn(300, "linear", function() {
             $("#dlg_atten").show(500, "swing")
-        }), 
-        document.getElementById("label_inputs").innerHTML = "Input", 
-        document.getElementById("label_outputs").innerHTML = "Outputs", 
-        document.getElementById("id_inputs").value = "", 
-        document.getElementById("id_outputs").value = "", 
-        document.getElementById("id_inputs").disabled = !1, 
+        }),
+        document.getElementById("label_inputs").innerHTML = "Input",
+        document.getElementById("label_outputs").innerHTML = "Outputs",
+        document.getElementById("id_inputs").value = "",
+        document.getElementById("id_outputs").value = "",
+        document.getElementById("id_inputs").disabled = !1,
         document.getElementById("id_outputs").disabled = !1
     }), $("#dlg").draggable(), $("#closebtn2").click(function() {
         $("#dlg2").hide("500", "swing", function() {
@@ -288,8 +292,8 @@ $(document).ready(function() {
         slide: function(e, t) {
             $("#attenuation2").val(t.value)
         }
-    }), 
-    $("#attenuation2").val($("#slider2").slider("value")), 
+    }),
+    $("#attenuation2").val($("#slider2").slider("value")),
     $("#slider2").mouseup(function() {
         $(this).after(function() {
             var e = document.getElementById("attenuation2").value,
@@ -307,22 +311,22 @@ function increment_and_send(a) {
     if (!in_progress1) if (in_progress1 = !0, setTimeout(function() {
         in_progress1 = !1;
     }, 300), 1 == a) {
-        var b = document.getElementById("id_inputs2").value, 
-            c = document.getElementById("id_outputs2").value, 
+        var b = document.getElementById("id_inputs2").value,
+            c = document.getElementById("id_outputs2").value,
             d = document.getElementById("attenuation2").value;
         if (31 == d) return void alert("The new value exceeds the limit. Maximum value is 31");
             var e = ++d;
-            document.getElementById("attenuation2").value = e, 
-            $("#slider2").slider("value", e), 
+            document.getElementById("attenuation2").value = e,
+            $("#slider2").slider("value", e),
         set_attenuation(b, c, e);
     } else if (2 == a) {
-        var b = document.getElementById("id_inputs1").value, 
-            c = document.getElementById("id_outputs1").value, 
+        var b = document.getElementById("id_inputs1").value,
+            c = document.getElementById("id_outputs1").value,
             d = document.getElementById("attenuation1").value;
         if (31 == d) return void alert("The new value exceeds the limit. Maximum value is 31");
             var e = ++d;
-            document.getElementById("attenuation1").value = e, 
-            $("#slider1").slider("value", e), 
+            document.getElementById("attenuation1").value = e,
+            $("#slider1").slider("value", e),
         set_attenuation(b, c, e);
     }
 }
@@ -331,20 +335,20 @@ function decrment_and_send(a) {
     if (!in_progress2) if (in_progress2 = !0, setTimeout(function() {
         in_progress2 = !1;
     }, 300), 1 == a) {
-        var b = document.getElementById("id_inputs2").value, 
-            c = document.getElementById("id_outputs2").value, 
+        var b = document.getElementById("id_inputs2").value,
+            c = document.getElementById("id_outputs2").value,
             d = document.getElementById("attenuation2").value;
         if (0 == d) return void alert("The value cannot be decremented as the current value already reached the low boundary!");
         var e = --d;
-        document.getElementById("attenuation2").value = e, $("#slider2").slider("value", e), 
+        document.getElementById("attenuation2").value = e, $("#slider2").slider("value", e),
         set_attenuation(b, c, e);
     } else if (2 == a) {
-        var b = document.getElementById("id_inputs1").value, 
-            c = document.getElementById("id_outputs1").value, 
+        var b = document.getElementById("id_inputs1").value,
+            c = document.getElementById("id_outputs1").value,
             d = document.getElementById("attenuation1").value;
         if (0 == d) return void alert("The value cannot be decremented as the current value already reached the low boundary!");
         var e = --d;
-        document.getElementById("attenuation1").value = e, $("#slider1").slider("value", e), 
+        document.getElementById("attenuation1").value = e, $("#slider1").slider("value", e),
         set_attenuation(b, c, e);
     }
 }
@@ -382,7 +386,7 @@ function decrment_and_send(a) {
             <tr><td align="center" colspan="2"><img src="images/spacer.gif" width="1" height="5"/></td></tr>
         </tbody>
     </table>
-    
+
    <table class="matrix" id="matrix_view" align="center">
        <thead>
            <tr>
@@ -398,14 +402,14 @@ function decrment_and_send(a) {
                </s:iterator>
            </tr>
        </thead>
-       
+
        <tr>
            <td align="center" style="background: #005566; white-space:nowrap"></td>
            <s:iterator value="outputAttenuation" status="attenrow">
            <td align="center" style="background: <s:property value="%{bgcolor}"/>" onclick="changeOutputAttn(this);"><s:property value="%{name}"/></td>
            </s:iterator>
        </tr>
-       
+
        <s:iterator value="matrix" status="rowsStatus" var="row">
        <tr>
            <td align="center" style="background: #005566; white-space:nowrap">
@@ -462,7 +466,8 @@ function decrment_and_send(a) {
            <tr><td><img src="images/spacer.gif" width="1" height="10"/></td></tr>
              <tr>
                <td colspan="3" align="center">
-                   <input type="button" class="button" value="ON" onclick="on_switching(1, '1');">
+                   <input id="switch_on" type="button" class="button" value="ON" onclick="on_switching(1, '1');">
+                   <input id="switch_off" type="button" class="button" style="display: none" value="OFF" onclick="on_switching(1, '0');">
                </td>
            </tr>
        </table>
@@ -484,7 +489,7 @@ function decrment_and_send(a) {
         <table>
             <thead>
             <tr><th><div id="outputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th><div id="inputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>State</th></tr>
-            </thead>            
+            </thead>
             <tr>
                 <td align="center"><s:textfield id="id_outputs1" name="output" size="6"></s:textfield></td>
                 <td align="center"><s:textfield id="id_inputs1" name="input" size="6"></s:textfield></td>
@@ -493,13 +498,13 @@ function decrment_and_send(a) {
             <tr><td><img src="images/spacer.gif" width="1" height="10"/></td></tr>
             <tr>
                 <td colspan="3" align="right">
-                    <input type="button" class="button" value="ON" onclick="on_switching(2, '1');">
+                    <input id="switch_on" type="button" class="button" value="ON" onclick="on_switching(2, '1');">
                 </td>
             </tr>
         </table>
     </div>
     </div>
-    
+
     <div class="blockbkg" id="bkg_atten" style="visibility: hidden;">
     <div class="cont" id="dlg_atten" style="visibility: hidden;">
         <table >
@@ -559,7 +564,7 @@ function decrment_and_send(a) {
         </table>
     </div>
     </div>
-    
+
     <div class="block_tr_bkg" id="tr_bkg" style="visibility: hidden;">
     <div class="cont" id="tr_dlg" style="visibility: hidden;">
     <table>
@@ -602,7 +607,7 @@ function decrment_and_send(a) {
         </tr>
         <tr><td colspan="3"><img src="images/spacer.gif" width="1" height="10"></td></tr>
         <tr>
-            <td align="center" colspan="3">            
+            <td align="center" colspan="3">
                <input type="button" value="Start" onClick="tier_roam('start');">
                <img src="images/spacer.gif" width="10" height="1">
                <input type="button" value="Stop" onClick="tier_roam('stop');">
@@ -611,7 +616,7 @@ function decrment_and_send(a) {
     </table>
     </div>
     </div>
-    
+
     <div id="dialog_alert" title="Connection Recovered" style="display:none;">
         <p>Application Server Connection is Recovered. Please Login Again!</p>
     </div>
