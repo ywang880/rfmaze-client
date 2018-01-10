@@ -8,8 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -409,7 +411,7 @@ public class DbAccess {
         return users;
     }
 
-    
+
     public Assignment getAssignment(String user) throws SQLException {
         Connection conn = null;
         Statement stat = null;
@@ -861,7 +863,9 @@ public class DbAccess {
                         return v1.compareTo(v2);
                     }
                 });
-                data2 = arrayToString(dataTokens);
+
+                Set<String> tmpSet = new HashSet<>(Arrays.asList(dataTokens));
+                data2 = arrayToString(tmpSet);
             }
 
             ////
@@ -963,12 +967,12 @@ public class DbAccess {
     public String assignAlltoUser(String username, String hardware, int rowNumber, int colNumber) {
         Connection conn = null;
         Statement stat = null;
-        
+
         StringBuilder all_rows = new StringBuilder("1");
         for ( int i = 2; i <= rowNumber; i++ ) {
             all_rows.append(",").append(i);
         }
-        
+
         StringBuilder all_cols = new StringBuilder("1");
         for ( int i = 2; i <= colNumber; i++ ) {
             all_cols.append(",").append(i);
@@ -989,7 +993,7 @@ public class DbAccess {
         }
         return null;
     }
-    
+
     public String freeAllFromUser(String username, String hardware) {
         Connection conn = null;
         Statement stat = null;
@@ -1025,7 +1029,7 @@ public class DbAccess {
         return sb.toString();
     }
 
-    private String arrayToString(String[] tokens) {
+    private String arrayToString(Set<String> tokens) {
         StringBuilder sb = new StringBuilder();
         boolean first=true;
         for (String s : tokens) {
@@ -1087,7 +1091,9 @@ public class DbAccess {
                         return v1.compareTo(v2);
                     }
                 });
-                data2 = arrayToString(dataTokens);
+
+                Set<String> tmpData = new HashSet<>(Arrays.asList(dataTokens));
+                data2 = arrayToString(tmpData);
             }
 
             ////
@@ -1198,7 +1204,9 @@ public class DbAccess {
                 closeStatement(stat);
                 SQL = "UPDATE assignments SET rows=? WHERE hardware=? AND user=?";
                 stat = conn.prepareStatement(SQL);
-                stat.setString(1, arrayToString(tmpString));
+
+                Set<String> tmpSet = new HashSet<>(Arrays.asList(tmpString));
+                stat.setString(1, arrayToString(tmpSet));
                 stat.setString(2, hardware);
                 stat.setString(3, to);
                 stat.execute();
@@ -1362,7 +1370,8 @@ public class DbAccess {
             }
         });
 
-        return arrayToString(data) ;
+        Set<String> tmpSet = new HashSet<>( Arrays.asList(data));
+        return arrayToString(tmpSet) ;
     }
 
     private String sorting(String inputData) {

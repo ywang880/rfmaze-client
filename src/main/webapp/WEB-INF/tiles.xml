@@ -12,6 +12,13 @@
 		<put-attribute name="footer" value="/Footer.jsp" />
 	</definition>
 
+    <definition name="adminBaseLayoutFullsize" template="/BaseLayout.jsp">
+		<put-attribute name="title" value=""/>
+		<put-attribute name="header" value="/HeaderFullSize.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="" />
+	</definition>
+
     <definition name="userBaseLayout" template="/BaseLayout.jsp">
 		<put-attribute name="title" value=""/>
 		<put-attribute name="header" value="/UserHeader.jsp" />
@@ -144,6 +151,18 @@
 	<definition name="/matrix_overview3.tiles" extends="adminBaseLayout">
 		<put-attribute name="title" value="Switch RFmaze Overiew" />
 		<put-attribute name="body" value="/bmatrix_overview_no_atten.jsp" />
+	</definition>
+	<definition name="/matrix_overview_fullsize1.tiles" extends="adminBaseLayoutFullsize">
+		<put-attribute name="title" value="RFmaze Overiew" />
+		<put-attribute name="body" value="/matrix_overview_fullsize.jsp" />
+	</definition>
+	<definition name="/matrix_overview_fullsize2.tiles" extends="adminBaseLayoutFullsize">
+		<put-attribute name="title" value="Switch RFmaze Overiew" />
+		<put-attribute name="body" value="/bmatrix_overview_fullsize.jsp" />
+	</definition>
+	<definition name="/matrix_overview_fullsize3.tiles" extends="adminBaseLayoutFullsize">
+		<put-attribute name="title" value="Switch RFmaze Overiew" />
+		<put-attribute name="body" value="/bmatrix_overview_fullsize_no_atten.jsp" />
 	</definition>
 	<definition name="/colorscheme.tiles" extends="userBaseLayout">
 		<put-attribute name="title" value="Color Scheme Picker" />

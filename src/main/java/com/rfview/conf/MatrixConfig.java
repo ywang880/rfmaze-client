@@ -191,6 +191,13 @@ public class MatrixConfig {
 		this.quintechType = quintechType;
 	}
 
+	public boolean fullView(String hardware) {
+	    Properties props = loadConfigureFile(hardware);
+	    int sz_input = Integer.parseInt(props.getProperty(Constants.MATRIX_INPUTS, "0"));
+	    int sz_output = Integer.parseInt(props.getProperty(Constants.MATRIX_OUTPUTS, "0"));
+	    return sz_input > 0 && sz_input <= 16 && sz_output > 0 && sz_output <= 16;
+	}
+
     public Server getServerInfo(String hardware) throws InvalidConfigurationException {
         final Properties props = loadConfigureFile(hardware);
         final String ip = props.getProperty(Constants.MATRIX_IP);

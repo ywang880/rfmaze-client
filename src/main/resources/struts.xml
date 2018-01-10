@@ -166,6 +166,11 @@
 			<result name="success1" type="tiles">/matrix_overview1.tiles</result>
 			<result name="success2" type="tiles">/matrix_overview2.tiles</result>
 			<result name="success3" type="tiles">/matrix_overview3.tiles</result>
+
+			<result name="success1f" type="tiles">/matrix_overview_fullsize1.tiles</result>
+			<result name="success2f" type="tiles">/matrix_overview_fullsize2.tiles</result>
+			<result name="success3f" type="tiles">/matrix_overview_fullsize3.tiles</result>
+
 			<result name="select_hardware" type="tiles">/matrix_overview_select.tiles</result>
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>

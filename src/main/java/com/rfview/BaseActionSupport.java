@@ -30,6 +30,12 @@ public class BaseActionSupport extends ActionSupport implements SessionAware, Se
     protected static final String SUCCESS3 = SUCCESS + "3";
     protected static final String SUCCESS4 = SUCCESS + "4";
     protected static final String SUCCESS5 = SUCCESS + "5";
+
+    protected static final String SUCCESS1f = SUCCESS + "1f";
+    protected static final String SUCCESS2f = SUCCESS + "2f";
+    protected static final String SUCCESS3f = SUCCESS + "3f";
+    protected static final String SUCCESS4f = SUCCESS + "4f";
+    protected static final String SUCCESS5f = SUCCESS + "5f";
     
     protected final Logger logger = Logger.getLogger(BaseActionSupport.class);
     protected final DbAccess dbAccess = DbAccess.getInstance();

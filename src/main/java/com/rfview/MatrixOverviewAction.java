@@ -30,10 +30,6 @@ public class MatrixOverviewAction extends BaseActionSupport {
     private static final long FIVE_SECONDS = 5000L;
     private static final String SELECT_HARDWARE="select_hardware";
 
-    private static final String SUCCESS1 = SUCCESS + "1";
-    private static final String SUCCESS2 = SUCCESS + "2";
-    private static final String SUCCESS3 = SUCCESS + "3";
-
     private Cell[][] matrix;
     private List<String> hardwares;
     private List<THeader> tableHeader;
