@@ -29,20 +29,20 @@ function changeAttn(e) {
     headerText = i.childNodes[0].nodeValue, i = n.childNodes[1], labelText = i.childNodes[0].nodeValue;
     var d = e.parentNode.rowIndex,
     a = e.cellIndex;
-    document.getElementById("attenuation").value = e.innerHTML, 
-    "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "", 
-    $("#bkg").hide()), 
-      "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "", 
+    document.getElementById("attenuation").value = e.innerHTML,
+    "hidden" == document.getElementById("bkg").style.visibility && (document.getElementById("bkg").style.visibility = "",
+    $("#bkg").hide()),
+      "hidden" == document.getElementById("dlg").style.visibility && (document.getElementById("dlg").style.visibility = "",
       $("#dlg").hide()), $("#bkg").fadeIn(500, "linear", function() {
-          $("#dlg").show(500, "swing"), 
+          $("#dlg").show(500, "swing"),
           $("#dlg").draggable();
           $("#dlg").zIndex(1)
-      }), 
-        
-    document.getElementById("id_inputs").value = d, document.getElementById("id_outputs").value = a, 
-    document.getElementById("id_inputs").disabled = !0, 
-    document.getElementById("id_outputs").disabled = !0, 
-    document.getElementById("inputs_label").innerHTML = labelText, 
+      }),
+
+    document.getElementById("id_inputs").value = d, document.getElementById("id_outputs").value = a,
+    document.getElementById("id_inputs").disabled = !0,
+    document.getElementById("id_outputs").disabled = !0,
+    document.getElementById("inputs_label").innerHTML = labelText,
     document.getElementById("outputs_label").innerHTML = headerText
 }
 
@@ -163,13 +163,13 @@ var isSetAttenuationActive = !1,
     labelText = "",
     in_progress1 = !1,
     in_progress2 = !1;
-    
+
 $(document).ready(function() {
     $("#closebtn_atten").click(function() {
         $("#dlg_atten").hide("500", "swing", function() {
             $("#bkg_atten").fadeOut("300")
         })
-    }),     
+    }),
     $("#closebtn").click(function() {
         isSetAttenuationActive = !1, $("#dlg").hide("500", "swing", function() {
             $("#bkg").fadeOut("300")
@@ -179,19 +179,19 @@ $(document).ready(function() {
             $("#bkg1").fadeOut("300")
         })
     }), $("#setattenuation").click(function() {
-        manual_input = !0, 
-        "hidden" == document.getElementById("bkg_atten").style.visibility && (document.getElementById("bkg_atten").style.visibility = "", 
-        $("#bkg_atten").hide()), 
-        "hidden" == document.getElementById("dlg_atten").style.visibility && (document.getElementById("dlg_atten").style.visibility = "", 
-        $("#dlg_atten").hide()), 
+        manual_input = !0,
+        "hidden" == document.getElementById("bkg_atten").style.visibility && (document.getElementById("bkg_atten").style.visibility = "",
+        $("#bkg_atten").hide()),
+        "hidden" == document.getElementById("dlg_atten").style.visibility && (document.getElementById("dlg_atten").style.visibility = "",
+        $("#dlg_atten").hide()),
         $("#bkg_atten").fadeIn(300, "linear", function() {
             $("#dlg_atten").show(500, "swing")
-        }), 
-        document.getElementById("label_inputs").innerHTML = "Input", 
-        document.getElementById("label_outputs").innerHTML = "Outputs", 
-        document.getElementById("id_inputs").value = "", 
-        document.getElementById("id_outputs").value = "", 
-        document.getElementById("id_inputs").disabled = !1, 
+        }),
+        document.getElementById("label_inputs").innerHTML = "Input",
+        document.getElementById("label_outputs").innerHTML = "Outputs",
+        document.getElementById("id_inputs").value = "",
+        document.getElementById("id_outputs").value = "",
+        document.getElementById("id_inputs").disabled = !1,
         document.getElementById("id_outputs").disabled = !1
     }), $("#dlg").draggable(), $("#closebtn2").click(function() {
         $("#dlg2").hide("500", "swing", function() {
@@ -246,7 +246,7 @@ var timerId, timer_is_on = 0,
             <tr><td align="center" colspan="2"><img src="images/spacer.gif" width="1" height="5"/></td></tr>
         </tbody>
     </table>
-    
+
     <table class="matrix" id="matrix_view" align="center">
         <thead>
             <tr>
@@ -304,14 +304,14 @@ var timerId, timer_is_on = 0,
            <thead>
            <tr>
                <th><div id="outputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th>
+               <th><img src="images/spacer.gif" width="10" height="1"></th>
                <th><div id="inputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th>
-               <th nowrap>Attenuation(db)</th>
                </tr>
            </thead>
            <tr>
                <td align="center"><s:textfield id="id_outputs" name="output" size="6"></s:textfield></td>
                <td align="center"><s:textfield id="id_inputs" name="input" size="6"></s:textfield></td>
-               <td align="center"><s:textfield id="attenuation" name="value" size="6"></s:textfield></td>
+               <td align="center"><s:textfield readonly="true" id="attenuation" name="value" size="6"></s:textfield></td>
            </tr>
            <tr><td><img src="images/spacer.gif" width="1" height="10"/></td></tr>
              <tr>
@@ -337,12 +337,15 @@ var timerId, timer_is_on = 0,
 
         <table>
             <thead>
-            <tr><th><div id="outputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th><div id="inputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>State</th></tr>
-            </thead>            
+            <tr><th><div id="outputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th>
+            <th><img src="images/spacer.gif" width="10" height="1"></th>
+            <th><div id="inputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th>
+            </tr>
+            </thead>
             <tr>
                 <td align="center"><s:textfield id="id_outputs1" name="output" size="6"></s:textfield></td>
                 <td align="center"><s:textfield id="id_inputs1" name="input" size="6"></s:textfield></td>
-                <td align="center"><s:textfield id="attenuation1" name="value" size="6" ></s:textfield></td>
+                <td align="center"><s:textfield readonly="true" id="attenuation1" name="value" size="6" ></s:textfield></td>
             </tr>
             <tr><td><img src="images/spacer.gif" width="1" height="10"/></td></tr>
             <tr>

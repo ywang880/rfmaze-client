@@ -453,14 +453,14 @@ function decrment_and_send(a) {
            <thead>
            <tr>
                <th><div id="outputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th>
+               <th><img src="images/spacer.gif" width="10" height="1"></th>
                <th><div id="inputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th>
-               <th nowrap>Attenuation(db)</th>
-               </tr>
+           </tr>
            </thead>
            <tr>
                <td align="center"><s:textfield id="id_outputs" name="output" size="6"></s:textfield></td>
                <td align="center"><s:textfield id="id_inputs" name="input" size="6"></s:textfield></td>
-               <td align="center"><s:textfield id="attenuation" name="value" size="6"></s:textfield></td>
+               <td align="center"><s:textfield readonly="true" id="attenuation" name="value" size="6"></s:textfield></td>
            </tr>
            <tr><td><img src="images/spacer.gif" width="1" height="10"/></td></tr>
              <tr>
@@ -487,12 +487,14 @@ function decrment_and_send(a) {
 
         <table>
             <thead>
-            <tr><th><div id="outputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th><div id="inputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th><th nowrap>State</th></tr>
+            <tr><th><div id="outputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th>
+            <th><img src="images/spacer.gif" width="10" height="1"></th>
+            <th><div id="inputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th>
             </thead>
             <tr>
                 <td align="center"><s:textfield id="id_outputs1" name="output" size="6"></s:textfield></td>
                 <td align="center"><s:textfield id="id_inputs1" name="input" size="6"></s:textfield></td>
-                <td align="center"><s:textfield id="attenuation1" name="value" size="6" ></s:textfield></td>
+                <td align="center"><s:textfield readonly="true" id="attenuation1" name="value" size="6" ></s:textfield></td>
             </tr>
             <tr><td><img src="images/spacer.gif" width="1" height="10"/></td></tr>
             <tr>
