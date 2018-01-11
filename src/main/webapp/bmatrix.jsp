@@ -438,12 +438,12 @@ function decrment_and_send(a) {
    </div>
 
    <div class="blockbkg" id="bkg" style="visibility: hidden;">
-   <div class="cont" id="dlg" style="visibility: hidden;">
+   <div class="cont" id="dlg" style="visibility: hidden; width:300px; height: 120px">
        <table >
            <tr>
-               <td><img src="images/spacer.gif" width="90" height="1"></td>
-               <td align="right"><strong>Toggle ON and OFF</strong></td>
-               <td><img src="images/spacer.gif" width="90" height="1"></td>
+               <td><img src="images/spacer.gif" width="60" height="1"></td>
+               <td align="right" nowrap><strong>Toggle ON and OFF</strong></td>
+               <td><img src="images/spacer.gif" width="60" height="1"></td>
                <td align="right"><div class="closebtn" title="Close" id="closebtn"></div></td>
            </tr>
            <tr><td><img src="images/spacer.gif" width="1" height="10"/></td></tr>
@@ -473,17 +473,16 @@ function decrment_and_send(a) {
     </div>
 
     <div class="blockbkg" id="bkg1" style="visibility: hidden;">
-    <div class="cont" id="dlg1" style="visibility: hidden;">
+    <div class="cont" id="dlg1" style="visibility: hidden; width:300px; height: 120px" >
         <table >
             <tr>
-                <td><img src="images/spacer.gif" width="90" height="1"></td>
-                <td align="right"><strong>Toggle ON and OFF</strong></td>
-                <td><img src="images/spacer.gif" width="90" height="1"></td>
+                <td><img src="images/spacer.gif" width="60" height="1"></td>
+                <td align="right" nowrap><strong>Toggle ON and OFF</strong></td>
+                <td><img src="images/spacer.gif" width="60" height="1"></td>
                 <td align="right"><div class="closebtn" title="Close" id="closebtn1"></div></td>
             </tr>
             <tr><td><img src="images/spacer.gif" width="1" height="10"/></td></tr>
-          </table>
-
+        </table>
         <table>
             <thead>
             <tr><th><div id="outputs_label1"></div><img src="images/spacer.gif" width="5" height="1"></th>
