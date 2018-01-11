@@ -61,13 +61,19 @@ function set_attenuation_btn(e) {
 }
 
 function on_switching(e, t) {
+    var changedValue;
+    if ( 1 == t ) {
+        changedValue = "ON";
+    } else {
+        changedValue = "OFF";
+    };
     if (1 == e) {
-        document.getElementById("attenuation").value = t;
+        document.getElementById("attenuation").value = changedValue;
         var n = document.getElementById("id_inputs").value,
             i = document.getElementById("id_outputs").value;
         set_attenuation(n, i, t)
     } else if (2 == e) {
-        document.getElementById("attenuation1").value = t;
+        document.getElementById("attenuation1").value = changedValue;
         var n = document.getElementById("id_inputs1").value,
             i = document.getElementById("id_outputs1").value;
         set_attenuation(n, i, t)
@@ -304,8 +310,8 @@ var timerId, timer_is_on = 0,
            <thead>
            <tr>
                <th><div id="outputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th>
-               <th><img src="images/spacer.gif" width="10" height="1"></th>
                <th><div id="inputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th>
+               <th>Current State</th>
                </tr>
            </thead>
            <tr>

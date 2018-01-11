@@ -79,14 +79,6 @@ function changeAttn(e) {
         document.getElementById("outputs_label").innerHTML = headerText
 }
 
-function changeAttn2(e) {
-    var t = e.parentNode.rowIndex,
-        n = e.cellIndex - 1;
-    0 != n && (document.getElementById("attenuation1").value = e.innerHTML, $("#slider1").slider("value", e.innerHTML), "hidden" == document.getElementById("bkg1").style.visibility && (document.getElementById("bkg1").style.visibility = "", $("#bkg1").hide()), "hidden" == document.getElementById("dlg1").style.visibility && (document.getElementById("dlg1").style.visibility = "", $("#dlg1").hide()), $("#bkg1").fadeIn(500, "linear", function() {
-        $("#dlg1").show(500, "swing"), $("#dlg1").draggable()
-    }), document.getElementById("id_inputs1").value = t, document.getElementById("id_outputs1").value = n, document.getElementById("id_inputs1").disabled = !0, document.getElementById("id_outputs1").disabled = !0, document.getElementById("inputs_label1").innerHTML = labelText, document.getElementById("outputs_label1").innerHTML = headerText)
-}
-
 function set_attenuation_btn(e) {
     if (1 == e) {
         var t = document.getElementById("attenuation").value,
@@ -116,13 +108,20 @@ function set_atten(e, t) {
 }
 
 function on_switching(e, t) {
+    var changedValue;
+    if ( 1 == t ) {
+        changedValue = "ON";
+    } else {
+        changedValue = "OFF";
+    };
+
     if (1 == e) {
-        document.getElementById("attenuation").value = t;
+        document.getElementById("attenuation").value = changedValue;
         var n = document.getElementById("id_inputs").value,
             i = document.getElementById("id_outputs").value;
         set_attenuation(n, i, t)
     } else if (2 == e) {
-        document.getElementById("attenuation1").value = t;
+        document.getElementById("attenuation1").value = changedValue;
         var n = document.getElementById("id_inputs1").value,
             i = document.getElementById("id_outputs1").value;
         set_attenuation(n, i, t)
@@ -453,8 +452,8 @@ function decrment_and_send(a) {
            <thead>
            <tr>
                <th><div id="outputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th>
-               <th><img src="images/spacer.gif" width="10" height="1"></th>
                <th><div id="inputs_label"></div><img src="images/spacer.gif" width="5" height="1"></th>
+               <th>Current State</th>
            </tr>
            </thead>
            <tr>

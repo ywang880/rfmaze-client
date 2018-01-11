@@ -1,8 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<link rel="stylesheet" href="css/jquery_style.css">
-<link rel="stylesheet" href="css/jquery-ui.css">
+<link type="text/css" href="css/Aristo.css" rel="stylesheet" />
 <link rel="stylesheet" href="css/matrix.css">
 
 <STYLE>
@@ -198,7 +197,7 @@ $(document).ready(function() {
 <s:if test="%{warningMessage != null}">
     <img src="images/warn.png">&nbsp;<div class="warn_message"><s:property value="warningMessage"/></div>
 </s:if>
-
+<body class="ui-form">
 <table class="ConfigDataTable" width="80%" align="center" style="border-collapse:collapse;">
    <thead>
       <tr>
@@ -220,7 +219,7 @@ $(document).ready(function() {
    </table>
    <img src="images/spacer.gif" width="1" height="20"/>
 
-   <table align="center" id="_user_data" style="display: none;">
+   <table align="center" id="_user_data" class="ui-widget" style="display: none;">
         <tr>
             <td align="center">
                 <table>
@@ -236,7 +235,7 @@ $(document).ready(function() {
             </td>
         </tr>
     </table>
-    <table align="center" id="_user_assignment" style="display: none;">
+    <table align="center" id="_user_assignment" class="ui-widget" style="display: none;">
         <tr>
             <td style="color: #ffe680; font-size: 12 px; font-weight: bold; text-align: left">
                 <strong>Note:</strong>
@@ -297,3 +296,4 @@ $(document).ready(function() {
    <s:hidden name="action" id="_action" value="commit"/>
    <s:hidden name="assignedHardwareToUser" id="id_assignedHardware" value=""/>
 </s:form>
+</body>
