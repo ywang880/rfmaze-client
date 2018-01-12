@@ -62,7 +62,7 @@
 			<result name="error">Login.jsp</result>
 		</action>
 
-		<action name="users" class="com.rfview.UsersAction" method="queryUserFromDB">
+		<action name="users" class="com.rfview.UsersAction" method="modify">
 			<result name="success" type="tiles">/users.tiles</result>
 			<result name="login">Login.jsp</result>
 			<result name="error">Login.jsp</result>

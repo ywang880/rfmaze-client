@@ -17,6 +17,8 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.rfview.comm.ProcessInfo;
 import com.rfview.conf.Assignment;
 import com.rfview.conf.BroadcastConf;
@@ -32,6 +34,12 @@ public class UsersAction extends BaseActionSupport {
 
     private static final long serialVersionUID = 1L;
     private static final String[] STR_SIGNATURE = { String.class.getName() };
+
+    private static final String CMD_EDIT_USER = "user_edit";
+    private static final String CMD_ASSIGN_USER = "user_assign";
+    private static final String PARAM_HARDWARES = "hardwares";
+    private static final String PARAM_COMMAND = "command";
+
     private List<User> users = null;
     private User user = null;
     private String username;
@@ -40,6 +48,8 @@ public class UsersAction extends BaseActionSupport {
     private String hardwareAssignment;
     private BroadcastConf bConf = BroadcastConf.getInstance();
     private String action;
+    private String command;
+    private String param_hardwares;
 
     public String getUsername() {
         return username;
@@ -93,7 +103,7 @@ public class UsersAction extends BaseActionSupport {
         return bConf.getHardwareList();
     }
 
-    public String queryUserFromDB() {
+    public String modify() {
 
         if (sessionMap != null) {
             String uid = (String) sessionMap.get(Constants.KEY_LOGIN_ID);
@@ -104,6 +114,8 @@ public class UsersAction extends BaseActionSupport {
         }
 
         logger.info("action and path params = " + action);
+        parseParameters();
+
         if (isDelete()) {
             String uid = action.split(" ")[1];
             try {
@@ -115,25 +127,24 @@ public class UsersAction extends BaseActionSupport {
                 logger.error("SQL Exception", e);
             }
 
-            buildUserList();
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).getId().equals(uid)) {
                     users.remove(i);
                     break;
                 }
             }
-            return SUCCESS;
-        } else if (user != null) {
-            String[] listOfHardwares = getAssignedHardwares(action);
-            updateAssignment(listOfHardwares);
-
+        } else if (isEdit()) {
             try {
-
                 dbAccess.updateUser(user);
-                buildUserList();
-                return SUCCESS;
             } catch (SQLException e) {
                 logger.error("SQL Exception", e);
+            }
+        } else if (isAssign()) {
+            if ( StringUtils.isBlank(param_hardwares)) {
+                logger.warn("Invalid data {} " + action );
+            } else {
+                String[] listOfHardwares = param_hardwares.split(",");
+                updateAssignment(listOfHardwares);
             }
         }
 
@@ -143,6 +154,30 @@ public class UsersAction extends BaseActionSupport {
 
     private boolean isDelete() {
         return action != null && action.startsWith("delete");
+    }
+
+    private boolean isEdit() {
+        return command != null && CMD_EDIT_USER.equals(command);
+    }
+
+    private boolean isAssign() {
+        return command != null && CMD_ASSIGN_USER.equals(command);
+    }
+
+    private void parseParameters() {
+        if ( StringUtils.isBlank(action) ) {
+            return;
+        }
+
+        String[] tokens = action.replaceAll("commit\\?", "").split("&");
+        for ( String t : tokens ) {
+            String[] params = t.split("=");
+            if ( params.length == 2 && PARAM_COMMAND.equals(params[0]) ) {
+                command = params[1];
+            } else if ( params.length == 2 && PARAM_HARDWARES.equals(params[0]) ) {
+                param_hardwares = params[1];
+            }
+        }
     }
 
     private void buildUserList() {
@@ -308,20 +343,13 @@ public class UsersAction extends BaseActionSupport {
         return false;
     }
 
-    private String[] getAssignedHardwares(String params) {
-        if (params == null || params.isEmpty()) {
-            return new String[0];
-        }
-        return params.replaceAll("commit\\?hardwares=", "").split(",");
-    }
-
     private void updateAssignment(String[] selectedHardwares) {
 
         Set<String> currentList = getAssigned(user.getId());
         Map<String, MatrixSize> insertList = new HashMap<>();
 
         for (String s : selectedHardwares) {
-            if ( s == null || s.isEmpty() || s.matches("\\s*(?i)Undefined\\s*" )) {
+            if (s == null || s.isEmpty() || s.matches("\\s*(?i)Undefined\\s*")) {
                 continue;
             }
 
@@ -346,15 +374,17 @@ public class UsersAction extends BaseActionSupport {
             insertList.put(s, new MatrixSize(inputs, outputs));
         }
 
-        for ( String h : currentList ) {
-            logger.info("Delete assignment matrix " + h + " from user " + user.getId() );
-            DbAccess.getInstance().freeAllFromUser( user.getId(), h );
+        for (String h : currentList) {
+            logger.info("Delete assignment matrix " + h + " from user " + user.getId());
+            DbAccess.getInstance().freeAllFromUser(user.getId(), h);
         }
 
-        for ( Map.Entry<String, MatrixSize> e : insertList.entrySet() ) {
-            logger.info("Delete existing assignment and assign matrix " + e.getKey() + ", " +  e.getValue().getNumInputs() +  " X " + e.getValue().getNumOuputs() + " to user " + user.getId());
-            DbAccess.getInstance().deleteAssignment( e.getKey() );
-            DbAccess.getInstance().assignAlltoUser(user.getId(),  e.getKey(), e.getValue().getNumInputs(), e.getValue().getNumOuputs());
+        for (Map.Entry<String, MatrixSize> e : insertList.entrySet()) {
+            logger.info("Delete existing assignment and assign matrix " + e.getKey() + ", "
+                    + e.getValue().getNumInputs() + " X " + e.getValue().getNumOuputs() + " to user " + user.getId());
+            DbAccess.getInstance().deleteAssignment(e.getKey());
+            DbAccess.getInstance().assignAlltoUser(user.getId(), e.getKey(), e.getValue().getNumInputs(),
+                    e.getValue().getNumOuputs());
         }
     }
 

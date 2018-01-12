@@ -4,10 +4,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>RFmaze</title>
-  <LINK REL="SHORTCUT ICON" HREF="images/favicon.png">    
-  <link rel="stylesheet" type="text/css" href="css/stdtheme.css"/>
-  <link rel="stylesheet" type="text/css" href="css/style.css"/>
-  <link rel="stylesheet" href="jquery-ui-1.11.4/jquery-ui.css">    
+  <LINK REL="SHORTCUT ICON" HREF="images/favicon.png">
+  <link type="text/css" href="css/Aristo.css" rel="stylesheet" />
   <STYLE>  
   #footer {
     position: fixed;
@@ -42,7 +40,7 @@
   </script>
 </head>
 
-<body background="images/rfmaze_background.png?1.0.0.0-1000">
+<body class="ui-form" background="images/rfmaze_background.png?1.0.0.0-1000">
 <s:form theme="simple" action="databaseview.action" method="query"> 
   <table border="0" cellspacing="0" cellpadding="0" width="100%" background="images/banner_bg.png">
     <tr>

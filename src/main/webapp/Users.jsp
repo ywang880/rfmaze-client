@@ -58,17 +58,13 @@ function enableInput(e) {
     var t = document.getElementById(e).style.display;
     if (t == "none") {
         document.getElementById(e).style.display = ""
-        document.getElementById('submit_buttons').style.display = ""
     } else {
         document.getElementById(e).style.display = "none"
-        document.getElementById('submit_buttons').style.display = "none"
     }
 }
 
-function disableInput(e,f) {
+function disableInput(e) {
     document.getElementById(e).style.display = "none"
-    document.getElementById(f).style.display = "none"
-    document.getElementById('submit_buttons').style.display = "none"
 }
 
 function commit(e) {
@@ -76,12 +72,12 @@ function commit(e) {
     var hardwares='';
     for (var i = 0; i < x.options.length; i++) {
         if ( i == 0 ) {
-             hardwares = x.options[i].value;
+            hardwares = x.options[i].value;
         } else {
           hardwares = hardwares + ',' + x.options[i].value;
        }
     }
-    document.getElementById("_action").value = e+'?hardwares='+hardwares;
+    document.getElementById("_action").value ='commit?command=' + e + '&hardwares='+hardwares;
     document.getElementById("users").submit();
 }
 
@@ -234,6 +230,12 @@ $(document).ready(function() {
                 </table>
             </td>
         </tr>
+        <tr>
+            <td align="center">
+                <input type="button" class="button" value="Commit" align="center" onclick="commit('user_edit');"/>
+                <input type="button" class="button" value="Cancel" align="center" onClick="disableInput('_user_data');"/>
+            </td>
+        </tr>
     </table>
     <table align="center" id="_user_assignment" class="ui-widget" style="display: none;">
         <tr>
@@ -278,21 +280,13 @@ $(document).ready(function() {
                 </table>
             </td>
         </tr>
-    </table>
-    <table align="center" id="submit_buttons" style="display: none;">
         <tr>
-            <td><img src="images/spacer.gif" width="1" height="10"/></td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">
-                <input type="button" class="button" value="Commit" align="center" onclick="commit('commit');"/>
-                <input type="button" class="button" value="Cancel" align="center" onClick="disableInput('_user_data', '_user_assignment' );"/>
+            <td align="center">
+                <input type="button" class="button" value="Commit" align="center" onclick="commit('user_assign');"/>
+                <input type="button" class="button" value="Cancel" align="center" onClick="disableInput( '_user_assignment' );"/>
             </td>
         </tr>
-        <tr>
-            <td><img src="images/spacer.gif" width="1" height="20"/></td>
-        <tr>
-   </table>
+    </table>
    <s:hidden name="action" id="_action" value="commit"/>
    <s:hidden name="assignedHardwareToUser" id="id_assignedHardware" value=""/>
 </s:form>
