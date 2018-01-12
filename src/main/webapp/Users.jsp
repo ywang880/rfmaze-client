@@ -211,7 +211,7 @@ $(document).ready(function() {
         <tr>
          <td align="center" style="border: 1px solid #A8A8A8;"><s:property value="%{id}"/></td>
          <td align="center" style="border: 1px solid #A8A8A8;">********</td>
-         <!-- <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" style="width: 100px;" value=" Assign Matrix " onclick="assignMatrix(this, '_user_assignment');"/></td> -->
+         <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" style="width: 100px;" value=" Assign Matrix " onclick="assignMatrix(this, '_user_assignment');"/></td>
          <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" value=" Edit " onclick="editUser(this, '_user_data', '<s:property value="#usersStatus.count"/>');"/></td>
          <td align="center" style="border: 1px solid #A8A8A8;"><input type="button" class="button" value=" Delete " onclick="deleteUser('<s:property value="%{id}"/>');"/></td>
       </tr>
