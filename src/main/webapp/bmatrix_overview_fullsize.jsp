@@ -324,7 +324,6 @@ $(function() {
     $(document).tooltip()
 });
 </SCRIPT>
-<SCRIPT type="text/javascript" language="javascript" src="js/fix_table.js"></SCRIPT>
 <SCRIPT language="javascript">
 function viewmatrix() {
     if (document.getElementById('matrix_overview_hardware').selectedIndex == 0) {

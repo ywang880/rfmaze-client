@@ -144,7 +144,7 @@ public class MatrixOverviewAction extends BaseActionSupport {
 
         if (!USER_ADMIN.equals(username) && !USER_SWADMIN.equals(username) ) {
             setErrorMessage("User " + username + " does not have privilege to access this page!");
-            return SUCCESS1;
+            return shouldFullview(hardware)? SUCCESS1f : SUCCESS1;
         }
 
         logger.debug("Action = [" + action + "], hardware="+hardware);
@@ -178,16 +178,16 @@ public class MatrixOverviewAction extends BaseActionSupport {
         try {
             isQRB = MatrixConfig.getInstance().getServerInfo(hardware).isQRB();
             if (MatrixConfig.getInstance().getServerInfo(hardware).isQRB()) {
-                returnCode = SUCCESS1;
+                returnCode = shouldFullview(hardware)? SUCCESS1f : SUCCESS1;
             } else if (MatrixConfig.getInstance().getServerInfo(hardware).isLTE()) {
-                returnCode = SUCCESS2;
+                returnCode = shouldFullview(hardware)? SUCCESS2f : SUCCESS2;
             } else {
-                returnCode = SUCCESS3;
+                returnCode = shouldFullview(hardware)? SUCCESS3f : SUCCESS3;
             }
             logger.info("server type = " + MatrixConfig.getInstance().getServerInfo(hardware).getType()
                     + ", return core " + returnCode);
         } catch (InvalidConfigurationException e2) {
-            returnCode = SUCCESS1;
+            returnCode = shouldFullview(hardware)? SUCCESS1f : SUCCESS1;
             logger.error(e2.getMessage());
         }
 
@@ -401,5 +401,9 @@ public class MatrixOverviewAction extends BaseActionSupport {
 			e.printStackTrace();
 		}
     	return false;
+    }
+
+    private boolean shouldFullview(String hardware) {
+        return MatrixConfig.getInstance().fullView(hardware);
     }
 }
