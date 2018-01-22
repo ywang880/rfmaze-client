@@ -8,9 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.naming.Context;
@@ -99,6 +101,109 @@ public class DbAccess {
             closeResultset(rs);
             closeStatement(stat);
         }
+    }
+
+    public void updateConfig(String name, String config) throws SQLException {
+        Connection conn = null;
+        ResultSet rs = null;
+        Statement stat = null;
+        int rowCount = 0;
+        try {
+            try {
+                conn = connect();
+                stat = conn.createStatement();
+                rs = stat.executeQuery("SELECT count(name) FROM Config WHERE name='" + name + "'");
+                while (rs.next()) {
+                    rowCount = rs.getInt(1);
+                }
+            } catch (NamingException e) {
+                throw new SQLException();
+            } finally {
+                closeResultset(rs);
+                closeStatement(stat);
+            }
+
+            PreparedStatement stmt = null;
+            try {
+                if (rowCount > 0) {
+                    String SQL = "UPDATE Config SET name=?,data='" + config + "'";
+                    stmt = conn.prepareStatement(SQL);
+                    stmt.executeUpdate();
+                } else {
+                    String SQL = "INSERT INTO Config VALUES(?,?)";
+                    stmt = conn.prepareStatement(SQL);
+                    stmt.setString(1, name);
+                    stmt.setString(2, config);
+                }
+                stmt.executeUpdate();
+            } finally {
+                closeConnection(conn);
+                closeStatement(stmt);
+            }
+        } finally {
+            closeConnection(conn);
+            closeResultset(rs);
+            closeStatement(stat);
+        }
+    }
+
+    public void deleteConfig(String name) throws SQLException {
+        Connection conn = null;
+        Statement stat = null;
+        try {
+            conn = connect();
+            stat = conn.createStatement();
+            stat.execute("DELETE FROM Config WHERE name='" + name + "'");
+        } catch (NamingException e) {
+            throw new SQLException("Failed to delete configure " + name);
+        } finally {
+            closeStatement(stat);
+        }
+    }
+
+    public String getConfig(String name) throws SQLException {
+        Connection conn = null;
+        ResultSet rs = null;
+        Statement stat = null;
+        String configData = "";
+        try {
+            conn = connect();
+            stat = conn.createStatement();
+            rs = stat.executeQuery("SELECT * FROM Config where name = '" + name + "'");
+            while (rs.next()) {
+                configData = rs.getString(2);
+            }
+        } catch (NamingException e) {
+            throw new SQLException();
+        } finally {
+            closeConnection(conn);
+            closeResultset(rs);
+            closeStatement(stat);
+        }
+
+        return configData;
+    }
+
+    public Map<String, String> getAllConfig() throws SQLException {
+        Connection conn = null;
+        ResultSet rs = null;
+        Statement stat = null;
+        Map<String, String> allConf = new HashMap<>();
+        try {
+            conn = connect();
+            stat = conn.createStatement();
+            rs = stat.executeQuery("SELECT * FROM Config");
+            while (rs.next()) {
+                allConf.put(rs.getString(1), rs.getString(2));
+            }
+        } catch (NamingException e) {
+            throw new SQLException();
+        } finally {
+            closeConnection(conn);
+            closeResultset(rs);
+            closeStatement(stat);
+        }
+        return allConf;
     }
 
     public User queryUser(String id) throws SQLException {

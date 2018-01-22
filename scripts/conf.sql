@@ -1,0 +1,4 @@
+CREATE TABLE Config (
+   name TEXT PRIMARY KEY ASC,
+   data TEXT NOT NULL
+);

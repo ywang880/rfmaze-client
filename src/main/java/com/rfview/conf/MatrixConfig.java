@@ -210,7 +210,8 @@ public class MatrixConfig {
         return loadConfigureFile(hardware);
     }
 
-    public void generate() {
+    public String generate() {
+
         StringBuilder sb = new StringBuilder("## " + COMMENTS + " ##").append(NEW_LINE);
         sb.append("MATRIX_NAME").append("=").append(matrixName).append(NEW_LINE);
         sb.append("matrix_type").append("=").append(getMatrixType()).append(NEW_LINE);
@@ -259,6 +260,8 @@ public class MatrixConfig {
         } catch (FileNotFoundException e) {
             logger.error("Failed to write configure message");
         }
+
+        return sb.toString();
     }
 
     public Properties loadConfigureFile(String hardware) {

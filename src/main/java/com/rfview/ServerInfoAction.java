@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import com.rfview.conf.BroadcastConf;
 import com.rfview.conf.MatrixConfig;
@@ -541,9 +542,15 @@ public class ServerInfoAction extends BaseActionSupport {
         	mConf.setHwPort2(getHwPort2());
         	mConf.setMatrixIp2(getHwIp2());
         }
-        mConf.generate();
+
+        String conf = mConf.generate();
         if (create_new) {
             dbAccess.insertDefaultLabels(getMatrixName(), getNumberOfInputs(), getNumberOfOutputs());
+            try {
+                dbAccess.updateConfig(getMatrixName(), conf);
+            } catch (SQLException e) {
+                logger.error("Failed to update database", e);
+            }
         }
 
         logger.info("update database add port " + matrixControlPort);
