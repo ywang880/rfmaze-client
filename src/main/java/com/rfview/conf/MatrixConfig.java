@@ -6,9 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 
@@ -16,6 +19,7 @@ import com.rfview.exceptions.InvalidConfigurationException;
 import com.rfview.management.MazeserverManagement;
 import com.rfview.maze.Server;
 import com.rfview.utils.Constants;
+import com.rfview.utils.db.DbAccess;
 
 public class MatrixConfig {
     private static final String COMMENTS = "This is an RFMAZE configuration file. Format should not be changed";
@@ -45,6 +49,13 @@ public class MatrixConfig {
     private Logger logger = Logger.getLogger(MatrixConfig.class.getName());
 
     private MatrixConfig() {
+        try {
+            DbAccess.getInstance().createTableIfNotExist();
+        } catch (NamingException e) {
+            logger.error("Failed connect to database");
+        } catch (SQLException e) {
+            logger.error("Failed to query / create config table");
+        }
     }
 
     public enum TYPE {

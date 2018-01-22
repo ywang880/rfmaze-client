@@ -103,6 +103,32 @@ public class DbAccess {
         }
     }
 
+    public void createTableIfNotExist() throws NamingException, SQLException {
+        Connection conn = null;
+        ResultSet rs = null;
+        Statement stat = null;
+        int rowCount = 0;
+        try {
+            conn = connect();
+            stat = conn.createStatement();
+            rs = stat.executeQuery("SELECT count(name) FROM sqlite_master WHERE type='table' AND name='Config'");
+            while (rs.next()) {
+                rowCount = rs.getInt(1);
+            }
+
+            Statement stmt = null;
+            if (rowCount == 0) {
+                String SQL = "CREATE TABLE Config ( name TEXT PRIMARY KEY ASC,  data TEXT NOT NULL)";
+                stmt = conn.createStatement();
+                stmt.executeQuery(SQL);
+            }
+        } finally {
+            closeConnection(conn);
+            closeResultset(rs);
+            closeStatement(stat);
+        }
+    }
+
     public void updateConfig(String name, String config) throws SQLException {
         Connection conn = null;
         ResultSet rs = null;
