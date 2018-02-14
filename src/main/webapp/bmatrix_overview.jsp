@@ -203,14 +203,6 @@ function updateMatrix(e, t) {
     }
 }
 
-function updateMatrixOffset(e) {
-    for (var t, n, i = document.getElementById("matrix_view"), d = i.rows.length, l = 0; l < e.length; l++) try {
-        t = e[l].getElementsByTagName("td"), n = t[0].getElementsByTagName("v"), d - 2 > l && (i.rows[l + 2].cells[1].innerHTML = n[0].firstChild.nodeValue)
-    } catch (a) {
-        alert(a)
-    }
-}
-
 function timedRefresh() {
     sendRefreshCommand(), timerId = setTimeout(function() {
         timedRefresh()
@@ -255,8 +247,6 @@ function checkConnection() {
             var t = e.responseXML.documentElement.getElementsByTagName("state"),
                 n = t[0].firstChild.nodeValue;
             document.getElementById("connection_state").innerHTML = '<img src="images/' + n + '">', -1 == n.indexOf("disconnected") && $("#progressbar").hide();
-            var i = e.responseXML.documentElement.getElementsByTagName("tr");
-            updateMatrixOffset(i)
         }
     };
     var t = document.getElementById("hardware_name").innerHTML;
