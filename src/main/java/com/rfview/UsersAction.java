@@ -126,13 +126,6 @@ public class UsersAction extends BaseActionSupport {
             } catch (SQLException e) {
                 logger.error("SQL Exception", e);
             }
-
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getId().equals(uid)) {
-                    users.remove(i);
-                    break;
-                }
-            }
         } else if (isEdit()) {
             try {
                 dbAccess.updateUser(user);
